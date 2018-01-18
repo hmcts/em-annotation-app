@@ -1,0 +1,10 @@
+*
+!docker
+!gradle
+!target
+!build
+!src
+!pom.xml
+!build.gradle
+!gradlew
+!gradlew.bat

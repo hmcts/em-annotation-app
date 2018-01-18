@@ -1,0 +1,57 @@
+server:
+  port: ${SERVER_PORT:4621}
+
+auth:
+  idam:
+    client:
+      baseUrl: ${IDAM_CLIENT_URL:http://localhost:8081}
+  provider:
+    service:
+      client:
+        baseUrl: ${PROVIDER_SERVICE_CLIENT_URL:http://localhost:8082}
+
+security:
+  headers:
+    cache: false
+
+logging:
+  level:
+    org.springframework.web: ${LOG_LEVEL_SPRING_WEB:INFO}
+    uk.gov.hmcts.dm: ${LOG_LEVEL_DM:INFO}
+
+errors:
+  globalIncludeStackTrace: ${SHOW_STACK_TRACE:true}
+
+info:
+  app:
+    environment: ${PACKAGES_ENVIRONMENT:unknown}
+    project: ${PACKAGES_PROJECT:unknown}
+    name: ${PACKAGES_NAME:unknown}
+#    version: ${PACKAGES_VERSION:unknown}
+
+health:
+  status:
+    order:
+    - FATAL
+    - DOWN
+    - UNKNOWN
+    - UP
+  disk:
+    threshold: ${HEALTH_DISK_THRESHOLD:262144000}
+
+endpoints:
+  health:
+    sensitive: ${ENDPOINTS_HEALTH_SENSITIVE:false}
+  info:
+    sensitive: ${ENDPOINTS_INFO_SENSITIVE:false}
+
+management:
+  security:
+    enabled: ${MANAGEMENT_SECURITY_ENABLED:true}
+  diskspace:
+    enabled: true
+  db:
+    enabled: true
+
+toggle:
+  includeidamhealth: ${ENABLE_IDAM_HEALTH_CHECK:true}
