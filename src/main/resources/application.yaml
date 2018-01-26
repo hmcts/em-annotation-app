@@ -4,11 +4,11 @@ server:
 auth:
   idam:
     client:
-      baseUrl: ${IDAM_CLIENT_URL:http://localhost:8081}
+      baseUrl: ${IDAM_CLIENT_URL:http://localhost:4501}
   provider:
     service:
       client:
-        baseUrl: ${PROVIDER_SERVICE_CLIENT_URL:http://localhost:8082}
+        baseUrl: ${PROVIDER_SERVICE_CLIENT_URL:http://localhost:4502}
 
 security:
   headers:
@@ -47,7 +47,7 @@ endpoints:
 
 management:
   security:
-    enabled: ${MANAGEMENT_SECURITY_ENABLED:true}
+    enabled: ${MANAGEMENT_SECURITY_ENABLED:false}
   diskspace:
     enabled: true
   db:

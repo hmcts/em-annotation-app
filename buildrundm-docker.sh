@@ -1,8 +1,22 @@
 #!/bin/sh
 #sudo apt-get install -y maven docker docker-compose
 clear;
-./fakeversion.sh
+./bin/fakeversion.sh
 ./gradlew installDist bootRepackage
 docker-compose down
-docker-compose pull
-docker-compose -f docker-compose.yml -f docker-compose-dev.yml up --build
+
+docker-compose  -f ./docker/compose/docker-compose-dm.yml \
+-f ./docker/compose/docker-compose-dm-ports.yml \
+-f ./docker/compose/docker-compose-em.yml \
+-f ./docker/compose/docker-compose-em-ports.yml \
+-f ./docker/compose/docker-compose-idam.yml \
+-f ./docker/compose/docker-compose-idam-ports.yml \
+pull
+
+docker-compose -f ./docker/compose/docker-compose-dm.yml \
+-f ./docker/compose/docker-compose-dm-ports.yml \
+-f ./docker/compose/docker-compose-em.yml \
+-f ./docker/compose/docker-compose-em-ports.yml \
+-f ./docker/compose/docker-compose-idam.yml \
+-f ./docker/compose/docker-compose-idam-ports.yml \
+up --build

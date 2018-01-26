@@ -1,0 +1,34 @@
+#!groovy
+
+properties([
+    [
+        $class: 'GithubProjectProperty',
+        displayName: 'Evidence Management Store App',
+        projectUrlStr: 'https://github.com/hmcts/em-annotation-app'
+    ],
+    pipelineTriggers([
+        [$class: 'GitHubPushTrigger']
+    ])
+])
+
+@Library("Infrastructure")
+
+def type = "java"
+def product = "em"
+def component = "em-annotation-app"
+
+def channel = '#dm-pipeline'
+
+withPipeline(type , product, component) {
+
+    after('checkout') {
+        echo 'em-annotation-app out'
+    }
+    enableSlackNotifications(channel)
+}
+
+
+
+
+
+

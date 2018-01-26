@@ -17,7 +17,7 @@ export MANAGEMENT_SECURITY_ENABLED=false
 #      debug mode
 #export JAVA_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 
-./fakeversion.sh
+./bin/fakeversion.sh
 ./gradlew installDist bootRepackage
 
 #./bin/test_dependency.sh
