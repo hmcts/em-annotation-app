@@ -10,9 +10,9 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 @EnableCircuitBreaker
 @EnableHystrixDashboard
 @SuppressWarnings("HideUtilityClassConstructor") // Spring needs a constructor, its not a utility class
-public class Application {
+public class EmAnnotationApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(EmAnnotationApp.class, args);
     }
 }

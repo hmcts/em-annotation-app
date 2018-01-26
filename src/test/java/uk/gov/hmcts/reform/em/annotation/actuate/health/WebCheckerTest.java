@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.springframework.boot.actuate.health.Status;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import uk.gov.hmcts.dm.actuate.health.model.HealthCheckResponse;
+import uk.gov.hmcts.reform.em.annotation.actuate.health.model.HealthCheckResponse;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -16,7 +16,7 @@ public class WebCheckerTest {
     private static final String URL = "http://test.com";
     private static final String HEALTH_URL = URL + "/health";
 
-    private RestTemplate restTemplate = mock(RestTemplate.class);
+    private final RestTemplate restTemplate = mock(RestTemplate.class);
 
     @Test
     public void healthUp() {

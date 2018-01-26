@@ -120,15 +120,15 @@ node {
                 }finally {
                     jacoco(execPattern: 'build/jacoco/test.exec', buildOverBuild: false,
                         exclusionPattern: '**/test/*, ' +
-                            '**/uk/gov/hmcts/reform/em/EmApp.java,'+
-                            '**/uk/gov/hmcts/reform/em/hateos/*,'+
-                            '**/uk/gov/hmcts/reform/em/exception/*,'+
-                            '**/uk/gov/hmcts/reform/em/domain/*,'+
-                            '**/uk/gov/hmcts/reform/em/commandobject/*,'+
-                            '**/uk/gov/hmcts/reform/em/hibernate/*,'+
-                            '**/uk/gov/hmcts/reform/em/config/**/*,'+
-                            '**/uk/gov/hmcts/reform/em/errorhandler/*,'+
-                            '**/uk/gov/hmcts/reform/em/repository/RepositoryFinder.java')
+                            '**/uk/gov/hmcts/reform/em/annotation/EmAnnotationApp.java,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/hateos/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/exception/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/domain/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/commandobject/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/hibernate/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/config/**/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/errorhandler/*,'+
+                            '**/uk/gov/hmcts/reform/em/annotation/repository/RepositoryFinder.java')
                     publishHTML([
                         allowMissing         : false,
                         alwaysLinkToLastBuild: false,
