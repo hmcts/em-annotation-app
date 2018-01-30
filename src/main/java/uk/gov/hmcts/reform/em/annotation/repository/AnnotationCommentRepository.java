@@ -8,6 +8,6 @@ import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import java.util.UUID;
 
 @Repository
-public interface AnnotationSetRepository extends PagingAndSortingRepository<AnnotationSet, UUID> {
+public interface AnnotationCommentRepository extends PagingAndSortingRepository<AnnotationSet, UUID> {
 
 }

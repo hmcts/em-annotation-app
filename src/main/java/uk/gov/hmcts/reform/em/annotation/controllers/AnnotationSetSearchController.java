@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetSearchService;
+import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(
@@ -18,7 +20,7 @@ import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetSearchServic
 public class AnnotationSetSearchController {
 
     @Autowired
-    private StoredAnnotationSetSearchService storedAnnotationSetService;
+    private StoredAnnotationSetService storedAnnotationSetService;
 
     @GetMapping(value = "/findAllByDocumentUrl")
     @ApiOperation("Retrieve all Annotation Sets associated with a given DM URL")
@@ -27,6 +29,16 @@ public class AnnotationSetSearchController {
     })
     public ResponseEntity<Object> findAllAnnotationSetByDocumentUrl() {
         return ResponseEntity.status(HttpStatus.OK).body(ImmutableMap.of("message","Hello World"));
+    }
+
+
+    @GetMapping(value = "/filter")
+    @ApiOperation("Retrieve Annotation Set with filter options")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = Object.class)
+    })
+    public ResponseEntity<Object> filterAnnotationSet() {
+        return ResponseEntity.ok().body(new Object());
     }
 
 }
