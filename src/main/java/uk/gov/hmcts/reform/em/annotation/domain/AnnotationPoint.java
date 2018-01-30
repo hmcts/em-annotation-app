@@ -13,8 +13,8 @@ import java.util.UUID;
 //@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class AnnotationPoint extends Annotation {
-    AnnotationPoint(UUID id, String createdBy, String lastModifiedBy, Date modifiedOn, Date createdOn, String className, String type, long page, UUID uuid, String colour, long width, List<Point> lines, List<Rectangle> rectangles, long x, long y, long size, long height) {
-        super(id, createdBy, lastModifiedBy, modifiedOn, createdOn, className, type, page, uuid, colour, width, lines, rectangles, x, y, size, height);
+    AnnotationPoint(UUID id, String createdBy, String lastModifiedBy, Date modifiedOn, Date createdOn, AnnotationType type, long page, UUID uuid, String colour, long width, List<Point> lines, List<Rectangle> rectangles, long x, long y, long size, long height) {
+        super(id, createdBy, lastModifiedBy, modifiedOn, createdOn, type, page, uuid, colour, width, lines, rectangles, x, y, size, height);
     }
 
 //    private String className = "Annotation";

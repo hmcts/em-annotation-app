@@ -98,16 +98,21 @@ def versions = [
   postgresql         : '42.1.4',
   springfoxSwagger   : '2.7.0',
   springBoot         : springBootVersion,
+  powermock          : '1.6.5',
 ]
 
 dependencies {
   compile group: 'commons-io', name: 'commons-io', version: '2.5'
 
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
+  compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.8.RELEASE'
+  compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version: versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version: versions.springBoot
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
+  compile group: 'org.springframework.hateoas', name: 'spring-hateoas', version: '0.23.0.RELEASE'
 
   compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
@@ -121,12 +126,19 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-httpcomponents', version: '1.2.1'
   compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
 
+
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix', version: '1.4.0.RELEASE'
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix-dashboard', version: '1.4.0.RELEASE'
 
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+  testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot) {
+    exclude(module: 'commons-logging')
+  }
+  testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.3.RELEASE'
 
   testCompile group: 'com.h2database', name: 'h2', version: '1.0.60'
+
+  testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: versions.powermock
+  testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: versions.powermock
 
 }
 

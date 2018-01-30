@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static uk.gov.hmcts.reform.em.annotation.domain.AnnotationClassType.ANNOTATION;
+
 @Entity
 @Builder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -49,8 +51,8 @@ public class Annotation {
 
 //    MODEL Stuff
 
-    private String className = "Annotation";
-    private String type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
+    private static final AnnotationClassType className = ANNOTATION;
+    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
     private long page;
     private UUID uuid;
 

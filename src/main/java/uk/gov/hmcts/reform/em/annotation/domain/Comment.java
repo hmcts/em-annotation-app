@@ -19,7 +19,7 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
-    private String className;
+    private static final AnnotationClassType className = AnnotationClassType.COMMENT;
     private UUID uuid;
     private UUID annotationUuid;
     private String content;
