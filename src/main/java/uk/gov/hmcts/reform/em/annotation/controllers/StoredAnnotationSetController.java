@@ -46,7 +46,7 @@ public class StoredAnnotationSetController {
         if (annotationSet != null) {
             return ResponseEntity.ok().body(annotationSet);
         } else {
-           return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();
         }
 
     }

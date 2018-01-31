@@ -9,8 +9,8 @@ public class AnnotationTextbox {
     private long size;
     private long width;
     private long height;
-    private long x;
-    private long y;
+    private long pointX;
+    private long pointY;
 
 
 //    private String className = "Annotation";

@@ -79,11 +79,11 @@ public class Annotation {
 
     @Getter
     @Setter
-    private Long x; // Point, Textbox
+    private Long pointX; // Point, Textbox
 
     @Getter
     @Setter
-    private Long y; // Point, Textbox
+    private Long pointY; // Point, Textbox
 
     @Getter
     @Setter

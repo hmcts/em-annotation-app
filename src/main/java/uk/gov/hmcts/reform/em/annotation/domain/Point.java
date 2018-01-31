@@ -25,12 +25,12 @@ public class Point {
     private Annotation annotation;
 
     @NotNull
-    private Long x;
+    private Long pointX;
     @NotNull
-    private Long y;
+    private Long pointY;
 
     public String toString() {
-        return String.format("[%s,%s]",x,y);
+        return String.format("[%s,%s]",pointX,pointY);
     }
 
 

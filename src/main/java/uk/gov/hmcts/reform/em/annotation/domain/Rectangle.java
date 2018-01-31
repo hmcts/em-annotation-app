@@ -39,18 +39,18 @@ public class Rectangle {
     @Getter
     @Setter
     @NotNull
-    private Long x;
+    private Long pointX;
 
     @Getter
     @Setter
     @NotNull
-    private Long y;
+    private Long pointY;
 
     @Override
     public String toString() {
         return String.format(
             "{\\n\"height\": %n,\\n\"width\": %n,\\n\"x\": %n,\\n\"y\": %n\\n }",
-            height,width,x,y);
+            height,width,pointX,pointY);
     }
 
     //        {

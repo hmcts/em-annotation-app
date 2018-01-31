@@ -12,8 +12,8 @@ public class RectangleTest {
         Rectangle rectangle = Rectangle.builder()
             .height((long) 10)
             .width((long) 50)
-            .x((long) 0)
-            .y((long) 10)
+            .pointX((long) 0)
+            .pointY((long) 10)
             .build();
 
         String expectResult = String.format(

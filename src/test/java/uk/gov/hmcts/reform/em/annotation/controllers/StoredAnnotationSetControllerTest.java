@@ -68,10 +68,6 @@ public class StoredAnnotationSetControllerTest {
 
     private HttpHeaders headers = Helper.getHeaders();
 
-
-
-
-
     @Before
     public void setUp() {
         mvc = webAppContextSetup(webApplicationContext).apply(springSecurity()).build();

@@ -5,8 +5,8 @@ package uk.gov.hmcts.reform.em.annotation.domain.junk;
 //@EntityListeners(AuditingEntityListener.class)
 public class AnnotationPoint {
 
-    private long x;
-    private long y;
+    private long pointX;
+    private long pointY;
 
 
 //    private String className = "Annotation";

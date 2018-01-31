@@ -8,8 +8,8 @@ public class PointTest {
     @Test
     public void testToString() {
         Point point = Point.builder()
-            .x((long) 10)
-            .y((long) 21)
+            .pointX((long) 10)
+            .pointY((long) 21)
             .build();
         Assert.assertEquals("[10,21]",point.toString());
 
