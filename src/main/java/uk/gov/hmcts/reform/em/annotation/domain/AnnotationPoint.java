@@ -10,12 +10,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-//@Builder
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class AnnotationPoint extends Annotation {
-    AnnotationPoint(UUID id, String createdBy, String lastModifiedBy, Date modifiedOn, Date createdOn, AnnotationType type, long page, UUID uuid, String colour, long width, List<Point> lines, List<Rectangle> rectangles, long x, long y, long size, long height) {
-        super(id, createdBy, lastModifiedBy, modifiedOn, createdOn, type, page, uuid, colour, width, lines, rectangles, x, y, size, height);
-    }
+
+    private long x;
+    private long y;
+
 
 //    private String className = "Annotation";
 //    private String type = "point";
@@ -39,4 +40,5 @@ public class AnnotationPoint extends Annotation {
 //        "annotation": "e101a5aa-0a85-4b60-86ff-bcf411a1f7f3",
 //        "content": "This is a comment"
 //    }
+
 }

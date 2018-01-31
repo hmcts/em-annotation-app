@@ -17,10 +17,10 @@ import java.util.UUID;
 @Entity
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class Comment {
+public class Comment extends AbstractAnnotation {
 
-    private static final AnnotationClassType className = AnnotationClassType.COMMENT;
-    private UUID uuid;
+//    private static final AnnotationClassType className = AnnotationClassType.COMMENT;
+//    private UUID uuid;
     private UUID annotationUuid;
     private String content;
 

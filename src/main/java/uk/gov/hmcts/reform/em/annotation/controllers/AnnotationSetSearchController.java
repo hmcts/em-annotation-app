@@ -28,7 +28,7 @@ public class AnnotationSetSearchController {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
     public ResponseEntity<Object> findAllAnnotationSetByDocumentUrl() {
-        return ResponseEntity.status(HttpStatus.OK).body(ImmutableMap.of("message","Hello World"));
+        return ResponseEntity.status(HttpStatus.OK).body(new Object());
     }
 
 

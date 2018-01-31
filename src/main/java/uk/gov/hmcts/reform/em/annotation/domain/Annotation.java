@@ -21,53 +21,29 @@ import static uk.gov.hmcts.reform.em.annotation.domain.AnnotationClassType.ANNOT
 @Builder
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @EntityListeners(AuditingEntityListener.class)
-public class Annotation {
+public class Annotation extends AbstractAnnotation {
 
-    @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Getter
-    @Setter
-    private UUID id;
-
-    @Getter
-    @Setter
-    @CreatedBy
-    private String createdBy;
-
-    @Getter
-    @Setter
-    @LastModifiedBy
-    private String lastModifiedBy;
-
-    @LastModifiedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date modifiedOn;
-
-    @CreatedDate
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdOn;
-
+    private long page;
 
 //    MODEL Stuff
 
-    private static final AnnotationClassType className = ANNOTATION;
-    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
-    private long page;
-    private UUID uuid;
+//    private static final AnnotationClassType className = ANNOTATION;
+//    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
+//    private UUID uuid; // All of them
 
-    private String colour; //Drawing, Highlight, Strikeout, Textbox
 
-    private long width; // Drawing, Textbox
-    private List<Point> lines; // Drawing
-
-    private List<Rectangle> rectangles;// Highlight, Strikeout
-
-    private long x; // Point, Textbox
-    private long y; // Point, Textbox
-
-    private long size; // Textbox
-    private long height; // Textbox
+//    private String colour; //Drawing, Highlight, Strikeout, Textbox
+//
+//    private long width; // Drawing, Textbox
+//    private List<Point> lines; // Drawing
+//
+//    private List<Rectangle> rectangles;// Highlight, Strikeout
+//
+//    private long x; // Point, Textbox
+//    private long y; // Point, Textbox
+//
+//    private long size; // Textbox
+//    private long height; // Textbox
 
 
 //    Drawing

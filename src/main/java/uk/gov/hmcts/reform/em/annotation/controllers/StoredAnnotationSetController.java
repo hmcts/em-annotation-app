@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.em.annotation.controllers;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -48,7 +47,7 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<Object> updateAnnotationSet(@PathVariable UUID id) {
+    public ResponseEntity<Object> updateAnnotationSet(@PathVariable UUID id, AnnotationSet annotationSet) {
         return ResponseEntity.ok().body(new Object());
     }
 
