@@ -1,4 +1,4 @@
-package uk.gov.hmcts.dm.service;
+package uk.gov.hmcts.reform.em.annotation.service.security;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uk.gov.hmcts.reform.auth.checker.spring.serviceonly.ServiceDetails;
-import uk.gov.hmcts.reform.em.annotation.service.security.SecurityUtilService;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

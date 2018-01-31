@@ -9,7 +9,12 @@ public class RectangleTest {
 
     @Test
     public void TestToString() {
-        Rectangle rectangle = new Rectangle(10,50,0,10);
+        Rectangle rectangle = Rectangle.builder()
+            .height((long) 10)
+            .width((long) 50)
+            .x((long) 0)
+            .y((long) 10)
+            .build();
 
         String expectResult = String.format(
             "{\\n\"height\": %n,\\n\"width\": %n,\\n\"x\": %n,\\n\"y\": %n\\n }",

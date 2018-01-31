@@ -1,25 +1,37 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
 //    private static final AnnotationClassType className = AnnotationClassType.COMMENT;
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID uuid;
 //    private UUID annotationUuid;
+
+    @Getter
+    @Setter
+    @NotNull
+    @ManyToOne
+    private Annotation annotation;
+
+    @Getter
+    @Setter
     private String content;
+
 
 //    Point
 //    {

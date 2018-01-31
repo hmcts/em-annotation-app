@@ -1,16 +1,12 @@
 package uk.gov.hmcts.reform.em.annotation.domain.junk;
 
-import lombok.Builder;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import uk.gov.hmcts.reform.em.annotation.domain.Rectangle;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import java.util.List;
 
-@Entity
-@Builder
-@EntityListeners(AuditingEntityListener.class)
+//@Entity
+//@Builder
+//@EntityListeners(AuditingEntityListener.class)
 public class AnnotationHighlight {
 
     private String colour;

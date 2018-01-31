@@ -1,6 +1,8 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -12,20 +14,19 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Annotation {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Getter
-    @Setter
     private UUID uuid;
 
     @Getter
@@ -38,16 +39,27 @@ public class Annotation {
     @LastModifiedBy
     private String lastModifiedBy;
 
+    @Getter
+    @Setter
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedOn;
 
+    @Getter
+    @Setter
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
 
+    @Getter
+    @Setter
+    @ManyToOne
+    private AnnotationSet annotationSet;
+
+    @Getter
+    @Setter
     @ValidateType
-    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
+    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox" / "page{Custom}"
 
     @Getter
     @Setter
@@ -56,23 +68,43 @@ public class Annotation {
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationComments")
-    @OrderColumn(name = "itm_idx")
-    private List<Comment> comments;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    private Set<Comment> comments;
 
+    @Getter
+    @Setter
     private String colour; //Drawing, Highlight, Strikeout, Textbox
 
+    @Getter
+    @Setter
     private Long x; // Point, Textbox
+
+    @Getter
+    @Setter
     private Long y; // Point, Textbox
 
+    @Getter
+    @Setter
     private Long fontSize; // (size) Textbox
 
+    @Getter
+    @Setter
     private Long height; // Textbox
+
+    @Getter
+    @Setter
     private Long width; // Drawing, Textbox
 
+    @Getter
+    @Setter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    @OrderColumn(name = "itm_idx")
     private List<Point> lines; // Drawing
 
-    private List<Rectangle> rectangles;// Highlight, Strikeout
+    @Getter
+    @Setter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    private Set<Rectangle> rectangles;// Highlight, Strikeout
 
 // Validator
 

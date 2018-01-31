@@ -10,22 +10,20 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class AnnotationSet {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @Getter
-    @Setter
-    private UUID id;
+    private UUID uuid;
 
     @Getter
     @Setter
@@ -37,18 +35,21 @@ public class AnnotationSet {
     @LastModifiedBy
     private String lastModifiedBy;
 
+    @Getter
+    @Setter
     @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedOn;
 
+    @Getter
+    @Setter
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationList")
-    @OrderColumn(name = "itm_idx")
-    private List<Annotation> annotationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationSet")
+    private Set<Annotation> annotations;
 
 }

@@ -1,39 +1,50 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Entity
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Rectangle {
 
+    @Id
+    @Getter
+    @Setter
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private UUID uuid;
+
+    @Getter
+    @Setter
+    @NotNull
+    @ManyToOne
+    private Annotation annotation;
+
+    @Getter
+    @Setter
     @NotNull
     private Long height;
 
+    @Getter
+    @Setter
     @NotNull
     private Long width;
 
+    @Getter
+    @Setter
     @NotNull
     private Long x;
 
+    @Getter
+    @Setter
     @NotNull
     private Long y;
-
-    public Rectangle(long height, long width, long x, long y) {
-        this.height = height;
-        this.width = width;
-        this.x = x;
-        this.y = y;
-    }
 
     @Override
     public String toString() {
