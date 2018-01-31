@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -26,7 +27,7 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<AnnotationSet> createAnnotationSet(AnnotationSet annotationSet1) {
+    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet annotationSet1) {
 
         AnnotationSet annotationSet = storedAnnotationSetService.createAnnotationSet(annotationSet1);
 
@@ -47,7 +48,7 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<Object> updateAnnotationSet(@PathVariable UUID id, AnnotationSet annotationSet) {
+    public ResponseEntity<Object> updateAnnotationSet(@PathVariable UUID id, @RequestBody @Valid AnnotationSet annotationSet) {
         return ResponseEntity.ok().body(new Object());
     }
 

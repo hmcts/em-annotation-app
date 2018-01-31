@@ -1,49 +1,52 @@
-package uk.gov.hmcts.reform.em.annotation.domain;
+package uk.gov.hmcts.reform.em.annotation.domain.junk;
 
 import lombok.Builder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import uk.gov.hmcts.reform.em.annotation.domain.Rectangle;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class AnnotationStrikeout extends Annotation {
+public class AnnotationHighlight {
 
     private String colour;
     private List<Rectangle> rectangles;
 
 
+
+
 //    private String className = "Annotation";
-//    private String type = "strikeout";
+//    private String type = "highlight";
 //    private long page;
 //    private UUID uuid;
 //    private String colour;
 //    private List<Rectangle> rectangles;
 
-    //    Strikeout
+
+
+    //    Highlight
 //    {
 //        "class": "Annotation",
-//        "type": "strikeout"
+//        "type": "highlight",
 //        "page": 1,
-//        "uuid": "ad9fe5b8-699d-4711-a94e-4b0eb02e551f",
-//        "color": "FF0000",
+//        "uuid": "99c84974-b899-4de9-8c6c-28e541c03db8",
+//        "color": "FFFF00",
 //        "rectangles": [
 //        {
 //            "height": 12,
-//            "width": 457,
-//            "x": 72,
-//            "y": 147
+//            "width": 335,
+//            "x": 188,
+//            "y": 189
 //        },
 //        {
 //            "height": 12,
-//            "width": 427,
+//            "width": 431,
 //            "x": 72,
-//            "y": 163
+//            "y": 205
 //        }
 //  ]
 //    }

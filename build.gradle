@@ -92,6 +92,9 @@ repositories {
   mavenLocal()
 }
 
+//import liquibase gradle file
+apply from: 'liquibase.gradle'
+
 def springBootVersion = plugins.getPlugin('org.springframework.boot').class.package.implementationVersion
 
 def versions = [

@@ -1,8 +1,6 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,40 +9,72 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static uk.gov.hmcts.reform.em.annotation.domain.AnnotationClassType.ANNOTATION;
-
 @Entity
-@Builder
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Annotation extends AbstractAnnotation {
+public class Annotation {
 
+    @Id
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Getter
+    @Setter
+    private UUID uuid;
+
+    @Getter
+    @Setter
+    @CreatedBy
+    private String createdBy;
+
+    @Getter
+    @Setter
+    @LastModifiedBy
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modifiedOn;
+
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdOn;
+
+    @ValidateType
+    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
+
+    @Getter
+    @Setter
+    @NotNull
     private long page;
 
-//    MODEL Stuff
+    @Getter
+    @Setter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationComments")
+    @OrderColumn(name = "itm_idx")
+    private List<Comment> comments;
 
-//    private static final AnnotationClassType className = ANNOTATION;
-//    private AnnotationType type; // "drawing" / "highlight" / "point" / "strikeout" / "textbox"
-//    private UUID uuid; // All of them
+    private String colour; //Drawing, Highlight, Strikeout, Textbox
 
+    private Long x; // Point, Textbox
+    private Long y; // Point, Textbox
 
-//    private String colour; //Drawing, Highlight, Strikeout, Textbox
-//
-//    private long width; // Drawing, Textbox
-//    private List<Point> lines; // Drawing
-//
-//    private List<Rectangle> rectangles;// Highlight, Strikeout
-//
-//    private long x; // Point, Textbox
-//    private long y; // Point, Textbox
-//
-//    private long size; // Textbox
-//    private long height; // Textbox
+    private Long fontSize; // (size) Textbox
 
+    private Long height; // Textbox
+    private Long width; // Drawing, Textbox
+
+    private List<Point> lines; // Drawing
+
+    private List<Rectangle> rectangles;// Highlight, Strikeout
+
+// Validator
 
 //    Drawing
 //    {

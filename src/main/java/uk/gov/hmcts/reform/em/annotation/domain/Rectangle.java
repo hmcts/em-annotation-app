@@ -1,25 +1,39 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.Builder;
-import lombok.NonNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Rectangle {
 
-    @NonNull
-    private long height;
-    @NonNull
-    private long width;
-    @NonNull
-    private long x;
-    @NonNull
-    private long y;
+    @NotNull
+    private Long height;
+
+    @NotNull
+    private Long width;
+
+    @NotNull
+    private Long x;
+
+    @NotNull
+    private Long y;
+
+    public Rectangle(long height, long width, long x, long y) {
+        this.height = height;
+        this.width = width;
+        this.x = x;
+        this.y = y;
+    }
 
     @Override
     public String toString() {

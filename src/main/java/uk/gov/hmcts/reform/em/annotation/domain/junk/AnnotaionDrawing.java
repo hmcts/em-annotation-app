@@ -1,20 +1,17 @@
-package uk.gov.hmcts.reform.em.annotation.domain;
+package uk.gov.hmcts.reform.em.annotation.domain.junk;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import uk.gov.hmcts.reform.em.annotation.domain.Point;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class AnnotaionDrawing extends Annotation {
+public class AnnotaionDrawing {
 
     private String colour;
 

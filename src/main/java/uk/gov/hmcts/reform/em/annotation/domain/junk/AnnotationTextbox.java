@@ -1,18 +1,15 @@
-package uk.gov.hmcts.reform.em.annotation.domain;
+package uk.gov.hmcts.reform.em.annotation.domain.junk;
 
 import lombok.Builder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
 @EntityListeners(AuditingEntityListener.class)
-public class AnnotationTextbox extends Annotation {
+public class AnnotationTextbox {
 
     private String colour;
     private long size;
