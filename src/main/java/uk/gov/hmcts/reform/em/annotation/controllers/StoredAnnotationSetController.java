@@ -27,9 +27,9 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet annotationSet1) {
+    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet body) {
 
-        AnnotationSet annotationSet = storedAnnotationSetService.createAnnotationSet(annotationSet1);
+        AnnotationSet annotationSet = storedAnnotationSetService.createAnnotationSet(body);
 
         return ResponseEntity.ok().body(annotationSet);
     }
@@ -39,8 +39,16 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<Object> retrieveAnnotationSet(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(new Object());
+    public ResponseEntity<AnnotationSet> retrieveAnnotationSet(@PathVariable UUID uuid) {
+
+        AnnotationSet annotationSet = storedAnnotationSetService.getAnnotationSet(uuid);
+
+        if (annotationSet != null) {
+            return ResponseEntity.ok().body(annotationSet);
+        } else {
+           return ResponseEntity.notFound().build();
+        }
+
     }
 
     @PutMapping(value = "{id}")
@@ -48,8 +56,11 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<Object> updateAnnotationSet(@PathVariable UUID id, @RequestBody @Valid AnnotationSet annotationSet) {
-        return ResponseEntity.ok().body(new Object());
+    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
+
+        storedAnnotationSetService.updateAnnotationSet(uuid,body);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "{id}")
@@ -57,7 +68,11 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
     })
-    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID id) {
+    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
+
+        storedAnnotationSetService.deleteAnnotationSet(uuid);
+
+
         return ResponseEntity.ok().body(new Object());
     }
 
