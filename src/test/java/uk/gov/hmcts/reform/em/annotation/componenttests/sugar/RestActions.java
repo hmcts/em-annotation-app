@@ -2,18 +2,14 @@ package uk.gov.hmcts.reform.em.annotation.componenttests.sugar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.reform.auth.checker.core.service.ServiceRequestAuthorizer;
 import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.ServiceResolverBackdoor;
 import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.UserResolverBackdoor;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -54,12 +50,19 @@ public class RestActions {
 
     public ResultActions delete(String urlTemplate) {
         return translateException(() -> mvc.perform(MockMvcRequestBuilders.delete(urlTemplate)
-                .headers(httpHeaders))
+            .headers(httpHeaders))
         );
     }
 
     public ResultActions post(String urlTemplate) {
         return post(urlTemplate, null);
+    }
+
+    public ResultActions post(String urlTemplate, Object requestBody) {
+        return translateException(() -> mvc.perform(MockMvcRequestBuilders.post(urlTemplate)
+            .headers(httpHeaders)
+            .content(toJson(requestBody))
+            .contentType(APPLICATION_JSON)));
     }
 
     public ResultActions patch(String urlTemplate, Object requestBody) {
@@ -70,18 +73,11 @@ public class RestActions {
             .contentType(APPLICATION_JSON)));
     }
 
-    public ResultActions post(String urlTemplate, Object requestBody) {
-        return translateException(() -> mvc.perform(MockMvcRequestBuilders.post(urlTemplate)
+    public ResultActions put(String urlTemplate, Object requestBody) {
+        return translateException(() -> mvc.perform(MockMvcRequestBuilders.put(urlTemplate)
             .headers(httpHeaders)
             .content(toJson(requestBody))
             .contentType(APPLICATION_JSON)));
-    }
-
-    public ResultActions put(String urlTemplate, Object requestBody) {
-        return translateException(() -> mvc.perform(MockMvcRequestBuilders.put(urlTemplate)
-                .headers(httpHeaders)
-                .content(toJson(requestBody))
-                .contentType(APPLICATION_JSON)));
 
     }
 

@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 public class RectangleTest {
 
     @Test
-    public void TestToString() {
+    public void testToString() {
         Rectangle rectangle = Rectangle.builder()
             .height((long) 10)
             .width((long) 50)

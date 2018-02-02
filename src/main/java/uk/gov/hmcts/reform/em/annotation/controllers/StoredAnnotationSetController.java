@@ -19,8 +19,12 @@ import java.util.UUID;
 @Api("Endpoint for Storing Annotation")
 public class StoredAnnotationSetController {
 
-    @Autowired
     private StoredAnnotationSetService storedAnnotationSetService;
+
+    @Autowired
+    public StoredAnnotationSetController(StoredAnnotationSetService storedAnnotationSetService) {
+        this.storedAnnotationSetService = storedAnnotationSetService;
+    }
 
     @PostMapping(value = "")
     @ApiOperation("Create Annotation Set.")

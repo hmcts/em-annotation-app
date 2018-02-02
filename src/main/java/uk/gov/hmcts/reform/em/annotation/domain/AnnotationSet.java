@@ -13,6 +13,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
@@ -50,6 +51,12 @@ public class AnnotationSet {
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
+
+
+    @Getter
+    @Setter
+    @NotNull
+    private String documentUri;
 
     @Getter
     @Setter

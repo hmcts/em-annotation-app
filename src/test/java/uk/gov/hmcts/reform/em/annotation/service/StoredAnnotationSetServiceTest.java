@@ -6,7 +6,7 @@ import org.junit.Test;
 public class StoredAnnotationSetServiceTest {
 
     @Test
-    public void TestCreateAnnotation() {
+    public void testCreateAnnotation() {
     }
 
 }

@@ -10,9 +10,12 @@ import java.util.UUID;
 @Service
 public class StoredAnnotationSetService {
 
-    @Autowired
-    AnnotationSetRepository annotationSetRepository;
+    private AnnotationSetRepository annotationSetRepository;
 
+    @Autowired
+    public StoredAnnotationSetService(AnnotationSetRepository annotationSetRepository) {
+        this.annotationSetRepository = annotationSetRepository;
+    }
 
     public AnnotationSet getAnnotationSet(UUID uuid) {
         return annotationSetRepository.findOne(uuid);

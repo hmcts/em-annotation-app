@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.UserResolverBa
 
 @Configuration
 public class ComponentTestConfiguration {
+
     @Bean
     public SubjectResolver<Service> serviceResolver() {
         return new ServiceResolverBackdoor();

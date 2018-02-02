@@ -1,6 +1,9 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -22,6 +25,7 @@ public class Point {
     @Setter
     @NotNull
     @ManyToOne
+    @JsonIgnore
     private Annotation annotation;
 
     @NotNull

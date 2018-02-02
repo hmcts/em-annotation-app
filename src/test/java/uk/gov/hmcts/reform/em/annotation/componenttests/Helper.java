@@ -18,6 +18,18 @@ public class Helper {
 
     private Helper(){}
 
+
+    public static String getUuid(MockHttpServletResponse response) throws IOException {
+        final String path = "uuid";
+        return getAnnotationSetUrl(response, path);
+    }
+
+    public static String getAnnotationSetUrl(MockHttpServletResponse response, String path) throws IOException {
+        final String content = response.getContentAsString();
+        return "/AnnotationSet/" + getNodeAtPath(path, content).asText();
+    }
+
+
     public static String getThumbnailUrlFromResponse(MockHttpServletResponse response) throws IOException {
         final String path = "/_links/thumbnail/href";
         return getPathFromResponse(response, path);

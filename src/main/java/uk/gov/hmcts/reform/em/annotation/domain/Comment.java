@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Comment {
     @Setter
     @NotNull
     @ManyToOne
+    @JsonIgnore
     private Annotation annotation;
 
     @Getter
