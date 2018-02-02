@@ -26,7 +26,7 @@ public class Helper {
 
     public static String getAnnotationSetUrl(MockHttpServletResponse response, String path) throws IOException {
         final String content = response.getContentAsString();
-        return "/AnnotationSet/" + getNodeAtPath(path, content).asText();
+        return "/annotationSets/" + getNodeAtPath(path, content).asText();
     }
 
 
@@ -55,10 +55,11 @@ public class Helper {
     }
 
     private static JsonNode getNodeAtPath(String path, String content) throws IOException {
+        System.out.println(path + "    -------------- " + content);
+
         return MAPPER
                 .readTree(content)
-                .at("/_embedded/documents").get(0)
-                .at(path);
+                .at("/" + path);
     }
 
     public static HttpHeaders getHeaders() {

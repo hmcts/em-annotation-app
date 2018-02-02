@@ -38,7 +38,7 @@ public class StoredAnnotationSetController {
         return ResponseEntity.ok().body(annotationSet);
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "{uuid}")
     @ApiOperation("Retrieve Annotation Set instance.")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
@@ -55,7 +55,7 @@ public class StoredAnnotationSetController {
 
     }
 
-    @PutMapping(value = "{id}")
+    @PutMapping(value = "{uuid}")
     @ApiOperation("Update Annotation Set instance.")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)
@@ -67,7 +67,7 @@ public class StoredAnnotationSetController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "{uuid}")
     @ApiOperation("Delete Annotation Set instance.")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Object.class)

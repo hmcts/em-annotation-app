@@ -35,6 +35,7 @@ import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -94,18 +95,15 @@ public class StoredAnnotationSetControllerTest {
         return new CustomResultMatcher(objectMapper);
     }
 
-    @SneakyThrows
-    String contentsOf(String fileName) {
-        String content = new String(Files.readAllBytes(Paths.get(ResourceUtils.getURL("classpath:" + fileName).toURI())), StandardCharsets.UTF_8);
-        return resolvePlaceholders(content);
-    }
 
     String resolvePlaceholders(String content) {
         return configurableListableBeanFactory.resolveEmbeddedValue(content);
     }
 
+    @Test
     public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
+            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()
@@ -113,28 +111,29 @@ public class StoredAnnotationSetControllerTest {
                         .build())
             ).build();
 
-        final MockHttpServletResponse response = mvc.perform(post("/annotationSets",annotationSet)
+        final MockHttpServletResponse response = mvc.perform(post("/annotationSets")
             .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(annotationSet.toString()))
             .andReturn().getResponse();
 
         final String url = getUuid(response);
 
+        System.out.println(url);
+
         final MockHttpServletResponse getResp = mvc.perform(get(url)
             .headers(headers))
+            .andExpect(status().isOk())
             .andReturn().getResponse();
 
 
         System.out.println(getResp.getContentAsString());
 
     }
-
-    @Autowired
-    private StoredAnnotationSetController storedAnnotationSetController;
-
     @Test
-    public void postAnnotationSet() throws Exception {
+    public void should_upload_empty_annotation_set() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
+            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()
@@ -143,18 +142,72 @@ public class StoredAnnotationSetControllerTest {
             ).build();
 
         mvc.perform(post("/annotationSets")
-            .headers(headers));
-
-        mvc.perform(post("/annotationSets",annotationSet)
             .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(annotationSet.toString()))
+            .andExpect(status().isOk())
+            .andReturn().getResponse();
+        
+        mvc.perform(get("/annotationSets" + UUID.randomUUID())
+            .headers(headers))
+            .andExpect(status().isNotFound())
+            .andReturn().getResponse();
+    }
+
+    @Autowired
+    private StoredAnnotationSetController storedAnnotationSetController;
+
+    @Test
+    public void postAnnotationSet() throws Exception {
+        AnnotationSet annotationSet = AnnotationSet.builder()
+            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
+            .annotations(
+                ImmutableSet.of(
+                    Annotation.builder()
+                        .page((long) 10)
+                        .build())
+            ).build();
+
+        MockHttpServletResponse response = mvc.perform(post("/annotationSets")
+            .headers(headers)
+            .content(annotationSet.toString())
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse();
+
+        System.out.println(response.getContentAsString());
 
     }
 
     @Test
+    public void postAnnotationSetMissingDocumentUri() throws Exception {
+        AnnotationSet annotationSet = AnnotationSet.builder()
+            .annotations(
+                ImmutableSet.of(
+                    Annotation.builder()
+                        .page((long) 10)
+                        .build())
+            ).build();
+
+        MockHttpServletResponse response = mvc.perform(post("/annotationSets")
+            .headers(headers)
+            .content(annotationSet.toString())
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest())
+            .andReturn()
+            .getResponse();
+
+        System.out.println(response.getContentAsString());
+
+    }
+
+
+    @Test
     public void postAnnotationSetMin() throws Exception {
-        String annotationSet = "{\"annotations\":[{\"page\":10}]}";
+        String annotationSet = "{\"documentUri\" : \"https://localhost:4603/documents/"
+            + UUID.randomUUID()
+            + "\",\"annotations\":[{\"page\":10}]}";
 
         mvc.perform(post("/annotationSets")
             .headers(headers)
@@ -167,6 +220,7 @@ public class StoredAnnotationSetControllerTest {
     public void postAnnotationSetMax() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
             .createdBy("Alec")
+            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()
@@ -178,9 +232,10 @@ public class StoredAnnotationSetControllerTest {
                 )
             ).build();
 
-        mvc.perform(post("/annotationSets",annotationSet)
+        mvc.perform(post("/annotationSets")
             .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(annotationSet.toString()))
             .andExpect(status().isOk());
 
     }
@@ -220,13 +275,8 @@ public class StoredAnnotationSetControllerTest {
         MockHttpServletResponse response = mvc.perform(post("/annotationSets",annotation)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest())
             .andReturn().getResponse();
-//            .andExpect(status().isBadRequest());
-
-        System.out.println("\n\n\n\n\n\n" + response.getContentAsString() + "\n\n\n\n\n\n");
-
-        Assert.assertEquals(400,response.getStatus());
-
     }
 
     @Test
@@ -236,7 +286,5 @@ public class StoredAnnotationSetControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
     }
-
-
 
 }
