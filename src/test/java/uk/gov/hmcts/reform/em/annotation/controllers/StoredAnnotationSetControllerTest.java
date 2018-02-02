@@ -2,9 +2,7 @@ package uk.gov.hmcts.reform.em.annotation.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableSet;
-import lombok.SneakyThrows;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +19,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.WebApplicationContext;
 import uk.gov.hmcts.reform.auth.checker.spring.serviceonly.AuthCheckerServiceOnlyFilter;
 import uk.gov.hmcts.reform.em.annotation.componenttests.Helper;
@@ -32,9 +29,6 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.RestActions;
 import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
@@ -103,7 +97,7 @@ public class StoredAnnotationSetControllerTest {
     @Test
     public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
+            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()
@@ -130,10 +124,11 @@ public class StoredAnnotationSetControllerTest {
         System.out.println(getResp.getContentAsString());
 
     }
+
     @Test
     public void should_upload_empty_annotation_set() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
+            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()
@@ -147,7 +142,7 @@ public class StoredAnnotationSetControllerTest {
             .content(annotationSet.toString()))
             .andExpect(status().isOk())
             .andReturn().getResponse();
-        
+
         mvc.perform(get("/annotationSets" + UUID.randomUUID())
             .headers(headers))
             .andExpect(status().isNotFound())
@@ -160,7 +155,7 @@ public class StoredAnnotationSetControllerTest {
     @Test
     public void postAnnotationSet() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
+            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()
@@ -220,7 +215,7 @@ public class StoredAnnotationSetControllerTest {
     public void postAnnotationSetMax() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
             .createdBy("Alec")
-            .documentUri("https://localhost:4603/documents/"+ UUID.randomUUID())
+            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
             .annotations(
                 ImmutableSet.of(
                     Annotation.builder()

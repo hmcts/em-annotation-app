@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,13 +47,13 @@ public class AnnotationSetSearchController {
     }
 
 
-    @GetMapping(value = "/filter")
-    @ApiOperation("Retrieve Annotation Set with filter options")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Object.class)
-    })
-    public ResponseEntity<Object> filterAnnotationSet() {
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new Object());
-    }
+//    @GetMapping(value = "/filter")
+//    @ApiOperation("Retrieve Annotation Set with filter options")
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 200, message = "Success", response = Object.class)
+//    })
+//    public ResponseEntity<Object> filterAnnotationSet() {
+//        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(new Object());
+//    }
 
 }

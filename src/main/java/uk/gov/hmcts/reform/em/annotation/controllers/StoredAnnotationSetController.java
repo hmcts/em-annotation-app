@@ -55,31 +55,28 @@ public class StoredAnnotationSetController {
 
     }
 
-    @PutMapping(value = "{uuid}")
-    @ApiOperation("Update Annotation Set instance.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Object.class)
-    })
-    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
+//    @PutMapping(value = "{uuid}")
+//    @ApiOperation("Update Annotation Set instance.")
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 200, message = "Success", response = Object.class)
+//    })
+//    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
+//
+//        storedAnnotationSetService.updateAnnotationSet(uuid,body);
+//
+//        return ResponseEntity.ok().build();
+//    }
 
-        storedAnnotationSetService.updateAnnotationSet(uuid,body);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping(value = "{uuid}")
-    @ApiOperation("Delete Annotation Set instance.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Object.class)
-    })
-    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
-
-        storedAnnotationSetService.deleteAnnotationSet(uuid);
-
-
-        return ResponseEntity.ok().body(new Object());
-    }
-
-
+//    @DeleteMapping(value = "{uuid}")
+//    @ApiOperation("Delete Annotation Set instance.")
+//    @ApiResponses(value = {
+//        @ApiResponse(code = 200, message = "Success", response = Object.class)
+//    })
+//    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
+//
+//        storedAnnotationSetService.deleteAnnotationSet(uuid);
+//
+//        return ResponseEntity.ok().body(new Object());
+//    }
 
 }
