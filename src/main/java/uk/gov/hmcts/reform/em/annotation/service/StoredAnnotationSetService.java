@@ -33,8 +33,8 @@ public class StoredAnnotationSetService {
 
         if (annotationSetRepository.exists(uuid)) {
             AnnotationSet orgAnnotationSet = annotationSetRepository.findOne(uuid);
-
-            orgAnnotationSet.setAnnotations(annotationSet.getAnnotations());
+            orgAnnotationSet.getAnnotations().clear();
+            orgAnnotationSet.getAnnotations().addAll(annotationSet.getAnnotations());
 
             annotationSetRepository.save(orgAnnotationSet);
         } else {

@@ -11,6 +11,7 @@ import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 
 import javax.validation.Valid;
+import java.net.URISyntaxException;
 import java.util.UUID;
 
 @RestController
@@ -29,19 +30,19 @@ public class StoredAnnotationSetController {
     @PostMapping(value = "")
     @ApiOperation("Create Annotation Set.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Object.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
     })
-    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet body) {
+    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet body) throws URISyntaxException {
 
         AnnotationSet annotationSet = storedAnnotationSetService.createAnnotationSet(body);
 
-        return ResponseEntity.ok().body(annotationSet);
+        return ResponseEntity.ok(annotationSet);
     }
 
     @GetMapping(value = "{uuid}")
     @ApiOperation("Retrieve Annotation Set instance.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Object.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
     })
     public ResponseEntity<AnnotationSet> retrieveAnnotationSet(@PathVariable UUID uuid) {
 
@@ -58,7 +59,7 @@ public class StoredAnnotationSetController {
 //    @PutMapping(value = "{uuid}")
 //    @ApiOperation("Update Annotation Set instance.")
 //    @ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Success", response = Object.class)
+//        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
 //    })
 //    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
 //
@@ -70,7 +71,7 @@ public class StoredAnnotationSetController {
 //    @DeleteMapping(value = "{uuid}")
 //    @ApiOperation("Delete Annotation Set instance.")
 //    @ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Success", response = Object.class)
+//        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
 //    })
 //    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
 //
