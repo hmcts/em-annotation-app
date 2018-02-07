@@ -30,5 +30,3 @@ ${GET_IDAM_USER_TOKEN} user3c@test.com 123 ${IDAM_USER_BASE_URL}
 ${CREATE_IDAM_USER} test@TEST.COM 123 ${IDAM_USER_BASE_URL}
 echo "Authorization:"$(${GET_IDAM_USER_TOKEN} test@TEST.COM 123 ${IDAM_USER_BASE_URL})
 echo "ServiceAuthorization:"$(${GET_IDAM_S2S_TOKEN} sscs ${IDAM_S2S_BASE_URL})
-
-

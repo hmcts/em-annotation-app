@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
+import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 
 import javax.validation.Valid;
@@ -32,11 +33,10 @@ public class StoredAnnotationSetController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
     })
-    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet body) throws URISyntaxException {
+    public ResponseEntity<AnnotationSetHalResource> createAnnotationSet(@RequestBody @Valid AnnotationSet body) throws URISyntaxException {
 
-        AnnotationSet annotationSet = storedAnnotationSetService.createAnnotationSet(body);
-
-        return ResponseEntity.ok(annotationSet);
+        AnnotationSetHalResource annotationSetHalResource = new AnnotationSetHalResource(storedAnnotationSetService.createAnnotationSet(body));
+        return ResponseEntity.created(annotationSetHalResource.getURI()).body(annotationSetHalResource);
     }
 
     @GetMapping(value = "{uuid}")
