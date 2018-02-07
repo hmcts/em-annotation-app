@@ -18,30 +18,6 @@ public class Helper {
 
     private Helper(){}
 
-
-    public static String getUuid(MockHttpServletResponse response) throws IOException {
-        final String path = "uuid";
-        return getAnnotationSetUrl(response, path);
-    }
-
-    public static String getAnnotationSetUrl(MockHttpServletResponse response, String path) throws IOException {
-        final String content = response.getContentAsString();
-        return "/annotationSets/" + getNodeAtPath(path, content).asText();
-    }
-
-
-    public static String getThumbnailUrlFromResponse(MockHttpServletResponse response) throws IOException {
-        final String path = "/_links/thumbnail/href";
-        return getPathFromResponse(response, path);
-
-    }
-
-    public static String getBinaryUrlFromResponse(MockHttpServletResponse response) throws IOException {
-        final String path = "/_links/binary/href";
-        return getPathFromResponse(response, path);
-
-    }
-
     public static String getSelfUrlFromResponse(MockHttpServletResponse response) throws IOException {
         final String path = "/_links/self/href";
         return getPathFromResponse(response, path);
@@ -55,8 +31,7 @@ public class Helper {
     }
 
     private static JsonNode getNodeAtPath(String path, String content) throws IOException {
-        System.out.println(path + "    -------------- " + content);
-
+        System.out.println("===============" + path + "===============\n\n\n" + content);
         return MAPPER
                 .readTree(content)
                 .at("/" + path);

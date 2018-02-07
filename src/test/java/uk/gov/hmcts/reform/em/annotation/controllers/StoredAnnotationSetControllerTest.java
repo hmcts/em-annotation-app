@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.getUuid;
+import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.getSelfUrlFromResponse;
 
 
 @RunWith(SpringRunner.class)
@@ -98,12 +98,7 @@ public class StoredAnnotationSetControllerTest {
     public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
             .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
+            .build();
 
         final MockHttpServletResponse response = mvc.perform(post("/annotationSets")
             .headers(headers)
@@ -111,7 +106,7 @@ public class StoredAnnotationSetControllerTest {
             .content(annotationSet.toString()))
             .andReturn().getResponse();
 
-        final String url = getUuid(response);
+        final String url = getSelfUrlFromResponse(response);
 
         System.out.println(url);
 
@@ -126,21 +121,16 @@ public class StoredAnnotationSetControllerTest {
     }
 
     @Test
-    public void should_upload_empty_annotation_set() throws Exception {
+    public void should_upload_empty_annotation_set_search_for_another_return() throws Exception {
         AnnotationSet annotationSet = AnnotationSet.builder()
             .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
+            .build();
 
         mvc.perform(post("/annotationSets")
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
             .content(annotationSet.toString()))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andReturn().getResponse();
 
         mvc.perform(get("/annotationSets" + UUID.randomUUID())
@@ -148,9 +138,6 @@ public class StoredAnnotationSetControllerTest {
             .andExpect(status().isNotFound())
             .andReturn().getResponse();
     }
-
-    @Autowired
-    private StoredAnnotationSetController storedAnnotationSetController;
 
     @Test
     public void postAnnotationSet() throws Exception {
@@ -167,7 +154,7 @@ public class StoredAnnotationSetControllerTest {
             .headers(headers)
             .content(annotationSet.toString())
             .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andReturn()
             .getResponse();
 
@@ -208,7 +195,7 @@ public class StoredAnnotationSetControllerTest {
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
             .content(annotationSet))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
     }
 
     @Test
@@ -231,7 +218,7 @@ public class StoredAnnotationSetControllerTest {
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
             .content(annotationSet.toString()))
-            .andExpect(status().isOk());
+            .andExpect(status().isCreated());
 
     }
 
@@ -280,6 +267,37 @@ public class StoredAnnotationSetControllerTest {
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    public void postAnnotationNoBody_Unathortized() throws Exception {
+        mvc.perform(post("/annotationSets")
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void postAnnotationSetMax_Unathortized() throws Exception {
+        AnnotationSet annotationSet = AnnotationSet.builder()
+            .createdBy("Alec")
+            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
+            .annotations(
+                ImmutableSet.of(
+                    Annotation.builder()
+                        .page((long) 10)
+                        .build(),
+                    Annotation.builder()
+                        .page((long) 10)
+                        .build()
+                )
+            ).build();
+
+        mvc.perform(post("/annotationSets")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(annotationSet.toString()))
+            .andExpect(status().isForbidden());
+
     }
 
 }

@@ -36,7 +36,7 @@ public class StoredAnnotationSetController {
     public ResponseEntity<AnnotationSetHalResource> createAnnotationSet(@RequestBody @Valid AnnotationSet body) throws URISyntaxException {
 
         AnnotationSetHalResource annotationSetHalResource = new AnnotationSetHalResource(storedAnnotationSetService.createAnnotationSet(body));
-        return ResponseEntity.created(annotationSetHalResource.getURI()).body(annotationSetHalResource);
+        return ResponseEntity.created(annotationSetHalResource.getUri()).body(annotationSetHalResource);
     }
 
     @GetMapping(value = "{uuid}")
