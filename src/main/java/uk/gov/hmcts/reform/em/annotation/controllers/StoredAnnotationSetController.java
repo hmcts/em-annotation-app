@@ -13,7 +13,6 @@ import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 
 import javax.validation.Valid;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
@@ -34,9 +33,9 @@ public class StoredAnnotationSetController {
     @PostMapping(value = "")
     @ApiOperation("Create Annotation Set.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSetHalResource.class)
     })
-    public ResponseEntity<AnnotationSetHalResource> createAnnotationSet(@RequestBody @Valid AnnotationSet body) throws URISyntaxException {
+    public ResponseEntity<AnnotationSetHalResource> createAnnotationSet(@RequestBody @Valid AnnotationSet body) {
 
         AnnotationSetHalResource annotationSetHalResource = new AnnotationSetHalResource(storedAnnotationSetService.createAnnotationSet(body));
         return ResponseEntity.created(annotationSetHalResource.getUri()).body(annotationSetHalResource);
@@ -45,14 +44,15 @@ public class StoredAnnotationSetController {
     @GetMapping(value = "{uuid}")
     @ApiOperation("Retrieve Annotation Set instance.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSetHalResource.class)
     })
-    public ResponseEntity<AnnotationSet> retrieveAnnotationSet(@PathVariable UUID uuid) {
+    public ResponseEntity<AnnotationSetHalResource> retrieveAnnotationSet(@PathVariable UUID uuid) {
 
         AnnotationSet annotationSet = storedAnnotationSetService.getAnnotationSet(uuid);
 
         if (annotationSet != null) {
-            return ResponseEntity.ok().body(annotationSet);
+            AnnotationSetHalResource annotationSetHalResource = new AnnotationSetHalResource(annotationSet);
+            return ResponseEntity.ok().body(annotationSetHalResource);
         } else {
             return ResponseEntity.notFound().build();
         }
