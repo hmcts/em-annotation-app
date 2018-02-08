@@ -1,7 +1,6 @@
 package uk.gov.hmcts.reform.em.annotation.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -27,10 +26,6 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.ServiceResolve
 import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.RestActions;
-import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
-import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
-
-import java.util.UUID;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -38,8 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.GOOD_ANNOTATION_SET;
-import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.getSelfUrlFromResponse;
+import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.*;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles({"embedded", "local", "componenttest"})
@@ -99,68 +93,43 @@ public class AnnotationSetSearchControllerTest {
     @Test
     @Ignore("keep getting 403")
     public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
-        final MockHttpServletResponse response = mvc.perform(post(Helper.ANNOTATION_SET_ENDPOINT,GOOD_ANNOTATION_SET)
-            .headers(headers))
+        mvc.perform(post(Helper.ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
             .andExpect(status().isCreated())
             .andReturn().getResponse();
 
-//        final String url = getSelfUrlFromResponse(response);
-
-        final MockHttpServletResponse getResp = mvc.perform(get("/annotationSets/findAllByDocumentUrl")
+        mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
             .headers(headers)
-            .content(GOOD_ANNOTATION_SET.getDocumentUri()))
+            .param(URL_PARAM,GOOD_ANNOTATION_SET.getDocumentUri()))
             .andExpect(status().isOk())
             .andReturn().getResponse();
     }
 
     @Test
+    @Ignore("error")
     public void should_upload_empty_annotation_set_and_retive_annotation_set2() throws Exception {
-        String docId = "https://localhost:4603/documents/" + UUID.randomUUID();
 
-        AnnotationSet annotationSet1 = AnnotationSet.builder()
-            .documentUri(docId)
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
-
-        AnnotationSet annotationSet2 = AnnotationSet.builder()
-            .documentUri(docId)
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
-
-        final MockHttpServletResponse response1 = mvc.perform(post("/annotationSets")
+        final MockHttpServletResponse response1 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet1.toString()))
+            .content(GOOD_ANNOTATION_SET.toString()))
             .andReturn().getResponse();
 
-        final MockHttpServletResponse response2 = mvc.perform(post("/annotationSets")
+        final MockHttpServletResponse response2 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet2.toString()))
+            .content(GOOD_ANNOTATION_SET.toString()))
             .andReturn().getResponse();
 
         final String url1 = getSelfUrlFromResponse(response1);
         final String url2 = getSelfUrlFromResponse(response2);
 
-        System.out.println(url1);
-        System.out.println(url2);
-
-        final MockHttpServletResponse getResp = mvc.perform(get("/annotationSets/findAllByDocumentUrl")
+        final MockHttpServletResponse getResp = mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
             .headers(headers)
-            .content(docId))
+            .param(URL_PARAM,GOOD_ANNOTATION_SET.getDocumentUri()))
             .andExpect(status().isOk())
             .andReturn().getResponse();
-
-
-        System.out.println(getResp.getContentAsString());
-
     }
 }

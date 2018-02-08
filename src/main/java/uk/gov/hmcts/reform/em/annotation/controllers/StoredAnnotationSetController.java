@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
@@ -15,7 +16,9 @@ import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.UUID;
 
-@RestController
+import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
+
+@Controller
 @RequestMapping(
     path = "/annotation-sets")
 @Api("Endpoint for Storing Annotation")
@@ -56,24 +59,24 @@ public class StoredAnnotationSetController {
 
     }
 
-//    @PutMapping(value = "{uuid}")
-//    @ApiOperation("Update Annotation Set instance.")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
-//    })
-//    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
-//
+    @PutMapping(value = "{uuid}")
+    @ApiOperation("Update Annotation Set instance.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+    })
+    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
+
 //        storedAnnotationSetService.updateAnnotationSet(uuid,body);
-//
-//        return ResponseEntity.ok().build();
-//    }
+
+        return ResponseEntity.status(NOT_IMPLEMENTED).build();
+    }
 
     @DeleteMapping(value = "{uuid}")
     @ApiOperation("Delete Annotation Set instance.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+        @ApiResponse(code = 204, message = "No Content")
     })
-    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
+    public ResponseEntity deleteAnnotationSet(@PathVariable UUID uuid) {
         storedAnnotationSetService.deleteAnnotationSet(uuid);
         return ResponseEntity.noContent().build();
     }
