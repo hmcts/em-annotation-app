@@ -25,7 +25,6 @@ public class Rectangle {
 
     @Getter
     @Setter
-    @NotNull
     @ManyToOne
     @JsonIgnore
     private Annotation annotation;

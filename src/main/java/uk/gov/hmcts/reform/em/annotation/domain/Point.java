@@ -23,7 +23,6 @@ public class Point {
 
     @Getter
     @Setter
-    @NotNull
     @ManyToOne
     @JsonIgnore
     private Annotation annotation;

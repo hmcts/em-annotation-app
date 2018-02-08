@@ -15,9 +15,9 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/evidence}
-    username: ${SPRING_DATASOURCE_USERNAME:evidence}
-    password: ${SPRING_DATASOURCE_PASSWORD:evidence}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/annotation}
+    username: ${SPRING_DATASOURCE_USERNAME:annotation}
+    password: ${SPRING_DATASOURCE_PASSWORD:annotation}
     platform: postgresql
     time-between-eviction-runs-millis: ${STALE_CONN_EVICTION_FREQUENCY:60000}
     tomcat:
