@@ -22,5 +22,4 @@ public class EmAuthCheckerConfiguration {
     public Function<HttpServletRequest, Collection<String>> authorizedServicesExtractor() {
         return any -> s2sNamesWhiteList;
     }
-
 }

@@ -16,10 +16,6 @@ import java.util.Optional;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-/**
- Created by pawel on 26/06/2017.
- */
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -58,6 +54,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "/v2/**",
                 "/favicon.ico",
                 "/health",
+                "/mappings",
                 "/info");
     }
 
@@ -69,5 +66,4 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
             return filter;
         });
     }
-
 }

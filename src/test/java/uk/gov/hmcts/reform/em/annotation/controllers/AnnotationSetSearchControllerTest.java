@@ -38,6 +38,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.GOOD_ANNOTATION_SET;
 import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.getSelfUrlFromResponse;
 
 @RunWith(SpringRunner.class)
@@ -98,36 +99,19 @@ public class AnnotationSetSearchControllerTest {
     @Test
     @Ignore("keep getting 403")
     public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
-        String docId = "https://localhost:4603/documents/" + UUID.randomUUID();
-
-        AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri(docId)
-            .build();
-
-        final MockHttpServletResponse response = mvc.perform(post("/annotationSets")
-            .headers(headers)
-            .content(annotationSet.toString()))
-//            .andExpect(status().isCreated())
+        final MockHttpServletResponse response = mvc.perform(post(Helper.ANNOTATION_SET_ENDPOINT,GOOD_ANNOTATION_SET)
+            .headers(headers))
+            .andExpect(status().isCreated())
             .andReturn().getResponse();
 
-        System.out.println(response.getContentType());
-
-        final String url = getSelfUrlFromResponse(response);
-
-        System.out.println(url);
+//        final String url = getSelfUrlFromResponse(response);
 
         final MockHttpServletResponse getResp = mvc.perform(get("/annotationSets/findAllByDocumentUrl")
             .headers(headers)
-            .content(docId))
+            .content(GOOD_ANNOTATION_SET.getDocumentUri()))
             .andExpect(status().isOk())
             .andReturn().getResponse();
-
-
-        System.out.println(getResp.getContentAsString());
-
     }
-
-
 
     @Test
     public void should_upload_empty_annotation_set_and_retive_annotation_set2() throws Exception {
