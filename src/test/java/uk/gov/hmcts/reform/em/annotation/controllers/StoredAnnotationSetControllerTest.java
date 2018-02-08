@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.em.annotation.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,7 +106,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated());
     }
 
@@ -116,7 +115,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_WITH_ANNOTATION.toString()))
+            .content(GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR))
             .andExpect(status().isCreated());
     }
 
@@ -125,7 +124,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(BAD_ANNOTATION_SET_MISSING_DOC_URI.toString()))
+            .content(BAD_ANNOTATION_SET_MISSING_DOC_URI_STR))
             .andExpect(status().isBadRequest());
     }
 
@@ -134,7 +133,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(BAD_ANNOTATION_SET_EMPTY_BODY.toString()))
+            .content(BAD_ANNOTATION_SET_EMPTY_BODY_STR))
             .andExpect(status().isBadRequest());
     }
 
@@ -143,7 +142,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(BAD_ANNOTATION_SET_MALFORMED_BODY.toString()))
+            .content(BAD_ANNOTATION_SET_MALFORMED_BODY_STR))
             .andExpect(status().isBadRequest());
     }
 
@@ -152,7 +151,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION.toString()))
+            .content(GOOD_ANNOTATION_STR))
             .andExpect(status().isBadRequest());
     }
 
@@ -175,7 +174,7 @@ public class StoredAnnotationSetControllerTest {
     public void postAnnotationForbiddenNoUser() throws Exception {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isForbidden());
     }
 
@@ -190,7 +189,23 @@ public class StoredAnnotationSetControllerTest {
         final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
+            .andExpect(status().isCreated())
+            .andReturn().getResponse();
+
+        final String url = getSelfUrlFromResponse(response);
+
+        mvc.perform(get(url)
+            .headers(headers))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAnnotationSetOkCompleteBody() throws Exception {
+        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET_COMPLETE_STR))
             .andExpect(status().isCreated())
             .andReturn().getResponse();
 
@@ -206,7 +221,7 @@ public class StoredAnnotationSetControllerTest {
         final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated())
             .andReturn().getResponse();
 
@@ -221,7 +236,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated());
 
         mvc.perform(get(ANNOTATION_SET_ENDPOINT + UUID.randomUUID())
@@ -237,12 +252,11 @@ public class StoredAnnotationSetControllerTest {
 
 
     @Test
-    @Ignore("test return 404")
     public void putAnnotationSetOk() throws Exception {
         final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated())
             .andReturn().getResponse();
 
@@ -251,7 +265,7 @@ public class StoredAnnotationSetControllerTest {
         mvc.perform(put(url)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isNotImplemented());
     }
 
@@ -262,16 +276,17 @@ public class StoredAnnotationSetControllerTest {
 //////////////////////////////////////////////////////////////
 
     @Test
-    @Ignore("test return 404")
     public void deleteAnnotationSet() throws Exception {
         final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated())
             .andReturn().getResponse();
 
         final String url = getSelfUrlFromResponse(response);
+
+        System.out.println(url);
 
         mvc.perform(get(url)
             .headers(headers))

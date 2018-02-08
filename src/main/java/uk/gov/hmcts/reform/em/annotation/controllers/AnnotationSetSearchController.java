@@ -39,11 +39,11 @@ public class AnnotationSetSearchController {
         @ApiResponse(code = 200, message = "Success", response = PagedResources.class)
     })
     public ResponseEntity<PagedResources<Resource<AnnotationSet>>> findAllAnnotationSetByDocumentUrl(
-        @Valid @Param("url") String documentUri,
+        @Valid @Param("url") String url,
         Pageable pageable,
         PagedResourcesAssembler<AnnotationSet> assembler) {
 
-        Page<AnnotationSet> page = storedAnnotationSetSearchService.searchByUrlDocumentUrl(documentUri,pageable);
+        Page<AnnotationSet> page = storedAnnotationSetSearchService.searchByUrlDocumentUrl(url,pageable);
 
         return ResponseEntity.ok().body(assembler.toResource(page));
     }

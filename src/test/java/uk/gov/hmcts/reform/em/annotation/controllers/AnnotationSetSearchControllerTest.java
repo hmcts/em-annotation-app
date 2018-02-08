@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.em.annotation.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,36 +90,34 @@ public class AnnotationSetSearchControllerTest {
 
 
     @Test
-    @Ignore("keep getting 403")
     public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
         mvc.perform(post(Helper.ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated())
             .andReturn().getResponse();
 
         mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
             .headers(headers)
-            .param(URL_PARAM,GOOD_ANNOTATION_SET.getDocumentUri()))
+            .param(URL_PARAM, GOOD_ANNOTATION_SET_MINIMUM.getDocumentUri()))
             .andExpect(status().isOk())
             .andReturn().getResponse();
     }
 
     @Test
-    @Ignore("error")
     public void should_upload_empty_annotation_set_and_retive_annotation_set2() throws Exception {
 
         final MockHttpServletResponse response1 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andReturn().getResponse();
 
         final MockHttpServletResponse response2 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET.toString()))
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andReturn().getResponse();
 
         final String url1 = getSelfUrlFromResponse(response1);
@@ -128,7 +125,7 @@ public class AnnotationSetSearchControllerTest {
 
         final MockHttpServletResponse getResp = mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
             .headers(headers)
-            .param(URL_PARAM,GOOD_ANNOTATION_SET.getDocumentUri()))
+            .param(URL_PARAM, GOOD_ANNOTATION_SET_MINIMUM.getDocumentUri()))
             .andExpect(status().isOk())
             .andReturn().getResponse();
     }

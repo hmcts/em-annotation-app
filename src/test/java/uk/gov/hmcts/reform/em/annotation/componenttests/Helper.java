@@ -1,12 +1,15 @@
 package uk.gov.hmcts.reform.em.annotation.componenttests;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletResponse;
-import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
-import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
+import uk.gov.hmcts.reform.em.annotation.domain.*;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -19,7 +22,6 @@ public class Helper {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private Helper(){}
 
 //    CONSTANT VARIABLES
 
@@ -29,7 +31,51 @@ public class Helper {
         .height((long) 100)
         .build();
 
-    public static final AnnotationSet GOOD_ANNOTATION_SET = AnnotationSet.builder()
+    public static final AnnotationSet GOOD_ANNOTATION_SET_COMPLETE = AnnotationSet.builder()
+        .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
+        .annotations(
+            ImmutableSet.of(
+                GOOD_ANNOTATION,
+                Annotation.builder()
+                    .page(0)
+                    .type(AnnotationType.POINT)
+                    .colour("FFFFFF")
+                    .height((long) 0)
+                    .width((long) 10)
+                    .pointX((long) 0)
+                    .pointY((long) 1)
+                    .lines(
+                        ImmutableList.of(
+                            Point.builder()
+                                .pointX((long) 0)
+                                .pointY((long) 1)
+                                .build(),
+                            Point.builder()
+                                .pointX((long) 10)
+                                .pointY((long) 20)
+                                .build()
+                        )
+                    )
+                    .rectangles(ImmutableSet.of(
+                        Rectangle.builder()
+                            .height((long) 0)
+                            .width((long) 10)
+                            .pointX((long) 0)
+                            .pointY((long) 1)
+                            .build(),
+                        Rectangle.builder()
+                            .height((long) 5)
+                            .width((long) 20)
+                            .pointX((long) 5)
+                            .pointY((long) 30)
+                            .build()
+                    ))
+                    .build()
+            )
+        )
+        .build();
+
+    public static final AnnotationSet GOOD_ANNOTATION_SET_MINIMUM = AnnotationSet.builder()
         .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
         .build();
 
@@ -40,9 +86,29 @@ public class Helper {
 
     public static final AnnotationSet BAD_ANNOTATION_SET_MISSING_DOC_URI = AnnotationSet.builder().build();
 
-    public static final String BAD_ANNOTATION_SET_EMPTY_BODY = "";
 
-    public static final String BAD_ANNOTATION_SET_MALFORMED_BODY = "{ \\daksfakbl'':asbahfj}";
+    public static String GOOD_ANNOTATION_STR;
+    public static String GOOD_ANNOTATION_SET_COMPLETE_STR;
+    public static String GOOD_ANNOTATION_SET_MINIMUM_STR;
+    public static String GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR;
+    public static String BAD_ANNOTATION_SET_MISSING_DOC_URI_STR;
+
+    static {
+        try {
+            GOOD_ANNOTATION_STR = convertObjectToJsonString(GOOD_ANNOTATION);
+            GOOD_ANNOTATION_SET_COMPLETE_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_COMPLETE);
+            GOOD_ANNOTATION_SET_MINIMUM_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_MINIMUM);
+            GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_WITH_ANNOTATION);
+            BAD_ANNOTATION_SET_MISSING_DOC_URI_STR = convertObjectToJsonString(BAD_ANNOTATION_SET_MISSING_DOC_URI);
+        } catch (IOException e) {
+            throw new RuntimeException("");
+        }
+    }
+
+
+    public static final String BAD_ANNOTATION_SET_EMPTY_BODY_STR = "";
+
+    public static final String BAD_ANNOTATION_SET_MALFORMED_BODY_STR = "{ \\daksfakbl'':asbahfj}";
 
     public static final String ANNOTATION_SET_ENDPOINT = "/annotation-sets/";
 
@@ -50,6 +116,8 @@ public class Helper {
     public static final String URL_PARAM = "url";
 
 
+
+    private Helper() {}
 
 //    REUSABLE METHODS
 
@@ -61,15 +129,15 @@ public class Helper {
     private static String getPathFromResponse(MockHttpServletResponse response, String path) throws IOException {
         final String content = response.getContentAsString();
         return getNodeAtPath(path, content)
-                .asText()
-                .replace("http://localhost", "");
+            .asText()
+            .replace("http://localhost", "");
     }
 
     private static JsonNode getNodeAtPath(String path, String content) throws IOException {
         System.out.println("===============" + path + "===============\n\n\n" + content);
         return MAPPER
-                .readTree(content)
-                .at("/" + path);
+            .readTree(content)
+            .at("/" + path);
     }
 
     public static HttpHeaders getHeaders() {
@@ -98,5 +166,16 @@ public class Helper {
             );
         }
         return headers;
+    }
+
+
+    public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
+        ObjectMapper om = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return om.writeValueAsBytes(object);
+    }
+
+    public static String convertObjectToJsonString(Object object) throws IOException {
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        return ow.writeValueAsString(object);
     }
 }

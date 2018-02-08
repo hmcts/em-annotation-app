@@ -1,8 +1,6 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -111,16 +109,16 @@ public class Annotation {
     private Set<Rectangle> rectangles;// Highlight, Strikeout
 
 
-    public String toString() {
-        ObjectMapper mapper = new ObjectMapper();
-        String s = "";
-
-        try {
-            s = mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return s;
-    }
+//    public String toString() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        String s = "";
+//
+//        try {
+//            s = mapper.writeValueAsString(this);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return s;
+//    }
 }

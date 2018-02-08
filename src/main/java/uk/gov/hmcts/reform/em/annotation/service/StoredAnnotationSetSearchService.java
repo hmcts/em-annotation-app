@@ -18,8 +18,8 @@ public class StoredAnnotationSetSearchService {
         this.annotationSetRepository = annotationSetRepository;
     }
 
-    public Page<AnnotationSet> searchByUrlDocumentUrl(@NonNull String documentUri, @NonNull Pageable pageable) {
-        return annotationSetRepository.searchByUrlDocumentUrl(documentUri,pageable);
+    public Page<AnnotationSet> searchByUrlDocumentUrl(@NonNull String url, @NonNull Pageable pageable) {
+        return annotationSetRepository.searchByUrlDocumentUrl(url,pageable);
     }
 
 

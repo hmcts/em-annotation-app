@@ -1,7 +1,5 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
@@ -63,17 +61,17 @@ public class AnnotationSet {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationSet")
     private Set<Annotation> annotations;
 
-    public String toString() {
-        ObjectMapper mapper = new ObjectMapper();
-        String s = "";
-
-        try {
-            s = mapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return s;
-    }
+//    public String toString() {
+//        ObjectMapper mapper = new ObjectMapper();
+//        String s = "";
+//
+//        try {
+//            s = mapper.writeValueAsString(this);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return s;
+//    }
 }
 
