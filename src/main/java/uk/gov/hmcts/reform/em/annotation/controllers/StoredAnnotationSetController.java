@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(
-    path = "/annotationSets")
+    path = "/annotation-sets")
 @Api("Endpoint for Storing Annotation")
 public class StoredAnnotationSetController {
 
