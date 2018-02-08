@@ -68,16 +68,14 @@ public class StoredAnnotationSetController {
 //        return ResponseEntity.ok().build();
 //    }
 
-//    @DeleteMapping(value = "{uuid}")
-//    @ApiOperation("Delete Annotation Set instance.")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
-//    })
-//    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
-//
-//        storedAnnotationSetService.deleteAnnotationSet(uuid);
-//
-//        return ResponseEntity.ok().body(new Object());
-//    }
+    @DeleteMapping(value = "{uuid}")
+    @ApiOperation("Delete Annotation Set instance.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+    })
+    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
+        storedAnnotationSetService.deleteAnnotationSet(uuid);
+        return ResponseEntity.noContent().build();
+    }
 
 }
