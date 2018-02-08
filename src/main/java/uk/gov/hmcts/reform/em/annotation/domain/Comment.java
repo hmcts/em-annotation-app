@@ -25,7 +25,6 @@ public class Comment {
 
     @Getter
     @Setter
-    @NotNull
     @ManyToOne
     @JsonIgnore
     private Annotation annotation;
