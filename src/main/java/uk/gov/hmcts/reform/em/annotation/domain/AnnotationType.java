@@ -5,7 +5,8 @@ public enum AnnotationType {
     HIGHLIGHT("highlight"),
     POINT("point"),
     STRIKEOUT("strikeout"),
-    TEXTBOX("textbox");
+    TEXTBOX("textbox"),
+    NOTE("note");
 
     private String type;
 
