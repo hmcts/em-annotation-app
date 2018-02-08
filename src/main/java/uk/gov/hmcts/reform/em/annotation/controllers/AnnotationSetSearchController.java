@@ -7,10 +7,12 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
@@ -20,7 +22,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(
-    path = "/annotationSets")
+    path = "/annotation-sets")
 @Api("Endpoint for Storing Annotation")
 public class AnnotationSetSearchController {
 
@@ -31,13 +33,13 @@ public class AnnotationSetSearchController {
         this.storedAnnotationSetSearchService = storedAnnotationSetSearchService;
     }
 
-    @GetMapping(value = "/findAllByDocumentUrl")
+    @GetMapping(value = "/find-all-by-document-url")
     @ApiOperation("Retrieve all Annotation Sets associated with a given DM URL")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Object.class)
+        @ApiResponse(code = 200, message = "Success", response = PagedResources.class)
     })
-    public ResponseEntity<Object> findAllAnnotationSetByDocumentUrl(
-        @Valid @RequestBody String documentUri,
+    public ResponseEntity<PagedResources<Resource<AnnotationSet>>> findAllAnnotationSetByDocumentUrl(
+        @Valid @Param("url") String documentUri,
         Pageable pageable,
         PagedResourcesAssembler<AnnotationSet> assembler) {
 

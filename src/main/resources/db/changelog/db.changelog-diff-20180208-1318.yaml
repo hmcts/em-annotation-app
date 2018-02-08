@@ -1,0 +1,240 @@
+databaseChangeLog:
+- objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+- changeSet:
+    id: 1518095888531-1
+    author: alec (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: uuid
+            type: UUID
+        - column:
+            name: colour
+            type: VARCHAR(255)
+        - column:
+            name: createdBy
+            type: VARCHAR(255)
+        - column:
+            name: createdOn
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: fontSize
+            type: BIGINT
+        - column:
+            name: height
+            type: BIGINT
+        - column:
+            name: lastModifiedBy
+            type: VARCHAR(255)
+        - column:
+            name: modifiedOn
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: page
+            type: BIGINT
+        - column:
+            name: pointX
+            type: BIGINT
+        - column:
+            name: pointY
+            type: BIGINT
+        - column:
+            name: type
+            type: INT
+        - column:
+            name: width
+            type: BIGINT
+        - column:
+            name: annotationSet_uuid
+            type: UUID
+        tableName: Annotation
+- changeSet:
+    id: 1518095888531-2
+    author: alec (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: uuid
+            type: UUID
+        - column:
+            name: createdBy
+            type: VARCHAR(255)
+        - column:
+            name: createdOn
+            type: TIMESTAMP WITHOUT TIME ZONE
+        - column:
+            name: documentUri
+            type: VARCHAR(255)
+        - column:
+            name: lastModifiedBy
+            type: VARCHAR(255)
+        - column:
+            name: modifiedOn
+            type: TIMESTAMP WITHOUT TIME ZONE
+        tableName: AnnotationSet
+- changeSet:
+    id: 1518095888531-3
+    author: alec (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: uuid
+            type: UUID
+        - column:
+            name: content
+            type: VARCHAR(255)
+        - column:
+            name: annotation_uuid
+            type: UUID
+        tableName: Comment
+- changeSet:
+    id: 1518095888531-4
+    author: alec (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: uuid
+            type: UUID
+        - column:
+            name: pointX
+            type: BIGINT
+        - column:
+            name: pointY
+            type: BIGINT
+        - column:
+            name: annotation_uuid
+            type: UUID
+        - column:
+            name: itm_idx
+            type: INT
+        tableName: Point
+- changeSet:
+    id: 1518095888531-5
+    author: alec (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: uuid
+            type: UUID
+        - column:
+            name: height
+            type: BIGINT
+        - column:
+            name: pointX
+            type: BIGINT
+        - column:
+            name: pointY
+            type: BIGINT
+        - column:
+            name: width
+            type: BIGINT
+        - column:
+            name: annotation_uuid
+            type: UUID
+        tableName: Rectangle
+- changeSet:
+    id: 1518095888531-6
+    author: alec (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: uuid
+        constraintName: AnnotationPK
+        tableName: Annotation
+- changeSet:
+    id: 1518095888531-7
+    author: alec (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: uuid
+        constraintName: AnnotationSetPK
+        tableName: AnnotationSet
+- changeSet:
+    id: 1518095888531-8
+    author: alec (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: uuid
+        constraintName: CommentPK
+        tableName: Comment
+- changeSet:
+    id: 1518095888531-9
+    author: alec (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: uuid
+        constraintName: PointPK
+        tableName: Point
+- changeSet:
+    id: 1518095888531-10
+    author: alec (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: uuid
+        constraintName: RectanglePK
+        tableName: Rectangle
+- changeSet:
+    id: 1518095888531-11
+    author: alec (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: annotationSet_uuid
+        baseTableName: Annotation
+        constraintName: FK54dg9dge52u8cysywa8d6ympf
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: uuid
+        referencedTableName: AnnotationSet
+- changeSet:
+    id: 1518095888531-12
+    author: alec (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: annotation_uuid
+        baseTableName: Comment
+        constraintName: FK805dac3sq6vej3tkk43skulns
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: uuid
+        referencedTableName: Annotation
+- changeSet:
+    id: 1518095888531-13
+    author: alec (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: annotation_uuid
+        baseTableName: Point
+        constraintName: FKa5qd2trhb8crfmp4cbovuujfr
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: uuid
+        referencedTableName: Annotation
+- changeSet:
+    id: 1518095888531-14
+    author: alec (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: annotation_uuid
+        baseTableName: Rectangle
+        constraintName: FKgivhksabmska8rg5kt4r343my
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: uuid
+        referencedTableName: Annotation
+

@@ -5,9 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import org.springframework.http.HttpHeaders;
 import org.springframework.mock.web.MockHttpServletResponse;
+import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
+import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.UUID;
 
 import static uk.gov.hmcts.reform.em.annotation.service.security.SecurityUtilService.USER_ID_HEADER;
 import static uk.gov.hmcts.reform.em.annotation.service.security.SecurityUtilService.USER_ROLES_HEADER;
@@ -18,29 +21,37 @@ public class Helper {
 
     private Helper(){}
 
+//    CONSTANT VARIABLES
 
-    public static String getUuid(MockHttpServletResponse response) throws IOException {
-        final String path = "uuid";
-        return getAnnotationSetUrl(response, path);
-    }
+    public static final Annotation GOOD_ANNOTATION = Annotation.builder()
+        .page((long) 10)
+        .width((long) 100)
+        .height((long) 100)
+        .build();
 
-    public static String getAnnotationSetUrl(MockHttpServletResponse response, String path) throws IOException {
-        final String content = response.getContentAsString();
-        return "/annotationSets/" + getNodeAtPath(path, content).asText();
-    }
+    public static final AnnotationSet GOOD_ANNOTATION_SET = AnnotationSet.builder()
+        .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
+        .build();
+
+    public static final AnnotationSet GOOD_ANNOTATION_SET_WITH_ANNOTATION = AnnotationSet.builder()
+        .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
+        .annotations(Collections.singleton(GOOD_ANNOTATION))
+        .build();
+
+    public static final AnnotationSet BAD_ANNOTATION_SET_MISSING_DOC_URI = AnnotationSet.builder().build();
+
+    public static final String BAD_ANNOTATION_SET_EMPTY_BODY = "";
+
+    public static final String BAD_ANNOTATION_SET_MALFORMED_BODY = "{ \\daksfakbl'':asbahfj}";
+
+    public static final String ANNOTATION_SET_ENDPOINT = "/annotation-sets/";
+
+    public static final String ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT = ANNOTATION_SET_ENDPOINT + "find-all-by-document-url";
+    public static final String URL_PARAM = "url";
 
 
-    public static String getThumbnailUrlFromResponse(MockHttpServletResponse response) throws IOException {
-        final String path = "/_links/thumbnail/href";
-        return getPathFromResponse(response, path);
 
-    }
-
-    public static String getBinaryUrlFromResponse(MockHttpServletResponse response) throws IOException {
-        final String path = "/_links/binary/href";
-        return getPathFromResponse(response, path);
-
-    }
+//    REUSABLE METHODS
 
     public static String getSelfUrlFromResponse(MockHttpServletResponse response) throws IOException {
         final String path = "/_links/self/href";
@@ -55,8 +66,7 @@ public class Helper {
     }
 
     private static JsonNode getNodeAtPath(String path, String content) throws IOException {
-        System.out.println(path + "    -------------- " + content);
-
+        System.out.println("===============" + path + "===============\n\n\n" + content);
         return MAPPER
                 .readTree(content)
                 .at("/" + path);
@@ -87,7 +97,6 @@ public class Helper {
                 )
             );
         }
-
         return headers;
     }
 }

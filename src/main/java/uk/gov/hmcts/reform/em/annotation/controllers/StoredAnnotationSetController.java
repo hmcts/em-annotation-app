@@ -6,17 +6,20 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
+import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 
 import javax.validation.Valid;
-import java.net.URISyntaxException;
 import java.util.UUID;
 
-@RestController
+import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
+
+@Controller
 @RequestMapping(
-    path = "/annotationSets")
+    path = "/annotation-sets")
 @Api("Endpoint for Storing Annotation")
 public class StoredAnnotationSetController {
 
@@ -30,54 +33,52 @@ public class StoredAnnotationSetController {
     @PostMapping(value = "")
     @ApiOperation("Create Annotation Set.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSetHalResource.class)
     })
-    public ResponseEntity<AnnotationSet> createAnnotationSet(@RequestBody @Valid AnnotationSet body) throws URISyntaxException {
+    public ResponseEntity<AnnotationSetHalResource> createAnnotationSet(@RequestBody @Valid AnnotationSet body) {
 
-        AnnotationSet annotationSet = storedAnnotationSetService.createAnnotationSet(body);
-
-        return ResponseEntity.ok(annotationSet);
+        AnnotationSetHalResource annotationSetHalResource = new AnnotationSetHalResource(storedAnnotationSetService.createAnnotationSet(body));
+        return ResponseEntity.created(annotationSetHalResource.getUri()).body(annotationSetHalResource);
     }
 
     @GetMapping(value = "{uuid}")
     @ApiOperation("Retrieve Annotation Set instance.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSetHalResource.class)
     })
-    public ResponseEntity<AnnotationSet> retrieveAnnotationSet(@PathVariable UUID uuid) {
+    public ResponseEntity<AnnotationSetHalResource> retrieveAnnotationSet(@PathVariable UUID uuid) {
 
         AnnotationSet annotationSet = storedAnnotationSetService.getAnnotationSet(uuid);
 
         if (annotationSet != null) {
-            return ResponseEntity.ok().body(annotationSet);
+            AnnotationSetHalResource annotationSetHalResource = new AnnotationSetHalResource(annotationSet);
+            return ResponseEntity.ok().body(annotationSetHalResource);
         } else {
             return ResponseEntity.notFound().build();
         }
 
     }
 
-//    @PutMapping(value = "{uuid}")
-//    @ApiOperation("Update Annotation Set instance.")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
-//    })
-//    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
-//
-//        storedAnnotationSetService.updateAnnotationSet(uuid,body);
-//
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping(value = "{uuid}")
+    @ApiOperation("Update Annotation Set instance.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+    })
+    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
 
-//    @DeleteMapping(value = "{uuid}")
-//    @ApiOperation("Delete Annotation Set instance.")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
-//    })
-//    public ResponseEntity<Object> deleteAnnotationSet(@PathVariable UUID uuid) {
-//
-//        storedAnnotationSetService.deleteAnnotationSet(uuid);
-//
-//        return ResponseEntity.ok().body(new Object());
-//    }
+//        storedAnnotationSetService.updateAnnotationSet(uuid,body);
+
+        return ResponseEntity.status(NOT_IMPLEMENTED).build();
+    }
+
+    @DeleteMapping(value = "{uuid}")
+    @ApiOperation("Delete Annotation Set instance.")
+    @ApiResponses(value = {
+        @ApiResponse(code = 204, message = "No Content")
+    })
+    public ResponseEntity deleteAnnotationSet(@PathVariable UUID uuid) {
+        storedAnnotationSetService.deleteAnnotationSet(uuid);
+        return ResponseEntity.noContent().build();
+    }
 
 }

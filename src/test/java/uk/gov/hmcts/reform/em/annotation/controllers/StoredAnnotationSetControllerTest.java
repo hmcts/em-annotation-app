@@ -1,9 +1,9 @@
 package uk.gov.hmcts.reform.em.annotation.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +26,18 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.ServiceResolve
 import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.RestActions;
-import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
-import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 
 import java.util.UUID;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.getUuid;
+import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.*;
 
 
 @RunWith(SpringRunner.class)
@@ -55,6 +55,9 @@ public class StoredAnnotationSetControllerTest {
     protected UserResolverBackdoor userRequestAuthorizer;
 
     @Autowired
+    protected AuthCheckerServiceOnlyFilter filter;
+
+    @Autowired
     protected ObjectMapper objectMapper;
 
     @Autowired
@@ -62,9 +65,6 @@ public class StoredAnnotationSetControllerTest {
 
     @Autowired
     protected ConfigurableListableBeanFactory configurableListableBeanFactory;
-
-    @Autowired
-    protected AuthCheckerServiceOnlyFilter filter;
 
     protected RestActions restActions;
 
@@ -94,192 +94,196 @@ public class StoredAnnotationSetControllerTest {
         return configurableListableBeanFactory.resolveEmbeddedValue(content);
     }
 
-    @Test
-    public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
-        AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
 
-        final MockHttpServletResponse response = mvc.perform(post("/annotationSets")
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////POST/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+    @Test
+    public void postAnnotationSetOkMinimum() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet.toString()))
-            .andReturn().getResponse();
-
-        final String url = getUuid(response);
-
-        System.out.println(url);
-
-        final MockHttpServletResponse getResp = mvc.perform(get(url)
-            .headers(headers))
-            .andExpect(status().isOk())
-            .andReturn().getResponse();
-
-
-        System.out.println(getResp.getContentAsString());
-
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isCreated());
     }
 
     @Test
-    public void should_upload_empty_annotation_set() throws Exception {
-        AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
-
-        mvc.perform(post("/annotationSets")
+    public void postAnnotationSetOkWithAnnotation() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet.toString()))
-            .andExpect(status().isOk())
+            .content(GOOD_ANNOTATION_SET_WITH_ANNOTATION.toString()))
+            .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void postAnnotationSetBadRequestMissingDocumentUri() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(BAD_ANNOTATION_SET_MISSING_DOC_URI.toString()))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void postAnnotationSetBadRequestEmptyBody() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(BAD_ANNOTATION_SET_EMPTY_BODY.toString()))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void postAnnotationBadRequestMalformedBody() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(BAD_ANNOTATION_SET_MALFORMED_BODY.toString()))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void postAnnotationBadRequestWrongObject() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION.toString()))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void postAnnotationBadRequestNoBody() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void postAnnotationForbiddenNoBodyNoUser() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void postAnnotationForbiddenNoUser() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isForbidden());
+    }
+
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////GET/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+    @Test
+    public void getAnnotationSetOk() throws Exception {
+        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isCreated())
             .andReturn().getResponse();
 
-        mvc.perform(get("/annotationSets" + UUID.randomUUID())
+        final String url = getSelfUrlFromResponse(response);
+
+        mvc.perform(get(url)
+            .headers(headers))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getAnnotationSetForbidden() throws Exception {
+        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isCreated())
+            .andReturn().getResponse();
+
+        final String url = getSelfUrlFromResponse(response);
+
+        mvc.perform(get(url))
+            .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void getAnnotationSetNotFound() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isCreated());
+
+        mvc.perform(get(ANNOTATION_SET_ENDPOINT + UUID.randomUUID())
             .headers(headers))
             .andExpect(status().isNotFound())
             .andReturn().getResponse();
     }
-
-    @Autowired
-    private StoredAnnotationSetController storedAnnotationSetController;
-
-    @Test
-    public void postAnnotationSet() throws Exception {
-        AnnotationSet annotationSet = AnnotationSet.builder()
-            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
-
-        MockHttpServletResponse response = mvc.perform(post("/annotationSets")
-            .headers(headers)
-            .content(annotationSet.toString())
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andReturn()
-            .getResponse();
-
-        System.out.println(response.getContentAsString());
-
-    }
-
-    @Test
-    public void postAnnotationSetMissingDocumentUri() throws Exception {
-        AnnotationSet annotationSet = AnnotationSet.builder()
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build())
-            ).build();
-
-        MockHttpServletResponse response = mvc.perform(post("/annotationSets")
-            .headers(headers)
-            .content(annotationSet.toString())
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest())
-            .andReturn()
-            .getResponse();
-
-        System.out.println(response.getContentAsString());
-
-    }
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////PUT/////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
 
 
     @Test
-    public void postAnnotationSetMin() throws Exception {
-        String annotationSet = "{\"documentUri\" : \"https://localhost:4603/documents/"
-            + UUID.randomUUID()
-            + "\",\"annotations\":[{\"page\":10}]}";
-
-        mvc.perform(post("/annotationSets")
+    @Ignore("test return 404")
+    public void putAnnotationSetOk() throws Exception {
+        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    public void postAnnotationSetMax() throws Exception {
-        AnnotationSet annotationSet = AnnotationSet.builder()
-            .createdBy("Alec")
-            .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-            .annotations(
-                ImmutableSet.of(
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build(),
-                    Annotation.builder()
-                        .page((long) 10)
-                        .build()
-                )
-            ).build();
-
-        mvc.perform(post("/annotationSets")
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet.toString()))
-            .andExpect(status().isOk());
-
-    }
-
-    @Test
-    public void postAnnotationEmpty() throws Exception {
-        String annotationSet = "";
-
-        mvc.perform(post("/annotationSets")
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet))
-            .andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    public void postAnnotationMalformed() throws Exception {
-        String annotationSet = "{ \\daksfakbl'':asbahfj}";
-
-        mvc.perform(post("/annotationSets")
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(annotationSet))
-            .andExpect(status().isBadRequest());
-
-    }
-
-    @Test
-    public void postAnnotatioWrongObject() throws Exception {
-        Annotation annotation = Annotation.builder()
-            .page((long) 10)
-            .width((long) 100)
-            .height((long) 100)
-            .build();
-
-        MockHttpServletResponse response = mvc.perform(post("/annotationSets",annotation)
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest())
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isCreated())
             .andReturn().getResponse();
+
+        final String url = getSelfUrlFromResponse(response);
+
+        mvc.perform(put(url)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isNotImplemented());
     }
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////DELETE//////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+
     @Test
-    public void postAnnotationNoBody() throws Exception {
-        mvc.perform(post("/annotationSets")
+    @Ignore("test return 404")
+    public void deleteAnnotationSet() throws Exception {
+        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET.toString()))
+            .andExpect(status().isCreated())
+            .andReturn().getResponse();
+
+        final String url = getSelfUrlFromResponse(response);
+
+        mvc.perform(get(url)
+            .headers(headers))
+            .andExpect(status().isOk());
+
+        mvc.perform(delete(url)
+            .headers(headers))
+            .andExpect(status().isNoContent());
+
+        mvc.perform(get(url)
+            .headers(headers))
+            .andExpect(status().isNotFound());
     }
 
 }
