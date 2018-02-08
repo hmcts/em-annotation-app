@@ -6,7 +6,7 @@ public enum AnnotationType {
     POINT("point"),
     STRIKEOUT("strikeout"),
     TEXTBOX("textbox"),
-    NOTE("note");
+    PAGE_NOTE("pagenote");
 
     private String type;
 
