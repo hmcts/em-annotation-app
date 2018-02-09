@@ -27,8 +27,13 @@ public class Point {
     @JsonIgnore
     private Annotation annotation;
 
+    @Getter
+    @Setter
     @NotNull
     private Long pointX;
+
+    @Getter
+    @Setter
     @NotNull
     private Long pointY;
 

@@ -61,17 +61,5 @@ public class AnnotationSet {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationSet")
     private Set<Annotation> annotations;
 
-//    public String toString() {
-//        ObjectMapper mapper = new ObjectMapper();
-//        String s = "";
-//
-//        try {
-//            s = mapper.writeValueAsString(this);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return s;
-//    }
 }
 

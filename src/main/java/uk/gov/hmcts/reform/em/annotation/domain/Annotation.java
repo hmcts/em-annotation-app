@@ -108,17 +108,4 @@ public class Annotation {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
     private Set<Rectangle> rectangles;// Highlight, Strikeout
 
-
-//    public String toString() {
-//        ObjectMapper mapper = new ObjectMapper();
-//        String s = "";
-//
-//        try {
-//            s = mapper.writeValueAsString(this);
-//        } catch (JsonProcessingException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return s;
-//    }
 }

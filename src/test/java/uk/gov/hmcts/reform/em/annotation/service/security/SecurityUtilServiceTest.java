@@ -12,14 +12,12 @@ import uk.gov.hmcts.reform.auth.checker.spring.serviceonly.ServiceDetails;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-/**
- * Created by pawel on 24/01/2018.
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class SecurityUtilServiceTest {
 
     @InjectMocks
-    SecurityUtilService securityUtilService;
+    private SecurityUtilService securityUtilService;
 
     @Test
     public void testSuccessfulRetrievalOfUsernameFromSecurityContext() {

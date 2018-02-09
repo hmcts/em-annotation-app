@@ -15,8 +15,6 @@ import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 import javax.validation.Valid;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.NOT_IMPLEMENTED;
-
 @Controller
 @RequestMapping(
     path = "/annotation-sets")
@@ -62,13 +60,12 @@ public class StoredAnnotationSetController {
     @PutMapping(value = "{uuid}")
     @ApiOperation("Update Annotation Set instance.")
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class)
+        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class),
+        @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
-
-//        storedAnnotationSetService.updateAnnotationSet(uuid,body);
-
-        return ResponseEntity.status(NOT_IMPLEMENTED).build();
+        storedAnnotationSetService.updateAnnotationSet(uuid,body);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "{uuid}")
