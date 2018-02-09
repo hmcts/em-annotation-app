@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
@@ -15,7 +14,7 @@ import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
 import javax.validation.Valid;
 import java.util.UUID;
 
-@Controller
+@RestController
 @RequestMapping(
     path = "/annotation-sets")
 @Api("Endpoint for Storing Annotation")

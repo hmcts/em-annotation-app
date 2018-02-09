@@ -122,22 +122,17 @@ public class Helper {
 //    REUSABLE METHODS
 
     public static String getSelfUrlFromResponse(MockHttpServletResponse response) throws IOException {
-        final String path = "/_links/self/href";
+        final String path = "_links/self/href";
         return getPathFromResponse(response, path);
     }
 
     private static String getPathFromResponse(MockHttpServletResponse response, String path) throws IOException {
         final String content = response.getContentAsString();
-        return getNodeAtPath(path, content)
-            .asText()
-            .replace("http://localhost", "");
+        return getNodeAtPath(path, content).asText().replace("http://localhost", "");
     }
 
     private static JsonNode getNodeAtPath(String path, String content) throws IOException {
-        System.out.println("===============" + path + "===============\n\n\n" + content);
-        return MAPPER
-            .readTree(content)
-            .at("/" + path);
+        return MAPPER.readTree(content).at("/" + path);
     }
 
     public static HttpHeaders getHeaders() {
@@ -167,7 +162,6 @@ public class Helper {
         }
         return headers;
     }
-
 
     public static byte[] convertObjectToJsonBytes(Object object) throws IOException {
         ObjectMapper om = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);

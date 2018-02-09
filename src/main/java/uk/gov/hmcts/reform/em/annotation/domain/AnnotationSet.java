@@ -50,7 +50,6 @@ public class AnnotationSet {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdOn;
 
-
     @Getter
     @Setter
     @NotNull

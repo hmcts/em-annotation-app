@@ -6,6 +6,7 @@ import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.exception.AnnotationSetNotFoundException;
 import uk.gov.hmcts.reform.em.annotation.repository.AnnotationSetRepository;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 @Service
@@ -38,6 +39,9 @@ public class StoredAnnotationSetService {
         AnnotationSet orgAnnotationSet = annotationSetRepository.findOne(uuid);
 
         if (orgAnnotationSet != null) {
+            if (orgAnnotationSet.getAnnotations() == null) {
+                orgAnnotationSet.setAnnotations(new HashSet<>());
+            }
             orgAnnotationSet.getAnnotations().clear();
             orgAnnotationSet.getAnnotations().addAll(annotationSet.getAnnotations());
 

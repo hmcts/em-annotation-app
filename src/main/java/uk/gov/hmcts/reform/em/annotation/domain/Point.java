@@ -10,9 +10,9 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Point {
 
