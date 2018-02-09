@@ -1,7 +1,9 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,10 +20,47 @@ import java.util.UUID;
 
 @Entity
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Annotation {
+
+    public Annotation() {
+    }
+
+    public Annotation(UUID uuid, String createdBy,
+                      String lastModifiedBy,
+                      Date modifiedOn,
+                      Date createdOn,
+                      AnnotationSet annotationSet,
+                      AnnotationType type,
+                      long page,
+                      Set<Comment> comments,
+                      String colour,
+                      Long pointX,
+                      Long pointY,
+                      Long fontSize,
+                      Long height,
+                      Long width,
+                      List<Point> lines,
+                      Set<Rectangle> rectangles) {
+        this.uuid = uuid;
+        this.createdBy = createdBy;
+        this.lastModifiedBy = lastModifiedBy;
+        this.modifiedOn = modifiedOn;
+        this.createdOn = createdOn;
+        this.annotationSet = annotationSet;
+        this.type = type;
+        this.page = page;
+        this.colour = colour;
+        this.pointX = pointX;
+        this.pointY = pointY;
+        this.fontSize = fontSize;
+        this.height = height;
+        this.width = width;
+        this.lines = lines;
+        this.rectangles = rectangles;
+        setComments(comments);
+
+    }
 
     @Getter
     @Setter
@@ -68,8 +107,13 @@ public class Annotation {
     @NotNull
     private long page;
 
+    public final void setComments(Set<Comment> comments) {
+        if (this.comments != null) {
+            this.comments.forEach(comment -> comment.setAnnotation(this));
+        }
+    }
+
     @Getter
-    @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
     private Set<Comment> comments;
 
