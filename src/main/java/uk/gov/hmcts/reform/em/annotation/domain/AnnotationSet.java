@@ -1,6 +1,8 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,10 +18,27 @@ import java.util.UUID;
 
 @Entity
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class AnnotationSet {
+
+    public AnnotationSet() {
+    }
+
+    public AnnotationSet(UUID uuid,
+                         String createdBy,
+                         String lastModifiedBy,
+                         Date modifiedOn,
+                         Date createdOn,
+                         String documentUri,
+                         Set<Annotation> annotations) {
+        this.uuid = uuid;
+        this.createdBy = createdBy;
+        this.lastModifiedBy = lastModifiedBy;
+        this.modifiedOn = modifiedOn;
+        this.createdOn = createdOn;
+        this.documentUri = documentUri;
+        setAnnotations(annotations);
+    }
 
     @Getter
     @Setter
@@ -55,8 +74,14 @@ public class AnnotationSet {
     @NotNull
     private String documentUri;
 
+    public final void setAnnotations(Set<Annotation> annotations) {
+        this.annotations = annotations;
+        if (this.annotations != null) {
+            this.annotations.forEach(annotation -> annotation.setAnnotationSet(this));
+        }
+    }
+
     @Getter
-    @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationSet")
     private Set<Annotation> annotations;
 
