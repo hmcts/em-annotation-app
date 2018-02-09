@@ -74,16 +74,16 @@ public class AnnotationSet {
     @NotNull
     private String documentUri;
 
+    @Getter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationSet")
+    private Set<Annotation> annotations;
+
     public final void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
         if (this.annotations != null) {
             this.annotations.forEach(annotation -> annotation.setAnnotationSet(this));
         }
     }
-
-    @Getter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotationSet")
-    private Set<Annotation> annotations;
 
 }
 

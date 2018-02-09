@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.*;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles({"embedded", "local", "componenttest"})
+@ActiveProfiles({"local"})
 @SpringBootTest(webEnvironment = MOCK)
 @Transactional
 @EnableSpringDataWebSupport
@@ -117,7 +117,7 @@ public class AnnotationSetSearchControllerTest {
         final MockHttpServletResponse response2 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
+            .content(GOOD_ANNOTATION_SET_COMPLETE_STR))
             .andReturn().getResponse();
 
         final String url1 = getSelfUrlFromResponse(response1);
@@ -125,8 +125,9 @@ public class AnnotationSetSearchControllerTest {
 
         final MockHttpServletResponse getResp = mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
             .headers(headers)
-            .param(URL_PARAM, GOOD_ANNOTATION_SET_MINIMUM.getDocumentUri()))
+            .param(URL_PARAM, DOCUMENT_URI))
             .andExpect(status().isOk())
             .andReturn().getResponse();
+
     }
 }

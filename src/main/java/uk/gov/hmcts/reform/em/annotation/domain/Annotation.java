@@ -107,15 +107,15 @@ public class Annotation {
     @NotNull
     private long page;
 
+    @Getter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    private Set<Comment> comments;
+
     public final void setComments(Set<Comment> comments) {
         if (this.comments != null) {
             this.comments.forEach(comment -> comment.setAnnotation(this));
         }
     }
-
-    @Getter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
-    private Set<Comment> comments;
 
     @Getter
     @Setter
@@ -142,14 +142,25 @@ public class Annotation {
     private Long width; // Drawing, Textbox
 
     @Getter
-    @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
     @OrderColumn(name = "itm_idx")
     private List<Point> lines; // Drawing
 
+    public final void setLines(Set<Comment> lines) {
+        if (this.lines != null) {
+            this.lines.forEach(line -> line.setAnnotation(this));
+        }
+    }
+
     @Getter
-    @Setter
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
     private Set<Rectangle> rectangles;// Highlight, Strikeout
+
+    public final void setRectangles(Set<Comment> rectangles) {
+        if (this.rectangles != null) {
+            this.rectangles.forEach(rectangle -> rectangle.setAnnotation(this));
+        }
+    }
+
 
 }

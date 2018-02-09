@@ -37,7 +37,7 @@ import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.*;
 
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles({"embedded", "local", "componenttest"})
+@ActiveProfiles({"local"})
 @SpringBootTest(webEnvironment = MOCK)
 @Transactional
 @EnableSpringDataWebSupport

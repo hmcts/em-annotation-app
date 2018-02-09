@@ -25,67 +25,84 @@ public class Helper {
 
 //    CONSTANT VARIABLES
 
+    public static final String DOCUMENT_URI = "https://localhost:4603/documents/" + UUID.randomUUID();
+
+    public static final Annotation GOOD_ANNOTATION_MINIMUM = Annotation.builder().build();
+
     public static final Annotation GOOD_ANNOTATION = Annotation.builder()
         .page((long) 10)
         .width((long) 100)
         .height((long) 100)
         .build();
 
-    public static final AnnotationSet GOOD_ANNOTATION_SET_COMPLETE = AnnotationSet.builder()
-        .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-        .annotations(
-            ImmutableSet.of(
-                GOOD_ANNOTATION,
-                Annotation.builder()
-                    .page(0)
-                    .type(AnnotationType.POINT)
-                    .colour("FFFFFF")
-                    .height((long) 0)
-                    .width((long) 10)
+    public static final Annotation GOOD_ANNOTATION_COMPLETE = Annotation.builder()
+        .page(0)
+        .type(AnnotationType.POINT)
+        .colour("FFFFFF")
+        .height((long) 0)
+        .width((long) 10)
+        .pointX((long) 0)
+        .pointY((long) 1)
+        .comments(ImmutableSet.of(
+            Comment.builder()
+                .content("some text")
+                .build(),
+            Comment.builder()
+                .content("some more text")
+                .build(),
+            Comment.builder()
+                .content("this is not a comment")
+                .build()
+        ))
+        .lines(
+            ImmutableList.of(
+                Point.builder()
                     .pointX((long) 0)
                     .pointY((long) 1)
-                    .lines(
-                        ImmutableList.of(
-                            Point.builder()
-                                .pointX((long) 0)
-                                .pointY((long) 1)
-                                .build(),
-                            Point.builder()
-                                .pointX((long) 10)
-                                .pointY((long) 20)
-                                .build()
-                        )
-                    )
-                    .rectangles(ImmutableSet.of(
-                        Rectangle.builder()
-                            .height((long) 0)
-                            .width((long) 10)
-                            .pointX((long) 0)
-                            .pointY((long) 1)
-                            .build(),
-                        Rectangle.builder()
-                            .height((long) 5)
-                            .width((long) 20)
-                            .pointX((long) 5)
-                            .pointY((long) 30)
-                            .build()
-                    ))
+                    .build(),
+                Point.builder()
+                    .pointX((long) 10)
+                    .pointY((long) 20)
                     .build()
+            )
+        )
+        .rectangles(ImmutableSet.of(
+            Rectangle.builder()
+                .height((long) 0)
+                .width((long) 10)
+                .pointX((long) 0)
+                .pointY((long) 1)
+                .build(),
+            Rectangle.builder()
+                .height((long) 5)
+                .width((long) 20)
+                .pointX((long) 5)
+                .pointY((long) 30)
+                .build()
+        ))
+        .build();
+
+    public static final AnnotationSet GOOD_ANNOTATION_SET_MINIMUM = AnnotationSet.builder()
+        .documentUri(DOCUMENT_URI)
+        .build();
+
+    public static final AnnotationSet GOOD_ANNOTATION_SET_WITH_ANNOTATION = AnnotationSet.builder()
+        .documentUri(DOCUMENT_URI)
+        .annotations(Collections.singleton(GOOD_ANNOTATION))
+        .build();
+
+    public static final AnnotationSet GOOD_ANNOTATION_SET_COMPLETE = AnnotationSet.builder()
+        .documentUri(DOCUMENT_URI)
+        .annotations(
+            ImmutableSet.of(
+                GOOD_ANNOTATION_MINIMUM,
+                GOOD_ANNOTATION,
+                GOOD_ANNOTATION_COMPLETE
             )
         )
         .build();
 
-    public static final AnnotationSet GOOD_ANNOTATION_SET_MINIMUM = AnnotationSet.builder()
-        .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-        .build();
-
-    public static final AnnotationSet GOOD_ANNOTATION_SET_WITH_ANNOTATION = AnnotationSet.builder()
-        .documentUri("https://localhost:4603/documents/" + UUID.randomUUID())
-        .annotations(Collections.singleton(GOOD_ANNOTATION))
-        .build();
-
     public static final AnnotationSet BAD_ANNOTATION_SET_MISSING_DOC_URI = AnnotationSet.builder().build();
-
 
     public static String GOOD_ANNOTATION_STR;
     public static String GOOD_ANNOTATION_SET_COMPLETE_STR;
