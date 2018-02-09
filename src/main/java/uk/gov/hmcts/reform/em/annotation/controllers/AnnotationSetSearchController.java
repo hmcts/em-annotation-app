@@ -14,6 +14,7 @@ import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetSearchService;
@@ -39,7 +40,7 @@ public class AnnotationSetSearchController {
         @ApiResponse(code = 200, message = "Success", response = PagedResources.class)
     })
     public ResponseEntity<PagedResources<Resource<AnnotationSet>>> findAllAnnotationSetByDocumentUrl(
-        @Valid @Param("url") String url,
+        @RequestParam("url") String url,
         Pageable pageable,
         PagedResourcesAssembler<AnnotationSet> assembler) {
 
