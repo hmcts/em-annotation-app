@@ -41,7 +41,7 @@ public class AnnotationSetSearchController {
         Pageable pageable,
         PagedResourcesAssembler<AnnotationSet> assembler) {
 
-        Page<AnnotationSet> page = storedAnnotationSetSearchService.searchByUrlDocumentUrl(url,pageable);
+        Page<AnnotationSet> page = storedAnnotationSetSearchService.searchByUrlDocumentUrl(url, pageable);
 
         return ResponseEntity.ok().body(assembler.toResource(page));
     }
