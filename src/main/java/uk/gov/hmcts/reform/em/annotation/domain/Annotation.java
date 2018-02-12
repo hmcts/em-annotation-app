@@ -59,7 +59,6 @@ public class Annotation {
         this.lines = lines;
         this.rectangles = rectangles;
         setComments(comments);
-
     }
 
     @Getter
@@ -111,7 +110,8 @@ public class Annotation {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
     private Set<Comment> comments;
 
-    public final void setComments(Set<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
         if (this.comments != null) {
             this.comments.forEach(comment -> comment.setAnnotation(this));
         }
