@@ -28,9 +28,11 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.RestActions;
 
 import java.util.UUID;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.*;
@@ -105,6 +107,19 @@ public class StoredAnnotationSetControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void postAnnotationSetOkWithAudit() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.createdBy").value("user"))
+            .andExpect(jsonPath("$.lastModifiedBy").value("user"))
+            .andExpect(jsonPath("$.createdOn").value(notNullValue()))
+            .andExpect(jsonPath("$.modifiedOn").value(notNullValue()));
     }
 
     @Test
