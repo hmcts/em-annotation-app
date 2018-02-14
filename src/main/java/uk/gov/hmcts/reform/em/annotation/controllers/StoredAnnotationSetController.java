@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
-import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetUpdateService;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -22,13 +21,10 @@ import java.util.UUID;
 public class StoredAnnotationSetController {
 
     private StoredAnnotationSetService storedAnnotationSetService;
-    private StoredAnnotationSetUpdateService storedAnnotationSetUpdateService;
 
     @Autowired
-    public StoredAnnotationSetController(StoredAnnotationSetService storedAnnotationSetService,
-                                         StoredAnnotationSetUpdateService storedAnnotationSetUpdateService) {
+    public StoredAnnotationSetController(StoredAnnotationSetService storedAnnotationSetService) {
         this.storedAnnotationSetService = storedAnnotationSetService;
-        this.storedAnnotationSetUpdateService = storedAnnotationSetUpdateService;
     }
 
     @PostMapping(value = "")
@@ -58,17 +54,6 @@ public class StoredAnnotationSetController {
             return ResponseEntity.notFound().build();
         }
 
-    }
-
-    @PutMapping(value = "{uuid}")
-    @ApiOperation("Update Annotation Set instance.")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = AnnotationSet.class),
-        @ApiResponse(code = 404, message = "Not Found")
-    })
-    public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
-        storedAnnotationSetUpdateService.updateAnnotationSet(uuid,body);
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(value = "{uuid}")

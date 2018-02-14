@@ -259,56 +259,6 @@ public class StoredAnnotationSetControllerTest {
 
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
-//////PUT/////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
-
-    @Test
-    public void putAnnotationSetOk() throws Exception {
-        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
-            .andExpect(status().isCreated())
-            .andReturn().getResponse();
-
-        final String url = getSelfUrlFromResponse(response);
-
-        mvc.perform(put(url)
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_COMPLETE_STR))
-            .andExpect(status().isOk());
-    }
-
-    @Test
-    public void putAnnotationSetFForbiddenNoBodyNoUser() throws Exception {
-        final MockHttpServletResponse response = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
-            .andExpect(status().isCreated())
-            .andReturn().getResponse();
-
-        final String url = getSelfUrlFromResponse(response);
-
-        mvc.perform(put(url)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_COMPLETE_STR))
-            .andExpect(status().isForbidden());
-    }
-
-    @Test
-    public void putAnnotationSetNotFound() throws Exception {
-        mvc.perform(put(ANNOTATION_SET_ENDPOINT + UUID.randomUUID())
-            .headers(headers)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
-            .andExpect(status().isNotFound());
-    }
-
-//////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
 //////DELETE//////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
