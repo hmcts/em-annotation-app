@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetService;
+import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetUpdateService;
 
 import javax.validation.Valid;
 import java.util.UUID;
@@ -21,10 +22,13 @@ import java.util.UUID;
 public class StoredAnnotationSetController {
 
     private StoredAnnotationSetService storedAnnotationSetService;
+    private StoredAnnotationSetUpdateService storedAnnotationSetUpdateService;
 
     @Autowired
-    public StoredAnnotationSetController(StoredAnnotationSetService storedAnnotationSetService) {
+    public StoredAnnotationSetController(StoredAnnotationSetService storedAnnotationSetService,
+                                         StoredAnnotationSetUpdateService storedAnnotationSetUpdateService) {
         this.storedAnnotationSetService = storedAnnotationSetService;
+        this.storedAnnotationSetUpdateService = storedAnnotationSetUpdateService;
     }
 
     @PostMapping(value = "")
@@ -63,7 +67,7 @@ public class StoredAnnotationSetController {
         @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity updateAnnotationSet(@PathVariable UUID uuid, @RequestBody @Valid AnnotationSet body) {
-        storedAnnotationSetService.updateAnnotationSet(uuid,body);
+        storedAnnotationSetUpdateService.updateAnnotationSet(uuid,body);
         return ResponseEntity.ok().build();
     }
 
