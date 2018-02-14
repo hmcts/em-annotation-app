@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
+import uk.gov.hmcts.reform.em.annotation.hateos.AnnotationSetHalResource;
 import uk.gov.hmcts.reform.em.annotation.service.StoredAnnotationSetSearchService;
 
 @RestController
 @RequestMapping(
     path = "/annotation-sets")
-@Api("Endpoint for Storing Annotation")
+@Api("Endpoint for manipulating Annotation Sets")
 public class AnnotationSetSearchController {
 
     private StoredAnnotationSetSearchService storedAnnotationSetSearchService;
@@ -39,15 +39,16 @@ public class AnnotationSetSearchController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = PagedResources.class)
     })
-    public ResponseEntity<PagedResources<Resource<AnnotationSet>>> findAllAnnotationSetByDocumentUrl(
+    public ResponseEntity<PagedResources<Resource<AnnotationSetHalResource>>> findAllAnnotationSetByDocumentUrl(
         @RequestParam("url") String url,
         @PageableDefault(size = 5)
         @SortDefault.SortDefaults({
             @SortDefault(sort = "createdOn", direction = Sort.Direction.DESC),
         })Pageable pageable,
-        PagedResourcesAssembler<AnnotationSet> assembler) {
+        PagedResourcesAssembler<AnnotationSetHalResource> assembler) {
 
-        Page<AnnotationSet> page = storedAnnotationSetSearchService.searchByUrlDocumentUrl(url, pageable);
+        Page<AnnotationSetHalResource> page = storedAnnotationSetSearchService.searchByUrlDocumentUrl(url, pageable)
+            .map(AnnotationSetHalResource::new);
 
         return ResponseEntity.ok().body(assembler.toResource(page));
     }
