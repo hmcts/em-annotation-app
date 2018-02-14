@@ -38,7 +38,7 @@ public class AnnotationService {
 
     public Annotation update(UUID uuid, Annotation annotation) {
         Annotation originalAnnotation = getById(uuid);
-        BeanUtils.copyProperties(annotation, originalAnnotation, "annotationSet");
+        BeanUtils.copyProperties(annotation, originalAnnotation, "annotationSet", "uuid");
         repository.save(originalAnnotation);
         return originalAnnotation;
     }
