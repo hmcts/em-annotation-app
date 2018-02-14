@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.em.annotation.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Builder
@@ -66,6 +64,7 @@ public class Annotation {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @JsonProperty("uuid")
     private UUID uuid;
 
     @Getter
@@ -107,7 +106,7 @@ public class Annotation {
     private long page;
 
     @Getter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "annotation")
     private Set<Comment> comments;
 
     public void setComments(Set<Comment> comments) {
@@ -162,5 +161,12 @@ public class Annotation {
         }
     }
 
+    public void update(Annotation newAnnotation) {
+        this.comments.clear();
+        this.comments.addAll(newAnnotation.comments);
+    }
 
+    public boolean isNew() {
+        return uuid == null;
+    }
 }

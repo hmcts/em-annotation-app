@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -40,9 +41,9 @@ public class AnnotationSet {
         setAnnotations(annotations);
     }
 
+    @Id
     @Getter
     @Setter
-    @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     private UUID uuid;
@@ -85,5 +86,8 @@ public class AnnotationSet {
         }
     }
 
+    public Optional<Annotation> findMatching(Annotation annotation) {
+        return annotations.stream().filter(anno -> anno.getUuid().equals(annotation.getUuid())).findFirst();
+    }
 }
 

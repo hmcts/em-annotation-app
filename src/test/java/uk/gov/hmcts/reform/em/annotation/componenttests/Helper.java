@@ -162,7 +162,7 @@ public class Helper {
             headers.putAll(
                 ImmutableMap.of(
                     "Authorization", Collections.singletonList(user),
-                    "ServiceAuthorization", Collections.singletonList("sscs"),
+                    "ServiceAuthorization", Collections.singletonList("em_gw"),
                     USER_ID_HEADER, Collections.singletonList(user),
                     USER_ROLES_HEADER, Collections.singletonList("caseworker-probate")
                 )
@@ -171,7 +171,7 @@ public class Helper {
             headers.putAll(
                 ImmutableMap.of(
                     "Authorization", Collections.singletonList(user),
-                    "ServiceAuthorization", Collections.singletonList("sscs"),
+                    "ServiceAuthorization", Collections.singletonList("em_gw"),
                     USER_ID_HEADER, Collections.singletonList(user),
                     USER_ROLES_HEADER, Collections.singletonList("citizen")
                 )
