@@ -13,7 +13,7 @@ public class ServiceResolverBackdoor implements SubjectResolver<Service> {
 
     @PostConstruct
     public void init() {
-        registerToken("sscs", "sscs");
+        registerToken("em_gw", "em_gw");
     }
 
     @Override

@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -26,10 +25,12 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.UserResolverBa
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.CustomResultMatcher;
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.RestActions;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static uk.gov.hmcts.reform.em.annotation.componenttests.Helper.*;
@@ -90,7 +91,7 @@ public class AnnotationSetSearchControllerTest {
 
 
     @Test
-    public void should_upload_empty_annotation_set_and_retive_annotation_set() throws Exception {
+    public void should_upload_empty_annotation_set_and_retrieve_annotation_set() throws Exception {
         mvc.perform(post(Helper.ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
@@ -106,28 +107,45 @@ public class AnnotationSetSearchControllerTest {
     }
 
     @Test
-    public void should_upload_empty_annotation_set_and_retive_annotation_set2() throws Exception {
+    public void should_upload_empty_annotation_set_and_retrieve_annotation_set2() throws Exception {
 
-        final MockHttpServletResponse response1 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
             .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
             .andReturn().getResponse();
 
-        final MockHttpServletResponse response2 = mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
             .content(GOOD_ANNOTATION_SET_COMPLETE_STR))
             .andReturn().getResponse();
 
-        final String url1 = getSelfUrlFromResponse(response1);
-        final String url2 = getSelfUrlFromResponse(response2);
-
-        final MockHttpServletResponse getResp = mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
+        mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
             .headers(headers)
             .param(URL_PARAM, DOCUMENT_URI))
             .andExpect(status().isOk())
             .andReturn().getResponse();
+    }
 
+    @Test
+    public void should_limit_sets_to_ones_created_by_the_user() throws Exception {
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(getHeaders("user"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET_MINIMUM_STR))
+            .andReturn().getResponse();
+
+        mvc.perform(post(ANNOTATION_SET_ENDPOINT)
+            .headers(getHeaders("user2"))
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(GOOD_ANNOTATION_SET_COMPLETE_STR))
+            .andReturn().getResponse();
+
+        mvc.perform(get(ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT)
+            .headers(headers)
+            .param(URL_PARAM, DOCUMENT_URI))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$._embedded.annotationSets", hasSize(1)));
     }
 }

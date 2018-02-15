@@ -107,7 +107,7 @@ public class Annotation {
     private long page;
 
     @Getter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "annotation")
     private Set<Comment> comments;
 
     public void setComments(Set<Comment> comments) {
@@ -162,5 +162,12 @@ public class Annotation {
         }
     }
 
+    public void update(Annotation newAnnotation) {
+        this.comments.clear();
+        this.comments.addAll(newAnnotation.comments);
+    }
 
+    public boolean isNew() {
+        return uuid == null;
+    }
 }
