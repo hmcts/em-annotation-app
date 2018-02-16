@@ -167,4 +167,9 @@ public class Annotation {
     public boolean isNew() {
         return uuid == null;
     }
+
+    public void addComment(Comment comment) {
+        comment.setAnnotation(this);
+        getComments().add(comment);
+    }
 }
