@@ -7,6 +7,7 @@ import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet;
 import uk.gov.hmcts.reform.em.annotation.repository.AnnotationRepository;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 @Service
@@ -38,7 +39,14 @@ public class AnnotationService {
 
     public Annotation update(UUID uuid, Annotation annotation) {
         Annotation originalAnnotation = getById(uuid);
-        BeanUtils.copyProperties(annotation, originalAnnotation, "annotationSet", "uuid");
+        BeanUtils.copyProperties(annotation, originalAnnotation, "annotationSet", "uuid", "comments");
+        if (originalAnnotation.getComments() == null) {
+            originalAnnotation.setComments(new HashSet<>());
+        }
+        originalAnnotation.getComments().clear();
+        if (annotation.getComments() != null) {
+            originalAnnotation.getComments().addAll(annotation.getComments());
+        }
         repository.save(originalAnnotation);
         return originalAnnotation;
     }

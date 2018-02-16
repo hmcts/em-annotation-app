@@ -13,10 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Builder
@@ -108,7 +105,7 @@ public class Annotation {
 
     @Getter
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "annotation")
-    private Set<Comment> comments;
+    private Set<Comment> comments = new HashSet<>();
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
