@@ -2,6 +2,7 @@ package uk.gov.hmcts.reform.em.annotation.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableSet;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,7 @@ import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.ServiceResolve
 import uk.gov.hmcts.reform.em.annotation.componenttests.backdoors.UserResolverBackdoor;
 import uk.gov.hmcts.reform.em.annotation.componenttests.sugar.RestActions;
 import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
+import uk.gov.hmcts.reform.em.annotation.domain.Comment;
 
 import java.io.IOException;
 
@@ -136,6 +138,32 @@ public class AnnotationControllerTest {
             .content(MAPPER.writeValueAsString(Annotation.builder().height(200L).build())))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.height", equalTo(200)))
+            .andExpect(jsonPath("$._links.self.href", containsString(annotationPostUrl)));
+    }
+
+    @Test
+    public void should_update_a_single_annotation_comment() throws Exception {
+        String annotationPostUrl = uploadAnnotationSetAndGetPostAnnotationUrl();
+
+        MockHttpServletResponse response = mvc.perform(post(annotationPostUrl)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(MAPPER.writeValueAsString(Annotation.builder()
+                .comments(ImmutableSet.of(Comment.builder().content("Comment").build()))
+                .build())))
+            .andExpect(jsonPath("$._links.self.href", notNullValue()))
+            .andReturn().getResponse();
+
+        String annotationSelfUrl = getAnnotationSelfUrlFromResponse(response);
+
+        mvc.perform(put(annotationSelfUrl)
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(MAPPER.writeValueAsString(Annotation.builder()
+                .comments(ImmutableSet.of(Comment.builder().content("New Comment").build()))
+                .build())))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.comments[0].content", equalTo("New Comment")))
             .andExpect(jsonPath("$._links.self.href", containsString(annotationPostUrl)));
     }
 
