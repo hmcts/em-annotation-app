@@ -11,6 +11,22 @@ module "em-annotation-app" {
     POSTGRES_DATABASE = "${module.em-annotation-postgres-db.postgresql_database}"
     POSTGRES_USER     = "${module.em-annotation-postgres-db.user_name}"
     POSTGRES_PASSWORD = "${module.em-annotation-postgres-db.postgresql_password}"
+
+    //    logging vars
+    REFORM_TEAM = "${var.product}"
+    REFORM_SERVICE_NAME = "em-annotation-app"
+    REFORM_ENVIRONMENT = "${var.env}"
+
+    SERVER_PORT = "8080"
+
+    //
+    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.em-annotation-postgres-db.host_name}:${module.em-annotation-postgres-db.postgresql_listen_port}/${module.em-annotation-postgres-db.postgresql_database}"
+    SPRING_DATASOURCE_USERNAME = "${module.em-annotation-postgres-db.user_name}"
+    SPRING_DATASOURCE_PASSWORD = "${module.em-annotation-postgres-db.postgresql_password}"
+
+    // idam
+    IDAM_CLIENT_URL = "${var.idam-api-url}"
+    PROVIDER_SERVICE_CLIENT_URL = "${var.s2s-url}"
   }
 }
 
