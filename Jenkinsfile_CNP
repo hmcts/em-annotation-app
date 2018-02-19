@@ -15,18 +15,17 @@ properties([
 
 def type = "java"
 def product = "em"
-def component = "em-annotation-app"
+def component = "annotation-app"
 
 def channel = '#dm-pipeline'
 
 withPipeline(type , product, component) {
 
     after('checkout') {
-        echo 'em-annotation-app out'
+        echo '${product}-${component} out'
     }
     enableSlackNotifications(channel)
 }
-
 
 
 
