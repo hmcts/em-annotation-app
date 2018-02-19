@@ -105,6 +105,14 @@ def versions = [
   liquibase          : '3.5.3',
 ]
 
+
+configurations {
+  testSmokeCompile.extendsFrom(testCompile)
+  testSmokeRuntime.extendsFrom(testRuntime)
+  testIntegrationCompile.extendsFrom(testCompile)
+  testIntegrationRuntime.extendsFrom(testRuntime)
+}
+
 dependencies {
   compile group: 'commons-io', name: 'commons-io', version: '2.5'
 
@@ -148,6 +156,52 @@ dependencies {
 
 }
 
+
+sourceSets {
+  testIntegration {
+    java {
+      compileClasspath += main.output + test.output
+      runtimeClasspath += main.output + test.output
+      srcDir('src/testIntegration/java')
+    }
+    resources {
+      srcDir('src/testIntegration/resources')
+    }
+  }
+
+  testSmoke {
+    java {
+      compileClasspath += main.output + test.output
+      runtimeClasspath += main.output + test.output
+      srcDir('src/testSmoke/java')
+    }
+    resources {
+      srcDir('src/testSmoke/resources')
+    }
+  }
+}
+
+dependencies {
+  testIntegrationCompile(sourceSets.test.output)
+  testSmokeCompile(sourceSets.test.output)
+}
+
+
+task functional(type: Test) {
+  group = 'Delivery pipeline'
+  description = 'Executes functional/intergation tests against'
+  setTestClassesDirs(sourceSets.testIntegration.output.classesDirs)
+  setClasspath(sourceSets.testIntegration.runtimeClasspath)
+  include "uk/gov/hmcts/reform/em/annotation/intergration/**"
+}
+
+task smoke(type: Test) {
+  group = 'Delivery pipeline'
+  description = 'Executes non-destructive smoke tests'
+  setTestClassesDirs(sourceSets.testSmoke.output.classesDirs)
+  setClasspath(sourceSets.testSmoke.runtimeClasspath)
+  include "uk/gov/hmcts/reform/em/annotation/smoke/**"
+}
 
 def coverageExclusionList = [
   '**uk/gov/hmcts/reform/em/annotation/domain/',
