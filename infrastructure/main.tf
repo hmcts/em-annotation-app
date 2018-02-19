@@ -41,7 +41,7 @@ module "em-annotation-postgres-db" {
 
 module "key-vault" {
   source              = "git@github.com:contino/moj-module-key-vault?ref=master"
-  product             = "${var.product}"
+  product             = "${var.product}-em-annotation-app"
   env                 = "${var.env}"
   tenant_id           = "${var.tenant_id}"
   object_id           = "${var.jenkins_AAD_objectId}"

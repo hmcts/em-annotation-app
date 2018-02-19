@@ -45,7 +45,9 @@ public class AnnotationService {
         }
         originalAnnotation.getComments().clear();
         if (annotation.getComments() != null) {
-            originalAnnotation.getComments().addAll(annotation.getComments());
+            annotation.getComments().forEach(comment -> {
+                originalAnnotation.addComment(comment);
+            });
         }
         repository.save(originalAnnotation);
         return originalAnnotation;

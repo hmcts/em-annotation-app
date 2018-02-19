@@ -96,5 +96,6 @@ public class AnnotationServiceTest {
 
         Comment updatedComment = updatedAnnotation.getComments().iterator().next();
         assertThat(updatedComment.getContent(), equalTo(newAnnotation.getComments().iterator().next().getContent()));
+        assertThat(updatedComment.getAnnotation(), equalTo(originalAnnotation));
     }
 }
