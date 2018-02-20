@@ -52,11 +52,11 @@ variable "java_opts" {
 // Endpoints
 ////////////////////////////////////////////////
 
-variable "idam-api-url" {
+variable "idam_api_url" {
   default = "http://betaDevBccidamAppLB.reform.hmcts.net:80"
 }
 
-variable "s2s-url" {
+variable "s2s_url" {
   default = "http://betaDevBccidamS2SLB.reform.hmcts.net:80"
 }
 ////////////////////////////////////////////////
@@ -116,4 +116,3 @@ variable "endpoints_info_sensitive" {
 ////////////////////////////////////////////////
 // Addtional
 ////////////////////////////////////////////////
-
