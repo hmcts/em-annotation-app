@@ -4,7 +4,7 @@ variable "product" {
 }
 
 variable "app_name" {
-  default = "annotation"
+  default = "anno"
 }
 
 variable "app_type" {
