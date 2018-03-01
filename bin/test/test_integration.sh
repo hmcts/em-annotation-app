@@ -1,7 +1,23 @@
 #!/bin/sh
+#if java gradle
+IDAM_USER_BASE_URI=http://localhost:4501
+IDAM_S2S_BASE_URI=http://localhost:4502
+EM_GW_BASE_URI=http://localhost:3623
+EM_ANNO_APP_BASE_URI=http://localhost:4621
+TEST_TOKEN=$(./bin/idam/idam-get-user-token.sh user1a@test.com 123 http://localhost:4501)
+
+echo ${TEST_TOKEN}
+
+./gradlew clean
 ./gradlew installDist bootRepackage
 
-docker-compose down
+docker-compose -f ./docker/compose/docker-compose-dm.yml \
+-f ./docker/compose/docker-compose-dm-ports.yml \
+-f ./docker/compose/docker-compose-em.yml \
+-f ./docker/compose/docker-compose-em-ports.yml \
+-f ./docker/compose/docker-compose-idam.yml \
+-f ./docker/compose/docker-compose-idam-ports.yml \
+down
 
 docker-compose -f ./docker/compose/docker-compose-dm.yml \
 -f ./docker/compose/docker-compose-dm-ports.yml \
@@ -11,7 +27,7 @@ docker-compose -f ./docker/compose/docker-compose-dm.yml \
 -f ./docker/compose/docker-compose-idam-ports.yml \
 pull
 
-docker-compose docker-compose -f ./docker/compose/docker-compose-dm.yml \
+docker-compose -f ./docker/compose/docker-compose-dm.yml \
 -f ./docker/compose/docker-compose-dm-ports.yml \
 -f ./docker/compose/docker-compose-em.yml \
 -f ./docker/compose/docker-compose-em-ports.yml \
@@ -19,31 +35,25 @@ docker-compose docker-compose -f ./docker/compose/docker-compose-dm.yml \
 -f ./docker/compose/docker-compose-idam-ports.yml \
 up -d --build
 
-docker-compose -f ./docker/compose/docker-compose-dm.yml \
--f ./docker/compose/docker-compose-dm-ports.yml \
--f ./docker/compose/docker-compose-em.yml \
--f ./docker/compose/docker-compose-em-ports.yml \
--f ./docker/compose/docker-compose-idam.yml \
--f ./docker/compose/docker-compose-idam-ports.yml \
--f ./docker/compose/docker-compose-test.yml \
-run document-management-store-integration-tests
+echo "Waiting for the docker to warm up"
+#sleep 60s
+wget --retry-connrefused --tries=120 --waitretry=1 -O /dev/null ${EM_ANNO_APP_BASE_URI}/health
 
-docker-compose -f ./docker/compose/docker-compose-dm.yml \
--f ./docker/compose/docker-compose-dm-ports.yml \
--f ./docker/compose/docker-compose-em.yml \
--f ./docker/compose/docker-compose-em-ports.yml \
--f ./docker/compose/docker-compose-idam.yml \
--f ./docker/compose/docker-compose-idam-ports.yml \
--f ./docker/compose/docker-compose-test.yml \
-run document-management-store-performance-tests
+#####################
+# SMOKE TEST ########
+#####################
+TEST_TOKEN=$TEST_TOKEN ./gradlew smoke --info
 
-docker-compose -f ./docker/compose/docker-compose-dm.yml \
--f ./docker/compose/docker-compose-dm-ports.yml \
--f ./docker/compose/docker-compose-em.yml \
--f ./docker/compose/docker-compose-em-ports.yml \
--f ./docker/compose/docker-compose-idam.yml \
--f ./docker/compose/docker-compose-idam-ports.yml \
--f ./docker/compose/docker-compose-test.yml \
-run document-management-store-smoke-tests
+xdg-open smokeTests/build/reports/tests/smoke/index.html
+open smokeTests/build/reports/tests/smoke/index.html
+
+#####################
+# INTERGATION TEST ##
+#####################
+./gradlew functional --info
+
+xdg-open functionalTests/build/reports/tests/functional/index.html
+open functionalTests/build/reports/tests/functional/index.html
+
 
 docker-compose down

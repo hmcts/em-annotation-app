@@ -1,4 +1,5 @@
 #!/bin/sh
-clear;
-./gradlew installDist bootRepackage; docker-compose up --build;
 
+clear;
+./bin/fakeversion.sh
+./gradlew bootRun
