@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/hmcts/em-annotation-app.svg?branch=master)](https://travis-ci.org/hmcts/em-annotation-app)
 [![codecov](https://codecov.io/gh/hmcts/em-annotation-app/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/em-annotation-app)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8a50dd2a7b9144029e8547bf019fe2c7)](https://www.codacy.com/app/HMCTS/em-annotation-app)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/8a50dd2a7b9144029e8547bf019fe2c7)](https://www.codacy.com/app/HMCTS/em-annotation-app)
 [![Known Vulnerabilities](https://snyk.io/test/github/hmcts/em-annotation-app/badge.svg)](https://snyk.io/test/github/hmcts/em-annotation-app)
 
 Document Management is a backend service to store and retrieve documents.
