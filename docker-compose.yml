@@ -30,6 +30,3 @@ services:
     build:
       context: ./docker/database
     image: docker.artifactory.reform.hmcts.net/evidence/em-annotation-app-database:latest
-    ports:
-      # check .env
-      - 5432:5432

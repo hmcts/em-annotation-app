@@ -20,14 +20,10 @@ def component = "anno-app"
 def channel = '#dm-pipeline'
 
 withPipeline(type , product, component) {
+    env.IDAM_S2S_BASE_URI="http://betaDevBccidamS2SLB.reform.hmcts.net"
 
     after('checkout') {
         echo '${product}-${component} out'
     }
     enableSlackNotifications(channel)
 }
-
-
-
-
-
