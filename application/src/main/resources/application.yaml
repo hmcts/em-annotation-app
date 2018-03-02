@@ -1,3 +1,6 @@
+api:
+  version: 0.0.1
+
 spring:
   data:
     rest:
@@ -90,4 +93,4 @@ management:
     enabled: true
 
 toggle:
-  includeidamhealth: ${ENABLE_IDAM_HEALTH_CHECK:true}
+  includeidamhealth: ${ENABLE_IDAM_HEALTH_CHECK:false}

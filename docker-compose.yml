@@ -17,14 +17,13 @@ services:
       - REFORM_SERVICE_TYPE=java
       - REFORM_SERVICE_NAME=em-annotation-app
       - REFORM_TEAM=evidence
-      - REFORM_ENVIRONMENT=local
+      - REFORM_ENVIRONMENT=docker
     links:
       - em-annotation-app-database
     depends_on:
       - em-annotation-app-database
     ports:
-      # check .env
-      - $SERVER_PORT:8080
+    - $SERVER_PORT:8080
 
   em-annotation-app-database:
     build:

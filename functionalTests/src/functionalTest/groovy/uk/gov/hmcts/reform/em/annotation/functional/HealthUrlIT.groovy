@@ -6,9 +6,6 @@ import org.springframework.test.context.junit4.SpringRunner
 
 import static org.hamcrest.Matchers.equalTo
 
-/**
- * Created by pawel on 13/10/2017.
- */
 @RunWith(SpringRunner.class)
 class HealthUrlIT extends BaseIT {
 
@@ -16,14 +13,11 @@ class HealthUrlIT extends BaseIT {
     void "Check health"() {
         givenUnauthenticatedRequest()
             .expect()
-                .body('status', equalTo('UP'))
-
-                .body('diskSpace.status', equalTo('UP'))
-
-                .body('db.status', equalTo('UP'))
+            .body('status', equalTo('UP'))
+            .body('diskSpace.status', equalTo('UP'))
+            .body('db.status', equalTo('UP'))
             .when()
-                .get('/health')
+            .get('/health')
     }
-
 
 }

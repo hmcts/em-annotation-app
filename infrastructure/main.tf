@@ -58,6 +58,9 @@ module "app" {
 
     # S2S_NAMES_WHITELIST = "${var.s2s_names_whitelist}"
     # CASE_WORKER_ROLES = "${var.case_worker_roles}"
+    
+    # Toggles
+    ENABLE_IDAM_HEALTH_CHECK = "false"
   }
 }
 

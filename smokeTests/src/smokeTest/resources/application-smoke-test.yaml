@@ -1,7 +1,7 @@
 base-urls.em-api-gw-web=${EM_GW_BASE_URI:http://localhost:3603}
 base-urls.idam-user=${IDAM_USER_BASE_URI:http://localhost:4501}
 base-urls.idam-s2s=${IDAM_S2S_BASE_URI:http://localhost:4502}
-base-urls.em-anno-app=${TEST_URL:http://localhost:4603}
+base-urls.em-anno-app=${TEST_URL:http://localhost:4621}
 
 login.username=${TEST_USERNAME:test@test.com}
 login.password=${TEST_PASSWORD:password}
