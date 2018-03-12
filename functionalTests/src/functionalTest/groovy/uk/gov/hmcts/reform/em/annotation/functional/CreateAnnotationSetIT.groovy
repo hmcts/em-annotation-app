@@ -8,18 +8,62 @@ import org.springframework.test.context.junit4.SpringRunner
 class CreateAnnotationSetIT extends BaseIT {
 
     @Test
-    void "AN1 As a user I can Annotate Page 1 of a PDF"() {
-        String dmResponse = docStoreProvider.createDocumentAndGetUrlAs(CITIZEN)
-        print(dmResponse)
+    void "ANB1 As a authenticated user and an owner of the document I can create a new annotation" () {
 
-        emAnnoResponse = annotationProvider.createAnnoationSet(CITIZEN)
-        print(emAnnoResponse)
-//        Given that I have Uploaded to DM Store App
-//        When I Create An AnnotationSet
-//        Then Return 200
-//        And Body Contains:
-//        Correct Document URI
-//        Correct Annotations
+        def request = annotationProvider
+            .givenEMAnnoRequest(CITIZEN)
+            .body(annotationProvider.GOOD_ANNOTATION_SET_COMPLETE)
+
+        request
+            .expect()
+                .statusCode(201)
+            .when()
+                .post("/annotation-sets")
+
     }
 
+    @Test
+    void "ANB2 As a caseworker I can create a new annotation" () {
+
+        def request = annotationProvider
+            .givenEMAnnoRequest(CITIZEN, ["caseworker-probate"])
+            .body(annotationProvider.GOOD_ANNOTATION_SET_COMPLETE)
+
+        request
+            .expect()
+            .statusCode(201)
+            .when()
+            .post("/annotation-sets")
+
+    }
+
+    @Test
+    void "ANB3 As a unauthenticated user I should get StatusCode 401" () {
+
+        def request = annotationProvider
+            .givenEmAnnotationUnauthenticatedRequest()
+            .body(annotationProvider.GOOD_ANNOTATION_SET_COMPLETE)
+
+        request
+            .expect()
+                .statusCode(403)
+            .when()
+                .post("/annotation-sets")
+
+    }
+
+    @Test
+    void "ANB4 As a authenticated user, but not an owner of the document I should get StatusCode 403" () {
+
+        def request = annotationProvider
+            .givenEMAnnoRequest(CITIZEN)
+            .body(annotationProvider.GOOD_ANNOTATION_SET_COMPLETE)
+
+        request
+            .expect()
+            .statusCode(403)
+            .when()
+            .post("/annotation-sets")
+
+    }
 }

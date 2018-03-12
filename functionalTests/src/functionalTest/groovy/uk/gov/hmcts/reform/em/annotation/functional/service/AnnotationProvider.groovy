@@ -14,20 +14,22 @@ import static io.restassured.RestAssured.given
 
 @Service
 class AnnotationProvider {
-    final String emAnnoAppBaseUri
-    final AuthTokenProvider authTokenProvider
 
-    final String DOCUMENT_URI = "https://localhost:4603/documents/" + UUID.randomUUID();
+    String emAnnoAppBaseUri
 
-    final Annotation GOOD_ANNOTATION_MINIMUM = Annotation.builder().build();
+    AuthTokenProvider authTokenProvider
 
-    final Annotation GOOD_ANNOTATION = Annotation.builder()
+    String DOCUMENT_URI = "https://localhost:4603/documents/" + UUID.randomUUID()
+
+    Annotation GOOD_ANNOTATION_MINIMUM = Annotation.builder().build()
+
+    Annotation GOOD_ANNOTATION = Annotation.builder()
         .page((long) 10)
         .width((long) 100)
         .height((long) 100)
         .build()
 
-    final Annotation GOOD_ANNOTATION_COMPLETE = Annotation.builder()
+    Annotation GOOD_ANNOTATION_COMPLETE = Annotation.builder()
         .page(0)
         .type(AnnotationType.POINT)
         .colour("FFFFFF")
@@ -72,18 +74,18 @@ class AnnotationProvider {
             .pointY((long) 30)
             .build()
     ))
-        .build();
+        .build()
 
-    final AnnotationSet GOOD_ANNOTATION_SET_MINIMUM = AnnotationSet.builder()
+    AnnotationSet GOOD_ANNOTATION_SET_MINIMUM = AnnotationSet.builder()
         .documentUri(DOCUMENT_URI)
-        .build();
+        .build()
 
-    final AnnotationSet GOOD_ANNOTATION_SET_WITH_ANNOTATION = AnnotationSet.builder()
+    AnnotationSet GOOD_ANNOTATION_SET_WITH_ANNOTATION = AnnotationSet.builder()
         .documentUri(DOCUMENT_URI)
         .annotations(Collections.singleton(GOOD_ANNOTATION))
-        .build();
+        .build()
 
-    final AnnotationSet GOOD_ANNOTATION_SET_COMPLETE = AnnotationSet.builder()
+    AnnotationSet GOOD_ANNOTATION_SET_COMPLETE = AnnotationSet.builder()
         .documentUri(DOCUMENT_URI)
         .annotations(
         ImmutableSet.of(
@@ -94,13 +96,13 @@ class AnnotationProvider {
     )
         .build()
 
-    final AnnotationSet BAD_ANNOTATION_SET_MISSING_DOC_URI = AnnotationSet.builder().build();
+    AnnotationSet BAD_ANNOTATION_SET_MISSING_DOC_URI = AnnotationSet.builder().build()
 
-    String GOOD_ANNOTATION_STR;
-    String GOOD_ANNOTATION_SET_COMPLETE_STR;
-    String GOOD_ANNOTATION_SET_MINIMUM_STR;
-    String GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR;
-    String BAD_ANNOTATION_SET_MISSING_DOC_URI_STR;
+    String GOOD_ANNOTATION_STR
+    String GOOD_ANNOTATION_SET_COMPLETE_STR
+    String GOOD_ANNOTATION_SET_MINIMUM_STR
+    String GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR
+    String BAD_ANNOTATION_SET_MISSING_DOC_URI_STR
 
     @Autowired
     AnnotationProvider(
@@ -111,32 +113,34 @@ class AnnotationProvider {
         this.authTokenProvider = authTokenProvider
         System.out.println("EM ANNO APP URL - " + emAnnoAppBaseUri)
 
-        GOOD_ANNOTATION_STR = convertObjectToJsonString(GOOD_ANNOTATION);
-        GOOD_ANNOTATION_SET_COMPLETE_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_COMPLETE);
-        GOOD_ANNOTATION_SET_MINIMUM_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_MINIMUM);
-        GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_WITH_ANNOTATION);
-        BAD_ANNOTATION_SET_MISSING_DOC_URI_STR = convertObjectToJsonString(BAD_ANNOTATION_SET_MISSING_DOC_URI);
+        GOOD_ANNOTATION_STR = convertObjectToJsonString(GOOD_ANNOTATION)
+        GOOD_ANNOTATION_SET_COMPLETE_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_COMPLETE)
+        GOOD_ANNOTATION_SET_MINIMUM_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_MINIMUM)
+        GOOD_ANNOTATION_SET_WITH_ANNOTATION_STR = convertObjectToJsonString(GOOD_ANNOTATION_SET_WITH_ANNOTATION)
+        BAD_ANNOTATION_SET_MISSING_DOC_URI_STR = convertObjectToJsonString(BAD_ANNOTATION_SET_MISSING_DOC_URI)
 
     }
 
     def createAnnoationSetAndGetUrlAs(username, annotationSet=null) {
-        createAnnoationSet(username, filename, annotationSet)
+        createAnnotationSet(username, filename, annotationSet)
             .path("_embedded.annotationset[0]._links.self.href")
     }
 
-    def createAnnoationSet(username, annotationSet=null) {
+    def createAnnotationSet(username, annotationSet=null) {
         def request = givenEMAnnoRequest(username)
-            .body()
+            .log().all()
+            .contentType('application/json')
+            .body(annotationSet)
 
         request
             .expect()
-            .statusCode(200)
+            .statusCode(201)
             .when()
-            .post("/annotationSet")
+            .post("/annotation-sets")
     }
 
     def givenEMAnnoRequest(username = null, userRoles = null) {
-        def request =  given().baseUri(emAnnoAppBaseUri)
+        def request =  given().baseUri(emAnnoAppBaseUri).log().all().contentType('application/json')
         if (username) {
             request = request.header("serviceauthorization", serviceToken())
             if (username) {
@@ -147,6 +151,10 @@ class AnnotationProvider {
             }
         }
         request
+    }
+
+    def givenEmAnnotationUnauthenticatedRequest() {
+        given().baseUri(emAnnoAppBaseUri).log().all().contentType('application/json')
     }
 
     def serviceToken() {

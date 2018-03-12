@@ -26,6 +26,8 @@ configurations {
 }
 
 dependencies {
+    compile project(':application')
+
     compile group: 'com.google.guava', name :'guava', version:'21.0'
 
     compile group: 'org.codehaus.groovy', name :'groovy-all', version:'2.4.7'
