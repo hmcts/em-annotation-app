@@ -87,15 +87,75 @@ class CreateAnnotationSetIT extends BaseIT {
     @Test
     void "ANB7 As a authenticated user, when I load the document annotations I get 200"() {
 
-        def documentUrl = docStoreProvider.createDocumentAndGetUrlAs CITIZEN
-
-        String annotationUrl = annotationProvider.
-            createAnnotationSetAndGetUrlAs CITIZEN, AnnotationSet.builder().documentUri(documentUrl).build()
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
 
         annotationProvider
             .givenAnnotationApiRequest(CITIZEN)
             .expect()
                 .statusCode(200)
+            .when()
+                .get(annotationUrl.toURL())
+    }
+
+    @Test
+    void "ANB8 As a caseworker, when I load the document annotations I get 200"() {
+
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
+
+        annotationProvider
+            .givenAnnotationApiRequest(CASEWORKER, ['caseworker-probate'])
+            .expect()
+                .statusCode(200)
+            .when()
+                .get(annotationUrl.toURL())
+    }
+
+    @Test
+    void "ANB9 As a unauthenticated user, when I load the document annotations I get 403"() {
+
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
+
+        annotationProvider
+            .givenAnnotationApiRequest()
+            .expect()
+            .statusCode(403)
+            .when()
+            .get(annotationUrl.toURL())
+    }
+
+    @Test
+    void "ANB10 As a authenticated user but not the owner, when I load the document annotations I get 403"() {
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
+
+        annotationProvider
+            .givenAnnotationApiRequest(CITIZEN_2)
+            .expect()
+            .statusCode(403)
+            .when()
+            .get(annotationUrl.toURL())
+    }
+
+    @Test
+    void "ANB11 As a authenticated user, when I GET the annotations with invalid header I should get StatusCode 406"() {
+        //?
+    }
+
+    @Test
+    void "ANB12 As a authenticated user, when I DELETE the document annotations I get 204" () {
+
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
+
+        annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+                .expect()
+            .statusCode(204)
+                .when()
+            .delete(annotationUrl.toURL())
+
+        annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+                .expect()
+            .statusCode(404)
             .when()
                 .get(annotationUrl.toURL())
     }

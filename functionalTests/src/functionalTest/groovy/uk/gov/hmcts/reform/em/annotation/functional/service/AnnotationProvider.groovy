@@ -128,7 +128,10 @@ class AnnotationProvider {
             .path("_links.self.href")
     }
 
-    def createAnnotationSet(username, annotationSet=null) {
+    def createAnnotationSet(username, annotationSet = null) {
+        if (!annotationSet) {
+            annotationSet = buildCompleteAnnotationSet username
+        }
         def request = givenAnnotationApiRequest(username)
             .log().all()
             .contentType('application/json')
@@ -170,5 +173,7 @@ class AnnotationProvider {
             .build()
 
     }
+
+
 
 }

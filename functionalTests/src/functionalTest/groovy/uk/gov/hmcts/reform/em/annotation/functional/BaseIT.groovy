@@ -21,4 +21,8 @@ class BaseIT {
 
     String CITIZEN_2 = 'test22@test.com'
 
+    String CASEWORKER = 'caseworker-probate'
+
+
+
 }
