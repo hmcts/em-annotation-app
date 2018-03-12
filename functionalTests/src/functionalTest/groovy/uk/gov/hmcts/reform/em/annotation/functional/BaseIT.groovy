@@ -19,4 +19,6 @@ class BaseIT {
 
     String CITIZEN = 'test12@test.com'
 
+    String CITIZEN_2 = 'test22@test.com'
+
 }
