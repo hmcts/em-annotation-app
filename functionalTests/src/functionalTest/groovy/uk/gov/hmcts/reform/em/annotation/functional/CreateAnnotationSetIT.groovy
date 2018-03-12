@@ -159,4 +159,40 @@ class CreateAnnotationSetIT extends BaseIT {
             .when()
                 .get(annotationUrl.toURL())
     }
+
+    @Test
+    void "ANB13 As a caseworker, when I load the document annotations I get 204 ???"() {
+        //?
+    }
+
+    @Test
+    void "ANB14 As a unauthenticated user, when I try to DELETE document's annotations I get 401"() {
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
+
+        annotationProvider
+            .givenAnnotationApiRequest()
+            .expect()
+            .statusCode(403)
+            .when()
+            .delete(annotationUrl.toURL())
+    }
+
+    @Test
+    void "ANB15 As a authenticated user but not the owner, when I try to DELETE document's annotations I get 403"() {
+
+        String annotationUrl = annotationProvider.createAnnotationSetAndGetUrlAs CITIZEN
+
+        annotationProvider
+            .givenAnnotationApiRequest(CITIZEN_2)
+            .expect()
+            .statusCode(403)
+            .when()
+            .delete(annotationUrl.toURL())
+
+    }
+
+    @Test
+    void "ANB16 As a authenticated user/ caseworker, when I POST the document annotations to /annotationsSets/{id}/annotations, I get 201"() {
+        //?
+    }
 }
