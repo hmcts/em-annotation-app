@@ -23,12 +23,12 @@ class AnnotationProvider {
 
 //    Annotation GOOD_ANNOTATION_MINIMUM = Annotation.builder().build()
 //
-//    Annotation GOOD_ANNOTATION = Annotation.builder()
-//        .page((long) 10)
-//        .width((long) 100)
-//        .height((long) 100)
-//        .build()
-//
+    Annotation GOOD_ANNOTATION = Annotation.builder()
+        .page((long) 10)
+        .width((long) 100)
+        .height((long) 100)
+        .build()
+
     Annotation GOOD_ANNOTATION_COMPLETE = Annotation.builder()
         .page(0)
         .type(AnnotationType.POINT)
@@ -158,19 +158,19 @@ class AnnotationProvider {
         request
     }
 
-    def buildCompleteAnnotationSet(documentCreator = null) {
+    def buildCompleteAnnotationSet(String documentCreator, Set<Annotation> annotations = null) {
 
         def documentUrl = documentStoreProvider.createDocumentAndGetUrlAs documentCreator
 
-        AnnotationSet
-            .builder()
-                .documentUri(documentUrl)
-                .annotations(
-                    ImmutableSet.of(
-                        GOOD_ANNOTATION_COMPLETE
-                    )
-                )
-            .build()
+
+        def annotationSetBuilder = AnnotationSet.builder()
+                                    .documentUri(documentUrl)
+
+        if (annotations) {
+            annotationSetBuilder.annotations(annotations)
+        }
+
+        annotationSetBuilder.build()
 
     }
 

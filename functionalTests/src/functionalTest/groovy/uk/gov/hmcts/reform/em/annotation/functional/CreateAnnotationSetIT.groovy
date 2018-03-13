@@ -5,6 +5,8 @@ import org.junit.runner.RunWith
 import org.springframework.test.context.junit4.SpringRunner
 import uk.gov.hmcts.reform.em.annotation.domain.AnnotationSet
 
+import static org.hamcrest.Matchers.equalTo
+
 @RunWith(SpringRunner.class)
 class CreateAnnotationSetIT extends BaseIT {
 
@@ -67,9 +69,18 @@ class CreateAnnotationSetIT extends BaseIT {
     }
 
     @Test
-    void "ANB5 As a authenticated user, when I add the annotations with invalid header I should get StatusCode 406" () {
+    void "ANB5 As a authenticated user, when I add the annotations with invalid Accept header I should get StatusCode 406" () {
 
-        //?
+        def request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+            .accept("text/plain")
+            .body(annotationProvider.buildCompleteAnnotationSet(CITIZEN))
+
+        request
+            .expect()
+                .statusCode(406)
+            .when()
+                .post("/annotation-sets")
 
     }
 
@@ -137,7 +148,17 @@ class CreateAnnotationSetIT extends BaseIT {
 
     @Test
     void "ANB11 As a authenticated user, when I GET the annotations with invalid header I should get StatusCode 406"() {
-        //?
+
+        String annotationSetUrl = annotationProvider
+            .createAnnotationSetAndGetUrlAs CITIZEN, annotationProvider.buildCompleteAnnotationSet(CITIZEN, [annotationProvider.GOOD_ANNOTATION_COMPLETE] as Set)
+
+        annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+            .accept('text/plain')
+            .expect()
+                .statusCode(406)
+            .when()
+                .get(annotationSetUrl)
     }
 
     @Test
@@ -193,6 +214,71 @@ class CreateAnnotationSetIT extends BaseIT {
 
     @Test
     void "ANB16 As a authenticated user/ caseworker, when I POST the document annotations to /annotationsSets/{id}/annotations, I get 201"() {
-        //?
+
+        def emptyAnnotationSet = annotationProvider.buildCompleteAnnotationSet CITIZEN
+
+        def request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+            .body(emptyAnnotationSet)
+
+        def annotationSetResponse = request
+            .expect()
+                .statusCode(201)
+            .when()
+                .post("/annotation-sets")
+
+        String annotationSetUrl = annotationSetResponse.path("_links.self.href")
+
+        request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+            .body(annotationProvider.GOOD_ANNOTATION)
+
+        def createAnnotationResponse = request
+            .expect()
+                .statusCode(201)
+            .when()
+               .post(annotationSetUrl + '/annotations')
+
+        String annotationUrl = createAnnotationResponse.path("_links.self.href")
+
+        request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+            .body(annotationProvider.GOOD_ANNOTATION_COMPLETE)
+
+        def updateAnnotationResponse = request
+            .expect()
+                .statusCode(200)
+            .when()
+                .put(annotationUrl)
+
+        request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+
+        def getAnnotationResponse = request
+            .expect()
+                .statusCode(200)
+                .body("colour", equalTo('FFFFFF'))
+            .when()
+                .get(annotationUrl)
+
+        request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+
+        def deleteAnnotationResponse = request
+            .expect()
+                .statusCode(204)
+            .when()
+                .delete(annotationUrl)
+
+        request = annotationProvider
+            .givenAnnotationApiRequest(CITIZEN)
+
+        def afterDeleteGetAnnotationResponse = request
+            .expect()
+                .statusCode(404)
+            .when()
+                .get(annotationUrl)
+
+
     }
 }

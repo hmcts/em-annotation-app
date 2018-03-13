@@ -11,7 +11,7 @@ import uk.gov.hmcts.reform.em.annotation.service.AnnotationService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("annotation-sets/{annotationSetId}/annotation")
+@RequestMapping("annotation-sets/{annotationSetId}/annotations")
 @Api("End point for manipulating annotations")
 public class AnnotationController {
 
