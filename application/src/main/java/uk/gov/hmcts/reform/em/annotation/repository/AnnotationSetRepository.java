@@ -14,9 +14,8 @@ import java.util.UUID;
 @Repository
 public interface AnnotationSetRepository extends PagingAndSortingRepository<AnnotationSet, UUID> {
 
-    @Query("select s from AnnotationSet s where s.documentUri = :#{#url} and createdBy = :#{#userId}")
-    Page<AnnotationSet> searchByUrlDocumentUrl(@NonNull @Param("url") String url,
-                                               @NonNull @Param("userId") String userId,
+    Page<AnnotationSet> findAllByDocumentUriAndCreatedBy(@NonNull String url,
+                                               @NonNull String userId,
                                                @NonNull Pageable pageable);
 
 }

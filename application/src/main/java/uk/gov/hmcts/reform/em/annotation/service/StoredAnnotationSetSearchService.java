@@ -23,7 +23,7 @@ public class StoredAnnotationSetSearchService {
     }
 
     public Page<AnnotationSet> searchByUrlDocumentUrl(@NonNull String url, @NonNull Pageable pageable) {
-        return annotationSetRepository.searchByUrlDocumentUrl(url, securityUtilService.getUserId(), pageable);
+        return annotationSetRepository.findAllByDocumentUriAndCreatedBy(url, securityUtilService.getUserId(), pageable);
     }
 
 
