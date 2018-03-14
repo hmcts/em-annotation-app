@@ -44,6 +44,7 @@ TEST_TOKEN=$TEST_TOKEN ./gradlew smoke --info
 
 xdg-open smokeTests/build/reports/tests/smoke/index.html
 open smokeTests/build/reports/tests/smoke/index.html
+start "" smokeTests/build/reports/tests/smoke/index.html
 
 #####################
 # INTERGATION TEST ##
@@ -52,6 +53,7 @@ open smokeTests/build/reports/tests/smoke/index.html
 
 xdg-open functionalTests/build/reports/tests/functional/index.html
 open functionalTests/build/reports/tests/functional/index.html
+start "" functionalTests/build/reports/tests/functional/index.html
 
 
 docker-compose down

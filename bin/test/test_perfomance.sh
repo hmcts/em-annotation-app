@@ -15,3 +15,4 @@ TEST_TOKEN=$(./bin/idam/idam-get-user-token.sh user1a@test.com 123 http://localh
 
 #xdg-open build/reports/gatling/*/index.html
 #open build/reports/gatling/*/index.html
+#start "" build/reports/gatling/*/index.html
