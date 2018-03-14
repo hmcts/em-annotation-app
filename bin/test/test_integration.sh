@@ -7,7 +7,6 @@ TEST_TOKEN=$(./bin/idam/idam-get-user-token.sh user1a@test.com 123 http://localh
 
 echo ${TEST_TOKEN}
 
-./gradlew clean
 ./gradlew installDist bootRepackage
 
 docker-compose -f ./docker/compose/docker-compose-dm.yml \
