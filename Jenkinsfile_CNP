@@ -11,7 +11,7 @@ properties([
     ])
 ])
 
-@Library("Infrastructure")
+@Library("Infrastructure@alectronic0-patch-1")
 
 def type = "java"
 def product = "em"
@@ -28,15 +28,11 @@ withPipeline(type , product, component) {
 
     after('build'){
 //        mv version
-        steps.sh ''' mkdir -p application/src/main/resources/META-INF
-        tee application/src/main/resources/META-INF/build-info.properties <<EOF 2>/dev/null
-        build.version=$(./gradlew -q printVersion)
-build.number=${BUILD_NUMBER}
-build.commit=$(git rev-parse --short HEAD)
-build.date=$(date)
-EOF
-
-'''
+        sh 'mkdir -p application/src/main/resources/META-INF'
+        sh 'echo "build.version=$(./gradlew -q printVersion)" >> application/src/main/resources/META-INF/build-info.properties'
+        sh 'echo "build.number=${BUILD_NUMBER}" >> application/src/main/resources/META-INF/build-info.properties'
+        sh 'echo "build.commit=$(git rev-parse --short HEAD)" >> application/src/main/resources/META-INF/build-info.properties'
+        sh 'echo "build.date=$(date)" >> application/src/main/resources/META-INF/build-info.properties'
     }
 
     after('test'){

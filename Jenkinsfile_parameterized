@@ -12,4 +12,18 @@ properties([
 ])
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
+//    enableSlackNotifications(channel)
+
+//    after('checkout') {
+//        echo '${product}-${component} out'
+//    }
+//
+//    after('build'){
+////        mv version
+//        sh 'mkdir -p application/src/main/resources/META-INF'
+//        sh 'echo "build.version=$(./gradlew -q printVersion)" >> application/src/main/resources/META-INF/build-info.properties'
+//        sh 'echo "build.number=${BUILD_NUMBER}" >> application/src/main/resources/META-INF/build-info.properties'
+//        sh 'echo "build.commit=$(git rev-parse --short HEAD)" >> application/src/main/resources/META-INF/build-info.properties'
+//        sh 'echo "build.date=$(date)" >> application/src/main/resources/META-INF/build-info.properties'
+//    }
 }
