@@ -12,3 +12,4 @@ TEST_TOKEN=$(./bin/idam/idam-get-user-token.sh user1a@test.com 123 http://localh
 
 xdg-open functionalTests/build/reports/tests/functional/index.html
 open functionalTests/build/reports/tests/functional/index.html
+start "" functionalTests/build/reports/tests/functional/index.html

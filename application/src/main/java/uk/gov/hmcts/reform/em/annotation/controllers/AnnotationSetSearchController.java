@@ -34,7 +34,7 @@ public class AnnotationSetSearchController {
         this.storedAnnotationSetSearchService = storedAnnotationSetSearchService;
     }
 
-    @GetMapping(value = "/find-all-by-document-url")
+    @GetMapping(value = "/filter")
     @ApiOperation("Retrieve all Annotation Sets associated with a given DM URL")
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = PagedResources.class)

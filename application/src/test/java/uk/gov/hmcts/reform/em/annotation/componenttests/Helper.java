@@ -129,7 +129,7 @@ public class Helper {
 
     public static final String ANNOTATION_SET_ENDPOINT = "/annotation-sets/";
 
-    public static final String ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT = ANNOTATION_SET_ENDPOINT + "find-all-by-document-url";
+    public static final String ANNOTATION_FIND_ALL_BY_DOCUMENT_URL_ENDPOINT = ANNOTATION_SET_ENDPOINT + "filter";
     public static final String URL_PARAM = "url";
 
 

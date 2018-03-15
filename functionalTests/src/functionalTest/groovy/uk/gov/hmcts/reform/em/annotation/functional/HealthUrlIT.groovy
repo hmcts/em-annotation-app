@@ -11,7 +11,7 @@ class HealthUrlIT extends BaseIT {
 
     @Test
     void "Check health"() {
-        givenUnauthenticatedRequest()
+        annotationProvider.givenAnnotationApiRequest()
             .expect()
             .body('status', equalTo('UP'))
             .body('diskSpace.status', equalTo('UP'))
