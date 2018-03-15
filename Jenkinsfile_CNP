@@ -26,6 +26,19 @@ withPipeline(type , product, component) {
         echo '${product}-${component} out'
     }
 
+    after('build'){
+//        mv version
+        steps.sh ''' mkdir -p application/src/main/resources/META-INF
+        tee application/src/main/resources/META-INF/build-info.properties <<EOF 2>/dev/null
+        build.version=$(./gradlew -q printVersion)
+build.number=${BUILD_NUMBER}
+build.commit=$(git rev-parse --short HEAD)
+build.date=$(date)
+EOF
+
+'''
+    }
+
     after('test'){
 //            junit 'application/build/test-results/test/**/*.xml'
         publishHTML([
@@ -107,9 +120,9 @@ withPipeline(type , product, component) {
         ])
     }
 
-    before("functionalTest:aat"){
-        env.DM_STORE_APP_URL = tfOutput?.dm_store_url?.value
-    }
+//    before("functionalTest:aat"){
+//        env.DM_STORE_APP_URL = tfOutput?.dm_store_url?.value
+//    }
 
     after('functionalTest:aat') {
         publishHTML([
