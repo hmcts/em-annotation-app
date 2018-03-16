@@ -10,6 +10,7 @@ import uk.gov.hmcts.reform.em.annotation.domain.Annotation;
 import uk.gov.hmcts.reform.em.annotation.domain.Comment;
 import uk.gov.hmcts.reform.em.annotation.repository.AnnotationRepository;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -48,6 +49,27 @@ public class AnnotationServiceTest {
         Annotation updatedAnnotation = service.update(ORIGINAL_UUID, newAnnotation);
 
         assertThat(updatedAnnotation.getHeight(), equalTo(newAnnotation.getHeight()));
+    }
+
+    @Test
+    public void should_update_an_annotation_and_keep_createdBy_and_createdOn() {
+        Date createdOn = new Date();
+        String user = "1";
+        Annotation originalAnnotation = Annotation.builder()
+            .height(100L)
+            .createdBy(user)
+            .createdOn(createdOn)
+            .build();
+        Annotation newAnnotation = Annotation.builder()
+            .height(200L)
+            .build();
+
+        when(repository.findOne(ORIGINAL_UUID)).thenReturn(originalAnnotation);
+
+        Annotation updatedAnnotation = service.update(ORIGINAL_UUID, newAnnotation);
+
+        assertThat(updatedAnnotation.getCreatedBy(), equalTo(user));
+        assertThat(updatedAnnotation.getCreatedOn(), equalTo(createdOn));
     }
 
     @Test
