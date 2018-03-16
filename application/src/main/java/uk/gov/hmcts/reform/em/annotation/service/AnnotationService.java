@@ -39,7 +39,8 @@ public class AnnotationService {
 
     public Annotation update(UUID uuid, Annotation annotation) {
         Annotation originalAnnotation = getById(uuid);
-        BeanUtils.copyProperties(annotation, originalAnnotation, "annotationSet", "uuid", "comments");
+        BeanUtils.copyProperties(annotation, originalAnnotation,
+            "annotationSet", "uuid", "comments", "createdBy", "createdOn");
         if (originalAnnotation.getComments() == null) {
             originalAnnotation.setComments(new HashSet<>());
         }
