@@ -61,7 +61,7 @@ class DocumentStoreProvider {
     }
 
     def givenDMRequest(username = null, userRoles = null) {
-        def request =  given().baseUri(dmStoreAppBaseUri)
+        def request =  given().baseUri(dmStoreAppBaseUri).relaxedHTTPSValidation()
         if (username) {
             request = request.header("serviceauthorization", serviceToken())
             if (username) {

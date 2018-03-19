@@ -145,7 +145,7 @@ class AnnotationProvider {
     }
 
     def givenAnnotationApiRequest(username = null, userRoles = null) {
-        def request =  given().baseUri(annotationBaseUri).log().all().contentType('application/json')
+        def request =  given().baseUri(annotationBaseUri).relaxedHTTPSValidation().log().all().contentType('application/json')
         if (username) {
             request = request.header("serviceauthorization", authTokenProvider.findServiceToken())
             if (username) {
