@@ -49,18 +49,24 @@ public class Rectangle {
     @NotNull
     private Long pointY;
 
+    public void setX(Long x) {
+        setPointX(x);
+    }
+
+    public void setY(Long y) {
+        setPointY(y);
+    }
+
+    public Long getX() {
+        return getPointX();
+    }
+    public Long getY() {
+        return getPointY();
+    }
     @Override
     public String toString() {
         return String.format(
             "{\\n\"height\": %n,\\n\"width\": %n,\\n\"x\": %n,\\n\"y\": %n\\n }",
             height,width,pointX,pointY);
     }
-
-    //        {
-//            "height": 12,
-//            "width": 335,
-//            "x": 188,
-//            "y": 189
-//        }
-
 }
