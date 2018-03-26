@@ -150,13 +150,18 @@ public class Annotation {
     }
 
     @Getter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "annotation")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "annotation")
     private Set<Rectangle> rectangles;// Highlight, Strikeout
 
-    public final void setRectangles(Set<Comment> rectangles) {
+    public final void setRectangles(Set<Rectangle> rectangles) {
+        this.rectangles = rectangles;
         if (this.rectangles != null) {
             this.rectangles.forEach(rectangle -> rectangle.setAnnotation(this));
         }
+    }
+
+    public void setColor(String color) {
+        setColour(color);
     }
 
     public void update(Annotation newAnnotation) {

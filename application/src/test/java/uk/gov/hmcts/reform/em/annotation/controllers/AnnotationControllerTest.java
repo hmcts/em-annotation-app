@@ -91,12 +91,15 @@ public class AnnotationControllerTest {
     public void should_save_a_single_annotation() throws Exception {
         String annotationUrl = uploadAnnotationSetAndGetPostAnnotationUrl();
 
-        mvc.perform(post(annotationUrl)
+        System.out.println(mvc.perform(post(annotationUrl)
             .headers(headers)
             .contentType(MediaType.APPLICATION_JSON)
             .content(MAPPER.writeValueAsString(Annotation.builder().height(100L).build())))
             .andExpect(status().isCreated())
-            .andExpect(jsonPath("$._links.self.href", notNullValue()));
+            .andExpect(jsonPath("$._links.self.href", notNullValue()))
+            .andExpect(jsonPath("$.createdOn", notNullValue()))
+            .andExpect(jsonPath("$.modifiedOn", notNullValue()))
+        .andReturn().getResponse().getContentAsString());
     }
 
     @Test
