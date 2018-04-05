@@ -12,12 +12,13 @@ properties([
 ])
 
 withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
-//    enableSlackNotifications(channel)
+    enableSlackNotifications(channel)
+    enableDbMigration()
 
-//    after('checkout') {
-//        echo '${product}-${component} out'
-//    }
-//
+    after('checkout') {
+        echo '${product}-${component} out'
+    }
+
 //    after('build'){
 ////        mv version
 //        sh 'mkdir -p application/src/main/resources/META-INF'

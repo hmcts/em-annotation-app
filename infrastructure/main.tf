@@ -13,6 +13,7 @@ module "app" {
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend = false
+  https_only="true"
 
   app_settings = {
     POSTGRES_HOST = "${module.db.host_name}"
@@ -55,6 +56,8 @@ module "app" {
 
     ENDPOINTS_HEALTH_SENSITIVE = "${var.endpoints_health_sensitive}"
     ENDPOINTS_INFO_SENSITIVE = "${var.endpoints_info_sensitive}"
+
+    ENABLE_DB_MIGRATE="false"
 
     # S2S_NAMES_WHITELIST = "${var.s2s_names_whitelist}"
     # CASE_WORKER_ROLES = "${var.case_worker_roles}"

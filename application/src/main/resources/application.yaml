@@ -30,7 +30,7 @@ spring:
       test-on-borrow: ${TEST_ON_BORROW_DB_CONNECTION:true} # Validate the connection before borrowing it from the pool.
 
 liquibase:
- enabled: true
+ enabled: ${ENABLE_DB_MIGRATE:true}
  change-log: classpath:/db/changelog/db.changelog-master.yaml
 
 server:
