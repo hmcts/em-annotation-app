@@ -59,11 +59,11 @@ module "app" {
 
     ENABLE_DB_MIGRATE="false"
 
-    # S2S_NAMES_WHITELIST = "${var.s2s_names_whitelist}"
-    # CASE_WORKER_ROLES = "${var.case_worker_roles}"
+    S2S_NAMES_WHITELIST = "${var.s2s_names_whitelist}"
+    CASE_WORKER_ROLES = "${var.case_worker_roles}"
 
     # Toggles
-    ENABLE_IDAM_HEALTH_CHECK = "false"
+    ENABLE_IDAM_HEALTH_CHECK = "${var.enable_idam_healthcheck}"
   }
 }
 
@@ -114,3 +114,4 @@ resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   value = "${module.db.postgresql_database}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
+

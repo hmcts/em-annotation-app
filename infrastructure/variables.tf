@@ -108,6 +108,9 @@ variable "endpoints_info_sensitive" {
 ////////////////////////////////////////////////
 // Toggle Features
 ////////////////////////////////////////////////
+variable "enable_idam_healthcheck" {
+    default = "false"
+}
 
 
 

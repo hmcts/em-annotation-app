@@ -3,10 +3,6 @@ version: '2.1'
 
 services:
 
-  em-viewer-web:
-    ports:
-     - 3621:8080
-
 #  em-annotation-app:
 #    ports:
 #      - 4621:8080

@@ -9,7 +9,7 @@ This project is a application to store annotations.
 
 ## Before contributing
 
-Any ideas on the user journeys and general service experience you may have **should be first consulted
+Because of the above, any ideas on the user journeys and general service experience you may have **should be first consulted
 with us by submitting a new issue** to this repository. Ideas are always welcome, but if something is divergent or unrelated
 to what we're trying to achieve we won't be able to accept it. Please keep this in mind as we don't want to waste anybody's time.
 

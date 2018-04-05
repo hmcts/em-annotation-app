@@ -93,7 +93,7 @@ dependencyManagement {
 }
 
 def versions = [
-    postgresql         : '42.1.4',
+    postgresql         : '42.2.1',
     springfoxSwagger   : '2.7.0',
     springBoot         : springBootVersion,
     powermock          : '1.6.5',

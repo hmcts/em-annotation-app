@@ -1,11 +1,8 @@
 #!/bin/sh
-#if java gradle
+
 IDAM_API_URL=http://localhost:4501
 S2S_URL=http://localhost:4502
 TEST_URL=http://localhost:4621
-TEST_TOKEN=$(./bin/idam/idam-get-user-token.sh user1a@test.com 123 http://localhost:4501)
-
-echo ${TEST_TOKEN}
 
 ./gradlew installDist bootRepackage
 
@@ -40,7 +37,7 @@ wget --retry-connrefused --tries=120 --waitretry=1 -O /dev/null ${TEST_URL}/heal
 #####################
 # SMOKE TEST ########
 #####################
-TEST_TOKEN=$TEST_TOKEN ./gradlew smoke --info
+./gradlew smoke --info
 
 xdg-open smokeTests/build/reports/tests/smoke/index.html
 open smokeTests/build/reports/tests/smoke/index.html
@@ -55,5 +52,13 @@ xdg-open functionalTests/build/reports/tests/functional/index.html
 open functionalTests/build/reports/tests/functional/index.html
 start "" functionalTests/build/reports/tests/functional/index.html
 
+#####################
+# PERFORMANCE TEST ##
+#####################
+
+#./gradlew gatlingRun
+
+#xdg-open build/reports/gatling/*/index.html
+#open build/reports/gatling/*/index.html
 
 docker-compose down

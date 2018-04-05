@@ -4,7 +4,7 @@ clear;
 ./bin/fakeversion.sh
 ./gradlew installDist bootRepackage
 
-docker-compose  -f ./docker/compose/docker-compose-dm.yml \
+docker-compose -f ./docker/compose/docker-compose-dm.yml \
 -f ./docker/compose/docker-compose-dm-ports.yml \
 -f ./docker/compose/docker-compose-em.yml \
 -f ./docker/compose/docker-compose-em-ports.yml \

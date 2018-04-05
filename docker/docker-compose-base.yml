@@ -1,13 +1,6 @@
 version: '2.1'
 
 services:
-
-  em-viewer-web:
-    image: docker.artifactory.reform.hmcts.net/evidence/em-viewer-web:latest
-    environment:
-    - NODE_ENV=development
-    - PORT=8080
-
 #  em-annotation-app:
 #    build:
 #      context: ../.

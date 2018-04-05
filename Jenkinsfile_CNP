@@ -78,7 +78,6 @@ withPipeline(type , product, component) {
         try {
             sh './gradlew jacocoTestReport --info'
         }finally {
-//            need to add this.
             jacoco(execPattern: 'application/build/jacoco/test.exec', buildOverBuild: false,
                 exclusionPattern: '**/test/*, ' +
                     '**/uk/gov/hmcts/reform/em/annotation/EmAnnotationApp.java,'+

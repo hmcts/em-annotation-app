@@ -22,10 +22,10 @@ endpoints_info_sensitive = "true"
 ////////////////////////////////////////////////
 // Toggle Features
 ////////////////////////////////////////////////
-//enable_idam_healthcheck = "false"
+enable_idam_healthcheck = "false"
 
 //// Whitelists
-//s2s_names_whitelist = "em_api,em_gw,ccd,sscs,divorce_document_upload,divorce_document_generator"
-//case_worker_roles = "caseworker-probate,caseworker-cmc,caseworker-sscs,caseworker-divorce"
+s2s_names_whitelist = "em_api,em_gw,ccd,sscs,divorce_document_upload,divorce_document_generator"
+case_worker_roles = "caseworker-probate,caseworker-cmc,caseworker-sscs,caseworker-divorce"
 
 // Addtional
