@@ -111,19 +111,16 @@ variable "endpoints_info_sensitive" {
 variable "enable_idam_healthcheck" {
     default = "false"
 }
-
-
-
 ////////////////////////////////////////////////
 // Whitelists
 ////////////////////////////////////////////////
-//variable "s2s_names_whitelist" {
-//
-//}
-//
-//variable "case_worker_roles" {
-//
-//}
+variable "s2s_names_whitelist" {
+  default = "em_api,em_gw,ccd,sscs,divorce_document_upload,divorce_document_generator"
+}
+
+variable "case_worker_roles" {
+  default = "caseworker-probate,caseworker-cmc,caseworker-sscs,caseworker-divorce"
+}
 ////////////////////////////////////////////////
 // Addtional
 ////////////////////////////////////////////////
