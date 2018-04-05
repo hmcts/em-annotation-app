@@ -2,6 +2,8 @@ api:
   version: 0.0.1
 
 spring:
+  application:
+    name: em-anno-app
   data:
     rest:
       detection-strategy: annotated
@@ -57,6 +59,14 @@ logging:
   level:
     org.springframework.web: ${LOG_LEVEL_SPRING_WEB:INFO}
     uk.gov.hmcts.reform.em.annotation: ${LOG_LEVEL_DM:INFO}
+
+azure:
+  app_insights_key: ${APPINSIGHTS_INSTRUMENTATIONKEY:false}
+
+app-insights:
+  dev-mode: off
+  request-component: on
+  telemetry-component: on
 
 errors:
   globalIncludeStackTrace: ${SHOW_STACK_TRACE:true}
