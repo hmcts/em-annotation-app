@@ -3,7 +3,7 @@ api:
 
 spring:
   application:
-    name: em-anno-app
+    name: em-anno
   data:
     rest:
       detection-strategy: annotated
@@ -75,7 +75,7 @@ info:
   app:
     environment: ${PACKAGES_ENVIRONMENT:local}
     project: ${PACKAGES_PROJECT:evidence}
-    name: ${PACKAGES_NAME:em-anno-app}
+    name: ${PACKAGES_NAME:em-anno}
 #    version: ${PACKAGES_VERSION:unknown}
 
 health:

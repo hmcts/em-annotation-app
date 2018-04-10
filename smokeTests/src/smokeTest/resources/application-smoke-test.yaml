@@ -1,6 +1,6 @@
 base-urls.idam-user=${IDAM_API_URL:http://localhost:4501}
 base-urls.idam-s2s=${S2S_URL:http://localhost:4502}
-base-urls.em-anno-app=${TEST_URL:http://localhost:4621}
+base-urls.em-anno=${TEST_URL:http://localhost:4621}
 
 login.username=${TEST_USERNAME:test@test.com}
 login.password=${TEST_PASSWORD:password}

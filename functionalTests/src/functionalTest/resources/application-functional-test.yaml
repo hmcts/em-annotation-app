@@ -1,4 +1,4 @@
 base-urls.idam-user=${IDAM_API_URL:http://localhost:4501}
 base-urls.idam-s2s=${S2S_URL:http://localhost:4502}
-base-urls.em-anno-app=${TEST_URL:http://localhost:4621}
-base-urls.dm-store-app=${DM_STORE_APP_URL:http://localhost:4603}
+base-urls.em-anno=${TEST_URL:http://localhost:4621}
+base-urls.dm-store=${DM_STORE_APP_URL:http://localhost:4603}

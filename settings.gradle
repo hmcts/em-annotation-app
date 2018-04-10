@@ -1,4 +1,4 @@
-rootProject.name = 'em-annotation-app'
+rootProject.name = 'em-anno'
 
 include 'application'
 include 'functionalTests'
