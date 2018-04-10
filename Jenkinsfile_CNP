@@ -119,10 +119,6 @@ EOF
         ])
     }
 
-//    before("functionalTest:aat"){
-//        env.DM_STORE_APP_URL = tfOutput?.dm_store_url?.value
-//    }
-
     after('functionalTest:aat') {
         publishHTML([
             allowMissing         : true,
