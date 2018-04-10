@@ -143,7 +143,13 @@ public class Annotation {
     @OrderColumn(name = "itm_idx")
     private List<Point> lines; // Drawing
 
-    public final void setLines(Set<Comment> lines) {
+    public final void setLines(List<Point> lines) {
+        if (this.lines != null) {
+            this.lines.clear();
+            this.lines.addAll(lines);
+        } else {
+            this.lines = lines;
+        }
         if (this.lines != null) {
             this.lines.forEach(line -> line.setAnnotation(this));
         }
@@ -154,7 +160,12 @@ public class Annotation {
     private Set<Rectangle> rectangles;// Highlight, Strikeout
 
     public final void setRectangles(Set<Rectangle> rectangles) {
-        this.rectangles = rectangles;
+        if (this.rectangles != null) {
+            this.rectangles.clear();
+            this.rectangles.addAll(rectangles);
+        } else {
+            this.rectangles = rectangles;
+        }
         if (this.rectangles != null) {
             this.rectangles.forEach(rectangle -> rectangle.setAnnotation(this));
         }
