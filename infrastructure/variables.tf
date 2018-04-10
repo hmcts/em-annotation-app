@@ -7,10 +7,6 @@ variable "app_name" {
   default = "anno"
 }
 
-variable "app_type" {
-  default = "app"
-}
-
 variable "team_name" {
   default = "evidence"
 }
@@ -61,11 +57,11 @@ variable "s2s_url" {
 }
 
 variable "dm_store_app_url" {
-  default = "dm-store-app"
+  default = "dm-store"
 }
 
 variable "em_anno_app_url" {
-  default = "em-anno-app"
+  default = "em-anno"
 }
 ////////////////////////////////////////////////
 // Logging

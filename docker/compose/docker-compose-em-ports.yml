@@ -11,11 +11,11 @@ services:
     ports:
      - 3623:8080
 
-  em-annotation-app:
+  em-anno:
     ports:
       - 4621:8080
 
-  em-annotation-app-database:
+  em-anno-db:
     ports:
       - 5432:5432
 

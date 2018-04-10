@@ -19,12 +19,12 @@ class BaseIT {
   AuthTokenProvider authTokenProvider
 
 
-  @Value('${base-urls.em-anno-app}')
-  String emAnnoAppBaseUri
+  @Value('${base-urls.em-anno}')
+  String emAnnoBaseUri
 
   @PostConstruct
   void init() {
-    RestAssured.baseURI = emAnnoAppBaseUri
+    RestAssured.baseURI = emAnnoBaseUri
     RestAssured.useRelaxedHTTPSValidation()
   }
 

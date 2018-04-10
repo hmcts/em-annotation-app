@@ -25,7 +25,7 @@ class DocumentStoreProvider {
     @Autowired
     DocumentStoreProvider(
         AuthTokenProvider authTokenProvider,
-        @Value('${base-urls.dm-store-app}') String dmStoreAppBaseUri
+        @Value('${base-urls.dm-store}') String dmStoreAppBaseUri
     ) {
         this.dmStoreAppBaseUri = dmStoreAppBaseUri
         this.authTokenProvider = authTokenProvider

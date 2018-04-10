@@ -69,7 +69,7 @@ services:
     ports:
       - 4502:8080
 
-  em-annotation-app-database:
+  em-anno-db:
     build:
       context: database
     image: docker.artifactory.reform.hmcts.net/evidence/em-annotation-app-database:latest

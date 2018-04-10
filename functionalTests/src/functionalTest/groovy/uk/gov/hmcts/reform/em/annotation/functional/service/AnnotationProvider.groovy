@@ -107,7 +107,7 @@ class AnnotationProvider {
     @Autowired
     AnnotationProvider(
         AuthTokenProvider authTokenProvider,
-        @Value('${base-urls.em-anno-app}') String annotationBaseUri,
+        @Value('${base-urls.em-anno}') String annotationBaseUri,
         DocumentStoreProvider documentStoreProvider
     ) {
         this.annotationBaseUri = annotationBaseUri

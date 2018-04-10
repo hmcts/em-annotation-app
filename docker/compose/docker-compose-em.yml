@@ -13,7 +13,7 @@ services:
     environment:
       - NODE_ENV=development
       - PORT=8080
-      - ANNOTATION_URL=http://em-annotation-app:8080
+      - ANNOTATION_URL=http://em-anno:8080
       - IDAM_BASE_URL=http://idam-api:8080
       - IDAM_S2S_URL=http://service-auth-provider-api:8080
       - IDAM_SERVICE_KEY=AAAAAAAAAAAAAAAA
@@ -41,7 +41,7 @@ services:
      - idam-api
      - service-auth-provider-api
 
-  em-annotation-app:
+  em-anno:
     build:
       context: ../../.
     image: docker.artifactory.reform.hmcts.net/evidence/em-annotation-app:latest
@@ -49,24 +49,24 @@ services:
       - SERVER_PORT=8080
       - IDAM_USER_BASE_URI=http://idam-api:8080
       - IDAM_S2S_BASE_URI=http://service-auth-provider-api:8080
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://em-annotation-app-database:5432/annotation
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://em-anno-db:5432/annotation
 #      logging env vars
       - ROOT_APPENDER=JSON_CONSOLE
       - JSON_CONSOLE_PRETTY_PRINT=true
       - REFORM_SERVICE_TYPE=java
-      - REFORM_SERVICE_NAME=em-annotation-app
+      - REFORM_SERVICE_NAME=em-anno
       - REFORM_TEAM=evidence
       - REFORM_ENVIRONMENT=docker
     links:
-     - em-annotation-app-database
+     - em-anno-db
      - idam-api
      - service-auth-provider-api
     depends_on:
-     - em-annotation-app-database
+     - em-anno-db
      - idam-api
      - service-auth-provider-api
 
-  em-annotation-app-database:
+  em-anno-db:
     build:
       context: ../database
     image: docker.artifactory.reform.hmcts.net/evidence/em-annotation-app-database:latest

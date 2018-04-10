@@ -1,13 +1,13 @@
 version: '2.1'
 
 services:
-  em-annotation-app:
+  em-anno:
     build:
       context: .
     image: docker.artifactory.reform.hmcts.net/evidence/em-annotation-app:latest
     environment:
       - SERVER_PORT=8080
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://em-annotation-app-database:5432/annotation
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://em-anno-db:5432/annotation
       - IDAM_USER_BASE_URI=http://idam-api:8080
       - IDAM_S2S_BASE_URI=http://service-auth-provider-api:8080
       # these environment variables are used by java-logging library
@@ -15,17 +15,17 @@ services:
       - JSON_CONSOLE_PRETTY_PRINT=true
       - ROOT_LOGGING_LEVEL
       - REFORM_SERVICE_TYPE=java
-      - REFORM_SERVICE_NAME=em-annotation-app
+      - REFORM_SERVICE_NAME=em-anno
       - REFORM_TEAM=evidence
       - REFORM_ENVIRONMENT=docker
     links:
-      - em-annotation-app-database
+      - em-anno-db
     depends_on:
-      - em-annotation-app-database
+      - em-anno-db
     ports:
     - $SERVER_PORT:8080
 
-  em-annotation-app-database:
+  em-anno-db:
     build:
       context: ./docker/database
     image: docker.artifactory.reform.hmcts.net/evidence/em-annotation-app-database:latest
