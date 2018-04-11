@@ -1,10 +1,9 @@
 variable "product" {
-  type    = "string"
-//  default = "em"
+  type = "string"
 }
 
 variable "component" {
-//  default = "anno"
+  type = "string"
 }
 
 variable "team_name" {
@@ -47,13 +46,17 @@ variable "java_opts" {
 ////////////////////////////////////////////////
 // Endpoints
 ////////////////////////////////////////////////
+variable "vault_section" {
+  default = "test"
+}
 
 variable "idam_api_url" {
   default = "http://betaDevBccidamAppLB.reform.hmcts.net:80"
 }
 
 variable "s2s_url" {
-  default = "http://betaDevBccidamS2SLB.reform.hmcts.net:80"
+//  default = "http://betaDevBccidamS2SLB.reform.hmcts.net:80"
+  default = "rpe-service-auth-provider"
 }
 
 variable "dm_store_app_url" {
