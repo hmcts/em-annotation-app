@@ -1,10 +1,10 @@
 variable "product" {
   type    = "string"
-  default = "em"
+//  default = "em"
 }
 
-variable "app_name" {
-  default = "anno"
+variable "component" {
+//  default = "anno"
 }
 
 variable "team_name" {
