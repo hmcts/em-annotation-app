@@ -1,11 +1,11 @@
+capacity = "2"
 java_opts = ""
 
 ////////////////////////////////////////////////
 // Endpoints
 ////////////////////////////////////////////////
-//vault_section  = "preprod"
+vault_section  = "preprod"
 idam_api_url = "https://preprod-idamapi.reform.hmcts.net:3511"
-//s2s_url = "https://preprod-s2s-api.reform.hmcts.net:3511"
 
 ////////////////////////////////////////////////
 // Logging
@@ -28,8 +28,8 @@ enable_idam_healthcheck = "false"
 ////////////////////////////////////////////////
 //// Whitelists
 ////////////////////////////////////////////////
-s2s_names_whitelist = "em_api,em_gw,ccd,sscs,divorce_document_upload,divorce_document_generator"
-case_worker_roles = "caseworker-probate,caseworker-cmc,caseworker-sscs,caseworker-divorce"
+//s2s_names_whitelist = "em_api,em_gw,ccd,sscs,divorce_document_upload,divorce_document_generator,probate_backend"
+//case_worker_roles = "caseworker-probate,caseworker-cmc,caseworker-sscs,caseworker-divorce"
 
 ////////////////////////////////////////////////
 // Addtional

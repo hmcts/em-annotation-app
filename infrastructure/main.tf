@@ -10,12 +10,13 @@ locals {
 # "${local.local_env}"
 
 module "app" {
-  source = "git@github.com:contino/moj-module-webapp?ref=master"
+  source = "git@github.com:hmcts/moj-module-webapp?ref=master"
   product = "${local.app_full_name}"
   location = "${var.location}"
   env = "${var.env}"
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
+  capacity     = "${var.capacity}"
   is_frontend = false
   additional_host_name = "${var.env == "prod" ? local.prod_hostname : local.non_prod_hostname}"
   https_only="false"
@@ -26,6 +27,7 @@ module "app" {
     POSTGRES_DATABASE = "${module.db.postgresql_database}"
     POSTGRES_USER = "${module.db.user_name}"
     POSTGRES_PASSWORD = "${module.db.postgresql_password}"
+    MAX_ACTIVE_DB_CONNECTIONS = 70
 
     # JAVA_OPTS = "${var.java_opts}"
     # SERVER_PORT = "8080"
@@ -73,11 +75,15 @@ module "app" {
 }
 
 module "db" {
-  source = "git@github.com:contino/moj-module-postgres?ref=master"
+  source = "git@github.com:hmcts/moj-module-postgres?ref=cnp-449-tactical"
   product = "${local.app_full_name}-postgres-db"
-  location = "West Europe"
+  location = "${var.location}"
   env = "${var.env}"
-  postgresql_user = "rhubarbadmin"
+  postgresql_user = "${var.postgresql_user}"
+  database_name = "${var.database_name}"
+  sku_name = "GP_Gen5_2"
+  sku_tier = "GeneralPurpose"
+  storage_mb = "51200"
 }
 
 provider "vault" {
@@ -89,7 +95,7 @@ data "vault_generic_secret" "s2s_secret" {
 }
 
 module "key_vault" {
-  source = "git@github.com:contino/moj-module-key-vault?ref=master"
+  source = "git@github.com:hmcts/moj-module-key-vault?ref=master"
   product = "${local.app_full_name}"
   env = "${var.env}"
   tenant_id = "${var.tenant_id}"

@@ -39,6 +39,9 @@ variable "jenkins_AAD_objectId" {
 ////////////////////////////////////////////////
 //Addtional Vars ///////////////////////////////
 ////////////////////////////////////////////////
+variable "capacity" {
+  default = "2"
+}
 
 variable "java_opts" {
   default = ""
@@ -65,6 +68,14 @@ variable "dm_store_app_url" {
 
 variable "em_anno_app_url" {
   default = "em-anno"
+}
+
+variable "postgresql_user" {
+  default = "annotation"
+}
+
+variable "database_name" {
+  default = "annotation"
 }
 ////////////////////////////////////////////////
 // Logging
@@ -114,7 +125,7 @@ variable "enable_idam_healthcheck" {
 // Whitelists
 ////////////////////////////////////////////////
 variable "s2s_names_whitelist" {
-  default = "em_api,em_gw,ccd,sscs,divorce_document_upload,divorce_document_generator"
+  default = "em_api,em_gw,ccd_gw,ccd_data,sscs,divorce_document_upload,divorce_document_generator,probate_backend"
 }
 
 variable "case_worker_roles" {

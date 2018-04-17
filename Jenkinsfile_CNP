@@ -122,6 +122,50 @@ EOF
         }
     }
 
+    after('smoketest:demo') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "smokeTests/build/reports/tests/smoke/",
+            reportFiles          : 'index.html',
+            reportName           : 'DEMO Smoke Test'
+        ])
+    }
+
+    after('functionalTest:demo') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functionalTests/build/reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'DEMO Functional Test'
+        ])
+    }
+
+    after('smoketest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "smokeTests/build/reports/tests/smoke/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Smoke Test'
+        ])
+    }
+
+    after('functionalTest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "functionalTests/build/reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Functional Test'
+        ])
+    }
+
     after('smoketest:aat') {
         publishHTML([
             allowMissing         : true,
@@ -129,7 +173,7 @@ EOF
             keepAll              : true,
             reportDir            : "smokeTests/build/reports/tests/smoke/",
             reportFiles          : 'index.html',
-            reportName           : 'Dev Smoke Test'
+            reportName           : 'AAT Smoke Test'
         ])
     }
 
@@ -140,7 +184,7 @@ EOF
             keepAll              : true,
             reportDir            : "functionalTests/build/reports/tests/functional/",
             reportFiles          : 'index.html',
-            reportName           : 'Dev Functional Test'
+            reportName           : 'AAT Functional Test'
         ])
     }
 
@@ -151,7 +195,7 @@ EOF
             keepAll              : true,
             reportDir            : "smokeTests/build/reports/tests/smoke/",
             reportFiles          : 'index.html',
-            reportName           : 'Prod Smoke Test'
+            reportName           : 'PROD Smoke Test'
         ])
     }
 }
