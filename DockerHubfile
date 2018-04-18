@@ -1,7 +1,11 @@
-#### Create Jar
-FROM gradle:jdk8 as builder
+#### Create Jar 
+FROM gradle:jdk8 as builder 
+ 
+COPY . /home/gradle/app 
+USER root
+RUN chown -R gradle:gradle /home/gradle/app
 
-COPY --chown=gradle:gradle . /home/gradle/app
+USER gradle
 WORKDIR /home/gradle/app
 
 RUN mkdir -p application/src/main/resources/META-INF
