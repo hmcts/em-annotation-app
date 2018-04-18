@@ -11,7 +11,7 @@ services:
     - IDAM_API_URL=http://idam-api:8080
     links:
     - idam-api
-    - service-auth-provider-api
+    - service-auth-provider-app
 
   idam-registration-web:
     image: docker.artifactory.reform.hmcts.net/auth/registration-web:latest
@@ -22,7 +22,7 @@ services:
     - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_REGISTRATION_WEB=AAAAAAAAAAAAAAAA
     links:
     - idam-api
-    - service-auth-provider-api
+    - service-auth-provider-app
 
   idam-api:
     image: docker.artifactory.reform.hmcts.net/auth/idam-api:1620c9973d85ca622904ecbf01c47a4abb91f7c9
@@ -64,22 +64,19 @@ services:
   smtp-server:
     image: mailhog/mailhog
 
-  service-auth-provider-api:
-#    image: docker.artifactory.reform.hmcts.net/auth/service-auth-provider-api:latest
-#    image: docker.artifactory.reform.hmcts.net/auth/service-auth-provider-api:47e18b53aad48ae8124744041988565e07dfed50
+  service-auth-provider-app:
     image: hmcts/service-auth-provider-app:latest
     environment:
       - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_EM_GW=AAAAAAAAAAAAAAAA
-#      - auth.provider.service.server.microserviceKeys.em_gw=AAAAAAAAAAAAAAAA
 #      logging env vars
       - ROOT_APPENDER=JSON_CONSOLE
       - JSON_CONSOLE_PRETTY_PRINT=false
       - REFORM_SERVICE_TYPE=java
-      - REFORM_SERVICE_NAME=service-auth-provider-api
+      - REFORM_SERVICE_NAME=service-auth-provider-app
       - REFORM_TEAM=rpe
       - REFORM_ENVIRONMENT=docker
 #      healthcheck env vars
       - PACKAGES_ENVIRONMENT=docker
       - PACKAGES_PROJECT=rpe
-      - PACKAGES_NAME=service-auth-provider-api
+      - PACKAGES_NAME=service-auth-provider-app
       - PACKAGES_VERSION=unkown

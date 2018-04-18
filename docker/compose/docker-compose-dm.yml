@@ -43,7 +43,7 @@ services:
       - IDAM_TESTING_SUPPORT_ENABLED=true
       - LOGGING_LEVEL_UK_GOV_HMCTS_IDAM=DEBUG
       - IDAM_USER_BASE_URI=http://idam-api:8080
-      - IDAM_S2S_BASE_URI=http://service-auth-provider-api:8080
+      - IDAM_S2S_BASE_URI=http://service-auth-provider-app:8489
       - http_proxy=
       - https_proxy=
       - no_proxy=
@@ -64,11 +64,11 @@ services:
     links:
      - dm-store-db
      - idam-api
-     - service-auth-provider-api
+     - service-auth-provider-app
     depends_on:
      - dm-store-db
      - idam-api
-     - service-auth-provider-api
+     - service-auth-provider-app
 
   dm-store-db:
     image: hmcts/dm-store-db:latest
