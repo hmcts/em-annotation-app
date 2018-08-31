@@ -20,6 +20,7 @@ module "app" {
   is_frontend = false
   additional_host_name = "${var.env == "prod" ? local.prod_hostname : local.non_prod_hostname}"
   https_only="false"
+  common_tags  = "${var.common_tags}"
 
   app_settings = {
     POSTGRES_HOST = "${module.db.host_name}"
@@ -84,6 +85,7 @@ module "db" {
   sku_name = "GP_Gen5_2"
   sku_tier = "GeneralPurpose"
   storage_mb = "51200"
+  common_tags  = "${var.common_tags}"
 }
 
 provider "vault" {
