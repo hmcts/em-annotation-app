@@ -61,4 +61,19 @@
         ]]></notes>
         <cve>CVE-2018-1305</cve>
     </suppress>
+    <suppress>
+        <notes><![CDATA[
+        This suppresses spring*.jar
+        ]]></notes>
+        <cve>CVE-2018-11039</cve>
+        <cve>CVE-2018-11040</cve>
+        <cve>CVE-2018-1115</cve>
+        <cve>CVE-2018-1257</cve>
+        <cve>CVE-2018-1270</cve>
+        <cve>CVE-2018-1271</cve>
+        <cve>CVE-2018-1272</cve>
+        <cve>CVE-2018-1275</cve>
+        <cve>CVE-2018-8014</cve>
+        <cve>CVE-2017-16044</cve>
+    </suppress>
 </suppressions>
