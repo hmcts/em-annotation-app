@@ -23,20 +23,20 @@ module "app" {
   common_tags  = "${var.common_tags}"
 
   app_settings = {
-    POSTGRES_HOST = "${module.db.host_name}"
-    POSTGRES_PORT = "${module.db.postgresql_listen_port}"
-    POSTGRES_DATABASE = "${module.db.postgresql_database}"
-    POSTGRES_USER = "${module.db.user_name}"
-    POSTGRES_PASSWORD = "${module.db.postgresql_password}"
+    POSTGRES_HOST = "${module.database.host_name}"
+    POSTGRES_PORT = "${module.database.postgresql_listen_port}"
+    POSTGRES_DATABASE = "${module.database.postgresql_database}"
+    POSTGRES_USER = "${module.database.user_name}"
+    POSTGRES_PASSWORD = "${module.database.postgresql_password}"
     MAX_ACTIVE_DB_CONNECTIONS = 70
 
     # JAVA_OPTS = "${var.java_opts}"
     # SERVER_PORT = "8080"
 
     # db
-    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.db.host_name}:${module.db.postgresql_listen_port}/${module.db.postgresql_database}?ssl=true"
-    SPRING_DATASOURCE_USERNAME = "${module.db.user_name}"
-    SPRING_DATASOURCE_PASSWORD = "${module.db.postgresql_password}"
+    SPRING_DATASOURCE_URL = "jdbc:postgresql://${module.database.host_name}:${module.database.postgresql_listen_port}/${module.database.postgresql_database}?ssl=true"
+    SPRING_DATASOURCE_USERNAME = "${module.database.user_name}"
+    SPRING_DATASOURCE_PASSWORD = "${module.database.postgresql_password}"
 
     # idam
     IDAM_USER_BASE_URI = "${var.idam_api_url}"
@@ -75,7 +75,7 @@ module "app" {
   }
 }
 
-module "db" {
+module "database" {
   source = "git@github.com:hmcts/moj-module-postgres?ref=master"
   product = "${local.app_full_name}-postgres-db"
   location = "${var.location}"
@@ -108,31 +108,31 @@ module "key_vault" {
 
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name = "${local.app_full_name}-POSTGRES-USER"
-  value = "${module.db.user_name}"
+  value = "${module.database.user_name}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name = "${local.app_full_name}-POSTGRES-PASS"
-  value = "${module.db.postgresql_password}"
+  value = "${module.database.postgresql_password}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name = "${local.app_full_name}-POSTGRES-HOST"
-  value = "${module.db.host_name}"
+  value = "${module.database.host_name}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name = "${local.app_full_name}-POSTGRES-PORT"
-  value = "${module.db.postgresql_listen_port}"
+  value = "${module.database.postgresql_listen_port}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name = "${local.app_full_name}-POSTGRES-DATABASE"
-  value = "${module.db.postgresql_database}"
+  value = "${module.database.postgresql_database}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
 
