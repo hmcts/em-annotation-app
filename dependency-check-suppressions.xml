@@ -75,5 +75,6 @@
         <cve>CVE-2018-1275</cve>
         <cve>CVE-2018-8014</cve>
         <cve>CVE-2017-16044</cve>
+        <cve>CVE-2018-1273</cve>
     </suppress>
 </suppressions>
