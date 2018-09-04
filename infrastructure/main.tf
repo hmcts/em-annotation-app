@@ -89,10 +89,6 @@ provider "vault" {
   address = "https://vault.reform.hmcts.net:6200"
 }
 
-data "vault_generic_secret" "s2s_secret" {
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/em-gw"
-}
-
 module "key_vault" {
   source = "git@github.com:hmcts/moj-module-key-vault?ref=master"
   product = "${local.app_full_name}"
@@ -132,10 +128,3 @@ resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   value = "${module.database.postgresql_database}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
-
-resource "azurerm_key_vault_secret" "S2S_TOKEN" {
-  name = "s2s-token"
-  value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
-  vault_uri = "${module.key_vault.key_vault_uri}"
-}
-
