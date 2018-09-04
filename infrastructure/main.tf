@@ -117,29 +117,29 @@ module "key_vault" {
 resource "azurerm_key_vault_secret" "POSTGRES-USER" {
   name = "${local.app_full_name}-POSTGRES-USER"
   value = "${module.database.user_name}"
-  vault_uri = "${module.key_vault.key_vault_uri}"
+  vault_uri = "${data.azurerm_key_vault.shared_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES-PASS" {
   name = "${local.app_full_name}-POSTGRES-PASS"
   value = "${module.database.postgresql_password}"
-  vault_uri = "${module.key_vault.key_vault_uri}"
+  vault_uri = "${data.azurerm_key_vault.shared_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_HOST" {
   name = "${local.app_full_name}-POSTGRES-HOST"
   value = "${module.database.host_name}"
-  vault_uri = "${module.key_vault.key_vault_uri}"
+  vault_uri = "${data.azurerm_key_vault.shared_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_PORT" {
   name = "${local.app_full_name}-POSTGRES-PORT"
   value = "${module.database.postgresql_listen_port}"
-  vault_uri = "${module.key_vault.key_vault_uri}"
+  vault_uri = "${data.azurerm_key_vault.shared_key_vault.vault_uri}"
 }
 
 resource "azurerm_key_vault_secret" "POSTGRES_DATABASE" {
   name = "${local.app_full_name}-POSTGRES-DATABASE"
   value = "${module.database.postgresql_database}"
-  vault_uri = "${module.key_vault.key_vault_uri}"
+  vault_uri = "${data.azurerm_key_vault.shared_key_vault.vault_uri}"
 }
