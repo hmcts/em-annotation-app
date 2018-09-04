@@ -4,6 +4,16 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   prod_hostname = "${local.app_full_name}.platform.hmcts.net"
   non_prod_hostname = "${local.app_full_name}.${var.env}.platform.hmcts.net"
+
+  // Vault name
+  previewVaultName = "${var.raw_product}-aat"
+  nonPreviewVaultName = "${var.raw_product}-${var.env}"
+  vaultName = "${(var.env == "preview" || var.env == "spreview") ? local.previewVaultName : local.nonPreviewVaultName}"
+
+  // Shared Resource Group
+  previewResourceGroup = "${var.raw_product}-shared-aat"
+  nonPreviewResourceGroup = "${var.raw_product}-shared-${var.env}"
+  sharedResourceGroup = "${(var.env == "preview" || var.env == "spreview") ? local.previewResourceGroup : local.nonPreviewResourceGroup}"
 }
 
 module "app" {
@@ -87,6 +97,11 @@ module "database" {
 
 provider "vault" {
   address = "https://vault.reform.hmcts.net:6200"
+}
+
+data "azurerm_key_vault" "shared_key_vault" {
+  name = "${local.vaultName}"
+  resource_group_name = "${local.sharedResourceGroup}"
 }
 
 module "key_vault" {

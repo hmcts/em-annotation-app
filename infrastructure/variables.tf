@@ -2,6 +2,10 @@ variable "product" {
   type = "string"
 }
 
+variable "raw_product" {
+  default = "em" // jenkins-library overrides product for PRs and adds e.g. pr-118-em
+}
+
 variable "component" {
   type = "string"
 }
