@@ -17,7 +17,7 @@ locals {
 }
 
 module "app" {
-  source = "git@github.com:hmcts/moj-module-webapp?ref=master"
+  source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product = "${local.app_full_name}"
   location = "${var.location}"
   env = "${var.env}"
@@ -83,7 +83,7 @@ module "app" {
 }
 
 module "database" {
-  source = "git@github.com:hmcts/moj-module-postgres?ref=master"
+  source = "git@github.com:hmcts/cnp-module-postgres?ref=master"
   product = "${local.app_full_name}-postgres-db"
   location = "${var.location}"
   env = "${var.env}"
@@ -105,7 +105,7 @@ data "azurerm_key_vault" "shared_key_vault" {
 }
 
 module "key_vault" {
-  source = "git@github.com:hmcts/moj-module-key-vault?ref=master"
+  source = "git@github.com:hmcts/cnp-module-key-vault?ref=master"
   product = "${local.app_full_name}"
   env = "${var.env}"
   tenant_id = "${var.tenant_id}"
