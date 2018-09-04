@@ -5,9 +5,6 @@ locals {
   prod_hostname = "${local.app_full_name}.platform.hmcts.net"
   non_prod_hostname = "${local.app_full_name}.${var.env}.platform.hmcts.net"
 }
-# "${local.ase_name}"
-# "${local.app_full_name}"
-# "${local.local_env}"
 
 module "app" {
   source = "git@github.com:hmcts/moj-module-webapp?ref=master"
