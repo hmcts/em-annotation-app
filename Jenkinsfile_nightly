@@ -1,8 +1,14 @@
 #!groovy
 
 properties([
-    // H allow predefined but random minute see https://en.wikipedia.org/wiki/Cron#Non-standard_characters
-    pipelineTriggers([cron('H 05 * * *')])
+    [
+        $class: 'GithubProjectProperty',
+        displayName: 'Evidence Management Store App',
+        projectUrlStr: 'https://github.com/hmcts/em-annotation-app'
+    ],
+    pipelineTriggers([
+        cron('H 05 * * *')
+    ])
 ])
 
 @Library("Infrastructure")
@@ -11,8 +17,10 @@ def type = "java"
 def product = "em"
 def component = "anno"
 
+def channel = '#rpa-pipeline'
+
 List<LinkedHashMap<String, Object>> secrets = [
-    secret('s2s-token', 'S2S_TOKEN')
+    secret('em-s2s-token', 'S2S_TOKEN')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -25,7 +33,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withNightlyPipeline(type, product, component) {
-    enableSlackNotifications('#ccd-nightly-builds')
+    enableSlackNotifications(channel)
     enableDbMigration()
     loadVaultSecrets(secrets)
 

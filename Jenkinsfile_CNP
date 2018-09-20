@@ -17,10 +17,10 @@ def type = "java"
 def product = "em"
 def component = "anno"
 
-def channel = '#dm-pipeline'
+def channel = '#rpa-pipeline'
 
 List<LinkedHashMap<String, Object>> secrets = [
-    secret('s2s-token', 'S2S_TOKEN')
+    secret('em-s2s-token', 'S2S_TOKEN')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {

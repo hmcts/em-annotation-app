@@ -2,6 +2,10 @@ variable "product" {
   type = "string"
 }
 
+variable "shared_product_name" {
+  default = "rpa"
+}
+
 variable "component" {
   type = "string"
 }
@@ -32,19 +36,18 @@ variable "ilbIp"{}
 variable "tenant_id" {}
 
 variable "jenkins_AAD_objectId" {
-  type                        = "string"
-  description                 = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
+  type = "string"
+  description = "(Required) The Azure AD object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies."
 }
 
 variable "common_tags" {
   type = "map"
 }
-
 ////////////////////////////////////////////////
 //Addtional Vars ///////////////////////////////
 ////////////////////////////////////////////////
 variable "capacity" {
-  default = "2"
+  default = "1"
 }
 
 variable "java_opts" {
@@ -53,16 +56,11 @@ variable "java_opts" {
 ////////////////////////////////////////////////
 // Endpoints
 ////////////////////////////////////////////////
-variable "vault_section" {
-  default = "test"
-}
-
 variable "idam_api_url" {
   default = "http://betaDevBccidamAppLB.reform.hmcts.net:80"
 }
 
 variable "s2s_url" {
-//  default = "http://betaDevBccidamS2SLB.reform.hmcts.net:80"
   default = "rpe-service-auth-provider"
 }
 
@@ -125,6 +123,11 @@ variable "endpoints_info_sensitive" {
 variable "enable_idam_healthcheck" {
     default = "false"
 }
+
+variable "enable_s2s_healthcheck" {
+    default = "false"
+}
+
 ////////////////////////////////////////////////
 // Whitelists
 ////////////////////////////////////////////////
